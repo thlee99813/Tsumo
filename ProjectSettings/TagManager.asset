@@ -2,8 +2,12 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!78 &1
 TagManager:
-  serializedVersion: 2
-  tags: []
+  serializedVersion: 3
+  tags:
+  - Enemy
+  - Ground
+  - Environment
+  - Obstacle
   layers:
   - Default
   - TransparentFX
@@ -11,6 +15,12 @@ TagManager:
   - 
   - Water
   - UI
+  - Ground
+  - Obstacle
+  - 
+  - 
+  - DropZone
+  - Card
   - 
   - 
   - 
@@ -19,13 +29,7 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Enemy
   - 
   - 
   - 
@@ -41,3 +45,26 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Background
+    uniqueID: 2317150169
+    locked: 0
+  - name: Enemy
+    uniqueID: 284115363
+    locked: 0
+  - name: Etc
+    uniqueID: 2719299891
+    locked: 0
+  - name: Player
+    uniqueID: 745015645
+    locked: 0
+  - name: Trigger
+    uniqueID: 1065194449
+    locked: 0
+  - name: UI
+    uniqueID: 39310713
+    locked: 0
+  - name: Debugger
+    uniqueID: 1010243299
+    locked: 0
+  m_RenderingLayers:
+  - Default
