@@ -20,9 +20,10 @@ public class IngameController : MonoBehaviour
     [SerializeField] private float _enemyAppearDelay = 3f;
 
     [Header("References")]
-    [SerializeField] private Image _timerGauge;
-    //[SerializeField] private BattleController _battleController;  //! 배틀컨트롤로
+    [SerializeField] private Slider _timerGauge;
+    [SerializeField] private BattleController _battleController;  //! 배틀컨트롤로
     [SerializeField] private Player _player;
+    [SerializeField] private Enemy _enemy;
 
     private TurnPhase _currentPhase; 
     private float _timer;
@@ -74,11 +75,16 @@ public class IngameController : MonoBehaviour
     private System.Collections.IEnumerator IdlePhase()
     {
         _currentPhase = TurnPhase.Idle;
-        yield return new WaitForSeconds(_enemyAppearDelay);
+        
+        yield return new WaitForSecondsRealtime(_enemyAppearDelay);
 
+        //적 등장 즉시 슬로우 모션 시작
         _currentPhase = TurnPhase.EnemyAppear;
         Time.timeScale = _slowMotionScale;
         OnEnemyAppear?.Invoke();
+        
+        //플레이어가 적 위치까지 이동
+        _player.MoveToEnemy(_enemy.transform.position.x);
     }
 
     private System.Collections.IEnumerator DeckBuildPhase()
@@ -103,12 +109,15 @@ public class IngameController : MonoBehaviour
 
         if (!_isFirePressed)
         {
-            Time.timeScale = 1f;
-            _player.TakePenaltyDamage();
+            Time.timeScale = 1f;                
+            _player.TakePenaltyDamage();        //피격 후 넉백으로 시작 자리 복귀
         }
         else
         {
-            //_battleController.ExecuteBattle();    //! 배틀 컨트롤러 완성 후 활성화
+            //! 무조건 ComboResolver 연결 후 실제 계산값으로 교체 해야함
+            //! 임시값임
+            int finalDamage = 10;
+            _battleController.ExecuteBattle(finalDamage);  
         }
 
         OnFireExecuted?.Invoke();
@@ -126,7 +135,7 @@ public class IngameController : MonoBehaviour
     private void UpdateTimerUI(float normalizedValue)
     {
         if (_timerGauge != null)
-            _timerGauge.fillAmount = normalizedValue;
+            _timerGauge.value = normalizedValue;
     }
 
     [ContextMenu("Debug_FireInput")]

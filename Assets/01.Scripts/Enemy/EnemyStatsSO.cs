@@ -1,16 +1,11 @@
 using UnityEngine;
 
-public class EnemyStatsSO : MonoBehaviour
+[CreateAssetMenu(fileName = "EnemyStatsSO", menuName = "Data/EnemyStats")]
+public class EnemyStatsSO : ScriptableObject
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    [SerializeField] private int _maxHp = 50;
+    [SerializeField] private int _countDamage = 10;
+    
+    public int MaxHp => _maxHp;
+    public int CounterDamage => _countDamage;
 }
