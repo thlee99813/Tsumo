@@ -7,5 +7,5 @@ public class OffsetDuplicator : MonoBehaviour
     public Vector3 offset = new Vector3(1f, 0f, 0f);
     public Space offsetSpace = Space.Self;
     public bool keepSameParent = true;
-    public string nameSuffix = "_Copy";
+    public string nameSuffix = "";
 }
