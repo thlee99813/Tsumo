@@ -71,6 +71,13 @@ public class Enemy : MonoBehaviour
             OnEnemyDead?.Invoke();
     }
 
+    // 슬로우모션 진입 시 적 이동 중단 (Time.timeScale 비의존)
+    public void PauseMovement()
+    {
+        StopAllCoroutines();
+        transform.DOKill();
+    }
+
     public void ResetEnemy()
     {
         _currentHp = _stats.MaxHp;

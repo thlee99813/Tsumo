@@ -38,23 +38,20 @@ public class Player : MonoBehaviour
     }
 
 
-    //30초 언스케일 타임 안에 도착하도록 duration 계산
-    public void MoveToEnemy(float targetX, float unscaledTimeBudget, float currentTimeScale)
+    // slowFactor 배율로 느리게 이동, unscaledTimeBudget 이내에 도착 (Time.timeScale 비의존)
+    public void MoveToEnemy(float targetX, float unscaledTimeBudget, float slowFactor)
     {
         _isReached = false;
         transform.DOKill();     // 복귀 트윈 등 기존 트윈 제거
 
         float stoppedX = targetX - _stopOffset;     //적 앞 일정 거리에서 정지
-        float distance = Mathf.Abs(transform.position.x - targetX);
-        float normalduration = distance / _moveSpeed;
-
-        //닷트윈은 스케일 시간 기준, 언스케일 예산을 스케일 시간으로 변환
-        float maxScaledDuration = unscaledTimeBudget * currentTimeScale;
-        float duration = Mathf.Min(normalduration, maxScaledDuration); 
-    
+        float distance = Mathf.Abs(transform.position.x - stoppedX);
+        float slowSpeed = _moveSpeed * slowFactor;
+        float duration = Mathf.Min(distance / slowSpeed, unscaledTimeBudget);
 
         transform.DOMoveX(stoppedX, duration)
             .SetEase(Ease.Linear)
+            .SetUpdate(true)    // 언스케일 타임 기준으로 이동
             .OnComplete(() => _isReached = true);
     }
 

@@ -581,9 +581,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e974f38889ac6764281ea24d41fbe3b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IngameController
-  _deckBuildTimeLimit: 10
+  _deckBuildTimeLimit: 30
   _slowMotionScale: 0.1
-  _backGround: {fileID: 0}
+  _backGround: {fileID: 1356141566}
   _timerGauge: {fileID: 288003894}
   _battleController: {fileID: 517529519}
   _player: {fileID: 1317196992}

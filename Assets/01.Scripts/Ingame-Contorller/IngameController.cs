@@ -25,10 +25,11 @@ public class IngameController : MonoBehaviour
     [SerializeField] private Player _player;
     [SerializeField] private Enemy _enemy;
 
-    private TurnPhase _currentPhase; 
+    private TurnPhase _currentPhase;
     private float _timer;
     private bool _isFirePressed;
     private bool _isRunning;
+    private bool _isSlowMotion;
     public event Action OnEnemyAppear;
     public event Action OnFireExecuted;
     public event Action OnTurnEnd;
@@ -49,15 +50,30 @@ public class IngameController : MonoBehaviour
     {
         if (_currentPhase != TurnPhase.DeckBuild) return;
         _isFirePressed = true;
-        Time.timeScale = 1f;
+        ExitSlowMotion();
     }
 
     private void HandlePlayerDead()
     {
         _isRunning = false;
-        Time.timeScale = 1f;
+        ExitSlowMotion();
         StopAllCoroutines();
         //TODO StageFlowCOntroller에 게임오버 통보
+    }
+
+    private void EnterSlowMotion()
+    {
+        if (_isSlowMotion) return;
+        _isSlowMotion = true;
+        _backGround.SetSpeedMultiplier(_slowMotionScale);
+        _enemy.PauseMovement();
+    }
+
+    private void ExitSlowMotion()
+    {
+        if (!_isSlowMotion) return;
+        _isSlowMotion = false;
+        _backGround.SetSpeedMultiplier(1f);
     }
 
     private System.Collections.IEnumerator TurnLoop()
@@ -81,7 +97,7 @@ public class IngameController : MonoBehaviour
 
         //감지 즉시 슬로우 모션 ON + 이동 시작
         _currentPhase = TurnPhase.EnemyAppear;
-        Time.timeScale = _slowMotionScale;
+        EnterSlowMotion();
         OnEnemyAppear?.Invoke();
         Debug.Log("[TurnPhase] EnemyAppear : 적 감지 - 슬로우모션 + 이동 시작");
 
@@ -114,7 +130,7 @@ public class IngameController : MonoBehaviour
         if (!_isFirePressed)
         {
             Debug.Log("[TurnPhase] FireProcess : 타임오버, 0 데미지 전투 처리");
-            Time.timeScale = 1f;                
+            ExitSlowMotion();
             _battleController.ExecuteBattle(0);
         }
         else
@@ -134,7 +150,6 @@ public class IngameController : MonoBehaviour
     {
         _currentPhase = TurnPhase.TurnResult;
         Debug.Log("[TurnPhase] TurnResult : 넉백 종료 대기 중");
-        Time.timeScale = 1f;    // 슬로우모션 잔여 방지
         yield return new WaitUntil(() => !_player.IsKnockBack);
 
 
