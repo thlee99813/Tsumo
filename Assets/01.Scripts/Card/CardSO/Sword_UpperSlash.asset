@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b993990c290dc344e9a888869ea8b6df, type: 3}
-  m_Name: Sword_Batto
+  m_Name: Sword_UpperSlash
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   _type: 0
-  _skill: 0
+  _skill: 2

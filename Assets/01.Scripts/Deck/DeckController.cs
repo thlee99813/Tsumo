@@ -12,6 +12,9 @@ public class DeckController : MonoBehaviour
     [SerializeField] private int _maxRerollPerTurn = 2;
     [SerializeField] private int _rerollUsedThisTurn = 0;
 
+    [Header("UI")]
+    [SerializeField] private UIController _uiController;
+
 
     [Header("Hand Slots")]
     [SerializeField] private List<CardView> _handSlots = new List<CardView>();
@@ -24,11 +27,9 @@ public class DeckController : MonoBehaviour
 
     private void Start()
     {
-        BuildDeck();
-        DrawHand();
+        BuildDeckAndDrawHand();
     }
 
-    [ContextMenu("Build And Draw")]
     public void BuildDeckAndDrawHand()
     {
         BuildDeck();
@@ -56,6 +57,8 @@ public class DeckController : MonoBehaviour
 
         ShuffleDeck();
         _rerollUsedThisTurn = 0;
+        RefreshRerollCountUI();
+
     }
 
 
@@ -85,6 +88,7 @@ public class DeckController : MonoBehaviour
         MoveHandToDiscard();
         DrawHand();
         _rerollUsedThisTurn++;
+        RefreshRerollCountUI();
     }
 
     public void OnClickFire()
@@ -93,6 +97,8 @@ public class DeckController : MonoBehaviour
         ShuffleDeck();
         DrawHand();
         _rerollUsedThisTurn = 0;
+        RefreshRerollCountUI();
+
     }
 
     private void MoveHandToDiscard()
@@ -147,7 +153,6 @@ public class DeckController : MonoBehaviour
         }
     }
 
-    [ContextMenu("Shuffle")]
     private void ShuffleDeck()
     {
         for (int i = _deckCards.Count - 1; i > 0; i--)
@@ -159,5 +164,16 @@ public class DeckController : MonoBehaviour
             _deckCards[swapIndex] = temp;
         }
     }
+    private void RefreshRerollCountUI()
+    {
+        if (_uiController == null)
+        {
+            return;
+        }
+
+        int remainingCount = _maxRerollPerTurn - _rerollUsedThisTurn;
+        _uiController.SetRerollCount(remainingCount, _maxRerollPerTurn);
+    }
+
 
 }

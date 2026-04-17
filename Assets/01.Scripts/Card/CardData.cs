@@ -3,7 +3,7 @@ using UnityEngine;
 public enum CardType { Sword, Kunai, FoxSpirit }
 public enum CardSkill
 {
-    Batto, VerticalSlash, HorizontalSlash,
+    DownSlash, VerticalSlash, UpperSlash,
     ThrowOne, ThrowThree, ScatterThree,
     Heal, Buff, Debuff
 }
@@ -29,9 +29,9 @@ public class CardData : ScriptableObject
     public string SkillDisplayName => _skill 
     switch
     {
-        CardSkill.Batto => "발도",
-        CardSkill.VerticalSlash => "세로베기",
-        CardSkill.HorizontalSlash => "가로베기",
+        CardSkill.DownSlash => "내려베기",
+        CardSkill.UpperSlash => "올려베기",
+        CardSkill.VerticalSlash => "가로베기",
         CardSkill.ThrowOne => "1개 던지기",
         CardSkill.ThrowThree => "3개 던지기",
         CardSkill.ScatterThree => "3개 뿌리기",
