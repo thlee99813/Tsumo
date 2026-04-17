@@ -17,6 +17,7 @@ public class IngameController : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private float _deckBuildTimeLimit = 30f;
     [SerializeField] private float _slowMotionScale = 0.1f;
+    [SerializeField] private float _detectOffset = 0.2f;
     [SerializeField] private InfiniteBackGround _backGround;
 
     [Header("References")]
@@ -30,13 +31,19 @@ public class IngameController : MonoBehaviour
     private bool _isFirePressed;
     private bool _isRunning;
     private bool _isSlowMotion;
+    private bool _isEnemyReady;
+    private Camera _camera;
+    private float _enemyHalfWidth;
     public event Action OnEnemyAppear;
     public event Action OnFireExecuted;
     public event Action OnTurnEnd;
 
     private void Start()
     {
+        _camera = Camera.main;
+        _enemyHalfWidth = _enemy.GetComponent<SpriteRenderer>().bounds.extents.x;
         _player.OnPlayerDead += HandlePlayerDead;
+        _enemy.OnEnemyReady += HandleEnemyReady;
         _isRunning = true;
         StartCoroutine(TurnLoop());
     }
@@ -44,6 +51,12 @@ public class IngameController : MonoBehaviour
     private void OnDestroy()
     {
         _player.OnPlayerDead -= HandlePlayerDead;
+        _enemy.OnEnemyReady -= HandleEnemyReady;
+    }
+
+    private void HandleEnemyReady()
+    {
+        _isEnemyReady = true;
     }
 
     public void HandleFireInput()
@@ -59,6 +72,14 @@ public class IngameController : MonoBehaviour
         ExitSlowMotion();
         StopAllCoroutines();
         //TODO StageFlowCOntroller에 게임오버 통보
+    }
+
+    // 적 스프라이트 오른쪽 끝이 카메라 안으로 완전히 들어왔는지 체크
+    private bool IsEnemyInView()
+    {
+        float enemyRightEdge = _enemy.transform.position.x + _enemyHalfWidth;
+        Vector3 viewportPos = _camera.WorldToViewportPoint(new Vector3(enemyRightEdge, _enemy.transform.position.y, 0f));
+        return viewportPos.x <= 1f - _detectOffset;
     }
 
     private void EnterSlowMotion()
@@ -93,7 +114,8 @@ public class IngameController : MonoBehaviour
         _currentPhase = TurnPhase.Idle;
         Debug.Log("[TurnPhase] Idle : 플레이어 이동 시작");
 
-        yield return new WaitUntil(() => _player.DetectEnemy());
+        _isEnemyReady = false;
+        yield return new WaitUntil(() => _isEnemyReady);
 
         //감지 즉시 슬로우 모션 ON + 이동 시작
         _currentPhase = TurnPhase.EnemyAppear;

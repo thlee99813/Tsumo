@@ -16,6 +16,7 @@ public class Enemy : MonoBehaviour
     public int CounterDamage => _stats.CounterDamage;
 
     public event Action OnEnemyDead;
+    public event Action OnEnemyReady;   //왼쪽 이동 완료 시 발행
 
     private void Awake()
     {
@@ -37,6 +38,8 @@ public class Enemy : MonoBehaviour
             if(IsDead) yield break;
 
             yield return MoveToOffset(-_moveDistance);
+
+            OnEnemyReady?.Invoke();
         }
     }
 

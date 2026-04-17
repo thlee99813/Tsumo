@@ -8,9 +8,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float _moveSpeed = 3f;
     [SerializeField] private float _knockBackHeight = 1.5f;
     [SerializeField] private float _knockBackDuration = 0.4f;
-    [SerializeField] private float _laserRange = 10f;
     [SerializeField] private float _stopOffset = 1.5f;
-    [SerializeField] private LayerMask _enemyLayer;
 
     private int _currentHp;
     private Vector3 _startPosition;
@@ -30,13 +28,6 @@ public class Player : MonoBehaviour
         _startPosition = transform.position;
         _currentHp = _stats.MaxHp;
     }
-
-    public bool DetectEnemy()
-    {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right, _laserRange, _enemyLayer);
-        return hit.collider != null;
-    }
-
 
     // slowFactor 배율로 느리게 이동, unscaledTimeBudget 이내에 도착 (Time.timeScale 비의존)
     public void MoveToEnemy(float targetX, float unscaledTimeBudget, float slowFactor)
@@ -136,12 +127,4 @@ public class Player : MonoBehaviour
         OnHpChanged?.Invoke(_currentHp);
     }
 
-#if UNITY_EDITOR    
-    //레이저 범위 시각화
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawRay(transform.position, Vector3.right *  _laserRange);
-    }
-#endif
 }

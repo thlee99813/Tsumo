@@ -581,8 +581,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e974f38889ac6764281ea24d41fbe3b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IngameController
-  _deckBuildTimeLimit: 30
+  _deckBuildTimeLimit: 10
   _slowMotionScale: 0.1
+  _detectOffset: 0.5
   _backGround: {fileID: 1356141566}
   _timerGauge: {fileID: 288003894}
   _battleController: {fileID: 517529519}
@@ -1146,11 +1147,7 @@ MonoBehaviour:
   _moveSpeed: 3
   _knockBackHeight: 1.5
   _knockBackDuration: 0.4
-  _laserRange: 14
-  _stopOffset: 3
-  _enemyLayer:
-    serializedVersion: 2
-    m_Bits: 1048576
+  _stopOffset: 1.5
 --- !u!1 &1356141564
 GameObject:
   m_ObjectHideFlags: 0
