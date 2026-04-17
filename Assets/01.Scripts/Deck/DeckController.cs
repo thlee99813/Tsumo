@@ -19,6 +19,9 @@ public class DeckController : MonoBehaviour
     [Header("Hand Slots")]
     [SerializeField] private List<CardView> _handSlots = new List<CardView>();
 
+    [Header("Squad Zones")]
+    [SerializeField] private List<SquadDropZone> _squadZones = new List<SquadDropZone>();
+
     [Header("Debug")]
     [SerializeField] private List<CardData> _deckCards = new List<CardData>();
     [SerializeField] private List<CardData> _handCards = new List<CardData>();
@@ -78,6 +81,28 @@ public class DeckController : MonoBehaviour
         ApplyHandToSlots();
     }
 
+    public bool HasHandCardAt(int handIndex)
+    {
+        return handIndex >= 0 && handIndex < _handCards.Count;
+    }
+
+    public bool TryRegisterHandCardToSquad(int handIndex, SquadDropZone squadZone)
+    {
+        if (!HasHandCardAt(handIndex) || squadZone == null)
+        {
+            return false;
+        }
+
+        CardData cardData = _handCards[handIndex];
+        if (!squadZone.TryRegisterCard(cardData))
+        {
+            return false;
+        }
+
+        _handCards.RemoveAt(handIndex);
+        ApplyHandToSlots();
+        return true;
+    }
     public void OnClickReroll()
     {
         if (_rerollUsedThisTurn >= _maxRerollPerTurn)
@@ -126,8 +151,18 @@ public class DeckController : MonoBehaviour
             _discardCards.Clear();
         }
 
-        // Squad 카드도 덱으로 복귀하는 코드 추가해야함.
+        for (int i = 0; i < _squadZones.Count; i++)
+        {
+            SquadDropZone squadZone = _squadZones[i];
+            if (squadZone == null)
+            {
+                continue;
+            }
+
+            squadZone.ReturnAllTo(_deckCards);
+        }
     }
+
 
 
     private void ApplyHandToSlots()
