@@ -28,9 +28,11 @@ public class BattleController : MonoBehaviour
         //적이 살아있으면 반격
         if(!_enemy.IsDead)
         {
+            Debug.Log($"[BattleController] 적 반격 데미지 :{_enemy.CounterDamage}");
             _player.TakeDamage(_enemy.CounterDamage);
         }
 
+        _enemy.OnDamageProcessed();
         OnBattleComplete?.Invoke();
     }
 

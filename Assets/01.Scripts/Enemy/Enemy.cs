@@ -1,11 +1,17 @@
 using System;
+using DG.Tweening;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private EnemyStatsSO _stats;
+    [SerializeField] private float _moveDistance = 2f;
+    [SerializeField] private float _moveDelay = 3f;
+    [SerializeField] private float _moveDuration = 0.5f;
 
     private int _currentHp;
+    private Vector3 _startPosition;
+
     public bool IsDead => _currentHp <= 0;
     public int CounterDamage => _stats.CounterDamage;
 
@@ -13,8 +19,49 @@ public class Enemy : MonoBehaviour
 
     private void Awake()
     {
+        _startPosition = transform.position;
         _currentHp = _stats.MaxHp;
     }
+
+    private void Start()
+    {
+        StartCoroutine(MoveLoop());
+    }
+
+    private System.Collections.IEnumerator MoveLoop()
+    {
+        while(!IsDead)
+        {
+            //3초 대기 후 왼쪽으로 이동
+            yield return new WaitForSeconds(_moveDelay);
+            if(IsDead) yield break;
+
+            yield return MoveToOffset(-_moveDistance);
+        }
+    }
+
+    public void OnDamageProcessed()
+    {
+        if(IsDead) return;
+        StopAllCoroutines();
+        StartCoroutine(ReturnAndLoop());
+    }
+
+    private System.Collections.IEnumerator ReturnAndLoop()
+    {
+        yield return MoveToOffset(0f);
+
+        StartCoroutine(MoveLoop());
+    }
+
+    private System.Collections.IEnumerator MoveToOffset(float offsetX)
+    {
+        float targetX = _startPosition.x + offsetX;
+        transform.DOMoveX(targetX, _moveDuration).SetEase(Ease.InOutQuad);
+        yield return new WaitForSeconds(_moveDuration);
+    }
+
+
     public void TakeDamage(int damage)
     {
         if(IsDead) return;

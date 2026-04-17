@@ -17,11 +17,11 @@ public class IngameController : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private float _deckBuildTimeLimit = 30f;
     [SerializeField] private float _slowMotionScale = 0.1f;
-    [SerializeField] private float _enemyAppearDelay = 3f;
+    [SerializeField] private InfiniteBackGround _backGround;
 
     [Header("References")]
     [SerializeField] private Slider _timerGauge;
-    [SerializeField] private BattleController _battleController;  //! 배틀컨트롤로
+    [SerializeField] private BattleController _battleController;  
     [SerializeField] private Player _player;
     [SerializeField] private Enemy _enemy;
 
@@ -75,21 +75,24 @@ public class IngameController : MonoBehaviour
     private System.Collections.IEnumerator IdlePhase()
     {
         _currentPhase = TurnPhase.Idle;
-        
-        yield return new WaitForSecondsRealtime(_enemyAppearDelay);
+        Debug.Log("[TurnPhase] Idle : 플레이어 이동 시작");
 
-        //적 등장 즉시 슬로우 모션 시작
+        yield return new WaitUntil(() => _player.DetectEnemy());
+
+        //감지 즉시 슬로우 모션 ON + 이동 시작
         _currentPhase = TurnPhase.EnemyAppear;
         Time.timeScale = _slowMotionScale;
         OnEnemyAppear?.Invoke();
-        
-        //플레이어가 적 위치까지 이동
-        _player.MoveToEnemy(_enemy.transform.position.x);
+        Debug.Log("[TurnPhase] EnemyAppear : 적 감지 - 슬로우모션 + 이동 시작");
+
+        _player.MoveToEnemy(_enemy.transform.position.x, _deckBuildTimeLimit, _slowMotionScale);
     }
 
     private System.Collections.IEnumerator DeckBuildPhase()
     {
         _currentPhase = TurnPhase.DeckBuild;
+        Debug.Log($"[TurnPhase] DeckBuild : {_deckBuildTimeLimit}초 타이머 시작");
+        
         _isFirePressed = false;
         _timer = _deckBuildTimeLimit;
 
@@ -106,14 +109,17 @@ public class IngameController : MonoBehaviour
     private System.Collections.IEnumerator FireProcessPhase()
     {
         _currentPhase = TurnPhase.FireProcess;
+        _player.StopMovement();
 
         if (!_isFirePressed)
         {
+            Debug.Log("[TurnPhase] FireProcess : 타임오버, 0 데미지 전투 처리");
             Time.timeScale = 1f;                
-            _player.TakePenaltyDamage();        //피격 후 넉백으로 시작 자리 복귀
+            _battleController.ExecuteBattle(0);
         }
         else
         {
+            Debug.Log("[TurnPhase] FireProcess : Fire 입력, 전투 시작");
             //! 무조건 ComboResolver 연결 후 실제 계산값으로 교체 해야함
             //! 임시값임
             int finalDamage = 10;
@@ -127,9 +133,14 @@ public class IngameController : MonoBehaviour
     private System.Collections.IEnumerator TurnResultPhase()
     {
         _currentPhase = TurnPhase.TurnResult;
+        Debug.Log("[TurnPhase] TurnResult : 넉백 종료 대기 중");
+        Time.timeScale = 1f;    // 슬로우모션 잔여 방지
         yield return new WaitUntil(() => !_player.IsKnockBack);
+
+
+        Debug.Log("[TurnPhase] TurnResult : 턴 종료, 다음 턴 준비");
         OnTurnEnd?.Invoke();
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSecondsRealtime(1f); 
     }
 
     private void UpdateTimerUI(float normalizedValue)
