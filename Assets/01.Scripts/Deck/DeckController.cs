@@ -22,6 +22,10 @@ public class DeckController : MonoBehaviour
     [Header("Squad Zones")]
     [SerializeField] private List<SquadDropZone> _squadZones = new List<SquadDropZone>();
 
+    [Header("Temp")]
+    [SerializeField] private TempStorageController _tempStorageController;
+
+
     [Header("Debug")]
     [SerializeField] private List<CardData> _deckCards = new List<CardData>();
     [SerializeField] private List<CardData> _handCards = new List<CardData>();
@@ -86,6 +90,14 @@ public class DeckController : MonoBehaviour
         return handIndex >= 0 && handIndex < _handCards.Count;
     }
 
+    public bool IsHandSlotOwner(int handIndex, CardView cardView)
+    {
+        if (cardView == null) return false;
+        if (handIndex < 0 || handIndex >= _handSlots.Count) return false;
+        return _handSlots[handIndex] == cardView;
+    }
+
+
     public bool TryRegisterHandCardToSquad(int handIndex, SquadDropZone squadZone)
     {
         if (!HasHandCardAt(handIndex) || squadZone == null)
@@ -103,6 +115,34 @@ public class DeckController : MonoBehaviour
         ApplyHandToSlots();
         return true;
     }
+    public bool TryMoveHandCardToTemp(int handIndex, TempStorageController tempStorageController)
+    {
+        if (!HasHandCardAt(handIndex) || tempStorageController == null)
+        {
+            return false;
+        }
+
+        CardData cardData = _handCards[handIndex];
+        if (!tempStorageController.TryStoreCard(cardData))
+        {
+            return false;
+        }
+
+        _handCards.RemoveAt(handIndex);
+        ApplyHandToSlots();
+        return true;
+    }
+
+    public void AddToDiscard(CardData cardData)
+    {
+        if (cardData == null)
+        {
+            return;
+        }
+
+        _discardCards.Add(cardData);
+    }
+
     public void OnClickReroll()
     {
         if (_rerollUsedThisTurn >= _maxRerollPerTurn)
@@ -161,6 +201,12 @@ public class DeckController : MonoBehaviour
 
             squadZone.ReturnAllTo(_deckCards);
         }
+
+        if (_tempStorageController != null)
+        {
+            _tempStorageController.ReturnAllTo(_deckCards);
+        }
+
     }
 
 

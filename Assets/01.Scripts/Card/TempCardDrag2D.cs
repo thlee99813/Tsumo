@@ -2,17 +2,13 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Collider2D))]
-public class HandCardDrag2D : MonoBehaviour
+public class TempCardDrag2D : MonoBehaviour
 {
-    [Header("Refs")]
+    [SerializeField] private TempStorageController _tempStorageController;
     [SerializeField] private DeckController _deckController;
-    [SerializeField] private int _handIndex;
+    [SerializeField] private int _tempIndex;
     [SerializeField] private Camera _mainCamera;
     [SerializeField] private Collider2D _cardCollider;
-    [SerializeField] private CardView _cardView;
-
-
-    [Header("Layer Mask")]
     [SerializeField] private LayerMask _dragStartMask = ~0;
     [SerializeField] private LayerMask _dropCheckMask = ~0;
 
@@ -22,16 +18,8 @@ public class HandCardDrag2D : MonoBehaviour
 
     private void Awake()
     {
-        if (_mainCamera == null)
-        {
-            _mainCamera = Camera.main;
-        }
-
-        if (_cardCollider == null)
-        {
-            _cardCollider = GetComponent<Collider2D>();
-        }
-
+        if (_mainCamera == null) _mainCamera = Camera.main;
+        if (_cardCollider == null) _cardCollider = GetComponent<Collider2D>();
         _homePosition = transform.position;
     }
 
@@ -43,32 +31,18 @@ public class HandCardDrag2D : MonoBehaviour
 
     private void Update()
     {
-        if (Mouse.current == null || _mainCamera == null)
-        {
-            return;
-        }
+        if (Mouse.current == null || _mainCamera == null) return;
 
         Vector2 pointer = Mouse.current.position.ReadValue();
 
-        if (Mouse.current.leftButton.wasPressedThisFrame)
-        {
-            TryBeginDrag(pointer);
-        }
-
-        if (_isDragging && Mouse.current.leftButton.isPressed)
-        {
-            Drag(pointer);
-        }
-
-        if (_isDragging && Mouse.current.leftButton.wasReleasedThisFrame)
-        {
-            EndDrag(pointer);
-        }
+        if (Mouse.current.leftButton.wasPressedThisFrame) TryBeginDrag(pointer);
+        if (_isDragging && Mouse.current.leftButton.isPressed) Drag(pointer);
+        if (_isDragging && Mouse.current.leftButton.wasReleasedThisFrame) EndDrag(pointer);
     }
 
     private void TryBeginDrag(Vector2 screenPointer)
     {
-        if (_deckController == null || !_deckController.HasHandCardAt(_handIndex))
+        if (_tempStorageController == null || !_tempStorageController.HasCardAt(_tempIndex))
         {
             return;
         }
@@ -76,13 +50,19 @@ public class HandCardDrag2D : MonoBehaviour
         Vector2 worldPoint = ScreenToWorld2D(screenPointer);
         Collider2D[] hits = Physics2D.OverlapPointAll(worldPoint, _dragStartMask);
 
-        if (!ContainsSelfCollider(hits))
+        bool hitSelf = false;
+        for (int i = 0; i < hits.Length; i++)
         {
-            return;
+            if (hits[i] == _cardCollider || hits[i].transform.IsChildOf(transform))
+            {
+                hitSelf = true;
+                break;
+            }
         }
 
-        _homePosition = transform.position;
+        if (!hitSelf) return;
 
+        _homePosition = transform.position;
         Vector3 pointerWorld = ScreenToWorld3D(screenPointer, _homePosition.z);
         _dragOffset = transform.position - pointerWorld;
         _isDragging = true;
@@ -98,7 +78,9 @@ public class HandCardDrag2D : MonoBehaviour
     {
         _isDragging = false;
 
-        bool moved = false;
+        bool movedToSquad = false;
+        bool droppedOnTempZone = false;
+
         Vector2 worldPoint = ScreenToWorld2D(screenPointer);
         Collider2D[] hits = Physics2D.OverlapPointAll(worldPoint, _dropCheckMask);
 
@@ -107,34 +89,25 @@ public class HandCardDrag2D : MonoBehaviour
             SquadDropZone squadZone = hits[i].GetComponentInParent<SquadDropZone>();
             if (squadZone != null)
             {
-                moved = _deckController.TryRegisterHandCardToSquad(_handIndex, squadZone);
+                movedToSquad = _tempStorageController.TryRegisterCardToSquad(_tempIndex, squadZone);
                 break;
             }
 
             TempStorageDropZone tempZone = hits[i].GetComponentInParent<TempStorageDropZone>();
-            if (tempZone != null && tempZone.TempStorageController != null)
+            if (tempZone != null && tempZone.TempStorageController == _tempStorageController)
             {
-                moved = _deckController.TryMoveHandCardToTemp(_handIndex, tempZone.TempStorageController);
-                break;
+                droppedOnTempZone = true;
             }
         }
 
+        if (!movedToSquad && !droppedOnTempZone)
+        {
+            _tempStorageController.TryDiscardCard(_tempIndex, _deckController);
+        }
 
         transform.position = _homePosition;
     }
 
-    private bool ContainsSelfCollider(Collider2D[] hits)
-    {
-        for (int i = 0; i < hits.Length; i++)
-        {
-            if (hits[i] == _cardCollider || hits[i].transform.IsChildOf(transform))
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
 
     private Vector2 ScreenToWorld2D(Vector2 screenPoint)
     {

@@ -357,12 +357,13 @@ MonoBehaviour:
   _handIndex: 0
   _mainCamera: {fileID: 0}
   _cardCollider: {fileID: 1523215425808968793}
+  _cardView: {fileID: 6852625023286246337}
   _dragStartMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 2048
   _dropCheckMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 1024
 --- !u!1 &6257125305150085326
 GameObject:
   m_ObjectHideFlags: 0
