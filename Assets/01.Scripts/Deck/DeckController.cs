@@ -1,0 +1,163 @@
+using System.Collections.Generic;
+using UnityEngine;
+
+public class DeckController : MonoBehaviour
+{
+    [Header("Card SO")]
+    [SerializeField] private List<CardData> _cardDefinitions = new List<CardData>();
+
+    [Header("Deck Settings")]
+    [SerializeField] private int _copiesPerCard = 4;
+    [SerializeField] private int _drawCount = 6;
+    [SerializeField] private int _maxRerollPerTurn = 2;
+    [SerializeField] private int _rerollUsedThisTurn = 0;
+
+
+    [Header("Hand Slots")]
+    [SerializeField] private List<CardView> _handSlots = new List<CardView>();
+
+    [Header("Debug")]
+    [SerializeField] private List<CardData> _deckCards = new List<CardData>();
+    [SerializeField] private List<CardData> _handCards = new List<CardData>();
+    [SerializeField] private List<CardData> _discardCards = new List<CardData>();
+
+
+    private void Start()
+    {
+        BuildDeck();
+        DrawHand();
+    }
+
+    [ContextMenu("Build And Draw")]
+    public void BuildDeckAndDrawHand()
+    {
+        BuildDeck();
+        DrawHand();
+    }
+
+    public void BuildDeck()
+    {
+        _deckCards.Clear();
+        _handCards.Clear();
+        _discardCards.Clear();
+
+        foreach (CardData cardData in _cardDefinitions)
+        {
+            if (cardData == null)
+            {
+                continue;
+            }
+
+            for (int i = 0; i < _copiesPerCard; i++)
+            {
+                _deckCards.Add(cardData);
+            }
+        }
+
+        ShuffleDeck();
+        _rerollUsedThisTurn = 0;
+    }
+
+
+    public void DrawHand()
+    {
+        _handCards.Clear();
+
+        int drawAmount = Mathf.Min(_drawCount, _deckCards.Count);
+        for (int i = 0; i < drawAmount; i++)
+        {
+            int lastIndex = _deckCards.Count - 1;
+            CardData drawnCard = _deckCards[lastIndex];
+            _deckCards.RemoveAt(lastIndex);
+            _handCards.Add(drawnCard);
+        }
+
+        ApplyHandToSlots();
+    }
+
+    public void OnClickReroll()
+    {
+        if (_rerollUsedThisTurn >= _maxRerollPerTurn)
+        {
+            return;
+        }
+
+        MoveHandToDiscard();
+        DrawHand();
+        _rerollUsedThisTurn++;
+    }
+
+    public void OnClickFire()
+    {
+        ReturnAllCardsToDeckForNextTurn();
+        ShuffleDeck();
+        DrawHand();
+        _rerollUsedThisTurn = 0;
+    }
+
+    private void MoveHandToDiscard()
+    {
+        if (_handCards.Count == 0)
+        {
+            return;
+        }
+
+        _discardCards.AddRange(_handCards);
+        _handCards.Clear();
+    }
+
+    private void ReturnAllCardsToDeckForNextTurn()
+    {
+        if (_handCards.Count > 0)
+        {
+            _deckCards.AddRange(_handCards);
+            _handCards.Clear();
+        }
+
+        if (_discardCards.Count > 0)
+        {
+            _deckCards.AddRange(_discardCards);
+            _discardCards.Clear();
+        }
+
+        // Squad 카드도 덱으로 복귀하는 코드 추가해야함.
+    }
+
+
+    private void ApplyHandToSlots()
+    {
+        for (int i = 0; i < _handSlots.Count; i++)
+        {
+            CardView slotView = _handSlots[i];
+            if (slotView == null)
+            {
+                continue;
+            }
+
+            if (i < _handCards.Count)
+            {
+                slotView.gameObject.SetActive(true);
+                slotView.SetCardData(_handCards[i]);
+            }
+
+            else
+            {
+                slotView.gameObject.SetActive(false);
+            }
+        }
+    }
+
+    [ContextMenu("Shuffle")]
+    private void ShuffleDeck()
+    {
+        for (int i = _deckCards.Count - 1; i > 0; i--)
+        {
+            int swapIndex = Random.Range(0, i + 1);
+
+            CardData temp = _deckCards[i];
+            _deckCards[i] = _deckCards[swapIndex];
+            _deckCards[swapIndex] = temp;
+        }
+    }
+
+}
