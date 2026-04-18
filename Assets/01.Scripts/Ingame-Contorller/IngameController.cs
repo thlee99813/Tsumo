@@ -173,20 +173,27 @@ public class IngameController : MonoBehaviour
     {
         _currentPhase = TurnPhase.FireProcess;
         _player.StopMovement();
-
+        
         if (isFirePressed)
         {
             ExitSlowMotion();
+            // 공격 - 정지 애니메이션은 공격 위치에서 재생됨
+
             _player.ExecuteCombo(_enemy.transform.position.x);
-
             yield return new WaitUntil(() => !_player.IsAttacking || !_isRunning);
-
             if (!_isRunning) yield break;
             _battleController.ExecuteBattle(finalDamage);
         }
         else
         {
             ExitSlowMotion();
+            _player.PlayStopThenBattle();
+
+            yield return new WaitUntil(() => 
+                !_player.IsRunStopping && !_player.IsTeleporting || !_isRunning);
+            
+            
+            if(!_isRunning) yield break;
             _battleController.ExecuteBattle(0);
         }
 

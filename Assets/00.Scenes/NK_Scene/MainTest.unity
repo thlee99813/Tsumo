@@ -1985,7 +1985,8 @@ MonoBehaviour:
   _knockBackHeight: 1.5
   _knockBackDuration: 0.4
   _stopOffset: 1.5
-  _shurikenOffset: 3
+  _runFps: 12
+  _shurikenOffset: 6
   _attackDamage: 10
   _attackMoveDuration: 0.2
   _currentHp: 0
@@ -2181,6 +2182,13 @@ MonoBehaviour:
   - {fileID: -1802169309707963297, guid: c83259e9198503d4eab646901dbbefcb, type: 3}
   - {fileID: 7029497326534275916, guid: c83259e9198503d4eab646901dbbefcb, type: 3}
   - {fileID: -3472711161611801713, guid: c83259e9198503d4eab646901dbbefcb, type: 3}
+  _teleportSprites:
+  - {fileID: -8753283788699527778, guid: 8d15c40de5840e84f8f4329ec65c9289, type: 3}
+  - {fileID: 3475970444626420675, guid: 8d15c40de5840e84f8f4329ec65c9289, type: 3}
+  - {fileID: -1693946357877086985, guid: 8d15c40de5840e84f8f4329ec65c9289, type: 3}
+  - {fileID: 5697982188757238426, guid: 8d15c40de5840e84f8f4329ec65c9289, type: 3}
+  - {fileID: 3320728301058369393, guid: 8d15c40de5840e84f8f4329ec65c9289, type: 3}
+  - {fileID: 306708660192380987, guid: 8d15c40de5840e84f8f4329ec65c9289, type: 3}
   _runSpites:
   - {fileID: 1537518874226183753, guid: 5b4eeb8f1d2554a4e800de94c91c5aba, type: 3}
   - {fileID: -5142665512902488189, guid: 5b4eeb8f1d2554a4e800de94c91c5aba, type: 3}
@@ -2201,6 +2209,7 @@ MonoBehaviour:
   _spellFps: 12
   _runFps: 12
   _runStopFps: 12
+  _teleportFps: 8
 --- !u!1 &692190129
 GameObject:
   m_ObjectHideFlags: 0
@@ -2903,7 +2912,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IngameController
   _deckBuildTimeLimit: 10
-  _slowMotionScale: 0.1
+  _slowMotionScale: 0.3
   _backGround: {fileID: 2074400918}
   _timerGauge: {fileID: 1258067736}
   _battleController: {fileID: 447693665}

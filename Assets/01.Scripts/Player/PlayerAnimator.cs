@@ -10,6 +10,7 @@ public class PlayerAnimator : MonoBehaviour
     [SerializeField] private Sprite[] _swordSprites;
     [SerializeField] private Sprite[] _shurikenSprites;
     [SerializeField] private Sprite[] _spellSprites;
+    [SerializeField] private Sprite[] _teleportSprites;
 
     [Header("Movement Sprites")]
     [SerializeField] private Sprite[] _runSpites;
@@ -21,6 +22,7 @@ public class PlayerAnimator : MonoBehaviour
     [SerializeField] private float _spellFps = 12f;
     [SerializeField] private float _runFps = 12f;
     [SerializeField] private float _runStopFps = 12f;
+    [SerializeField] private float _teleportFps = 12f;
 
     private SpriteRenderer _spriteRenderer;
     private Coroutine _currentAnim;
@@ -32,10 +34,26 @@ public class PlayerAnimator : MonoBehaviour
     public void PlaySword() => PlayAttack(_swordSprites, _swordFps);
     public void PlayShuriken() => PlayAttack(_shurikenSprites, _shurikenFps);
     public void PlaySpell() => PlayAttack(_spellSprites, _spellFps);
+    public void HideSprite() => _spriteRenderer.enabled = false;
+    public void ShowSprite() => _spriteRenderer.enabled = true;
 
     //외부 호출용 - 이동
-    public void PlayRun() => PlayLoop(_runSpites, _runFps);
-    public void PlayRunStop() => PlayOnce(_runStopSprites, _runStopFps);
+    public void PlayRun(float fpsOverride = -1f)
+    {
+        float fps = fpsOverride > 0f ? fpsOverride : _runFps;
+        PlayLoop(_runSpites, fps);
+    }
+    public void PlayRunStop(Action onComplete = null)
+    {
+        StopAnimation();
+        _currentAnim = StartCoroutine(PlayOnceCoroutine(_runStopSprites, _runStopFps, onComplete));
+    }
+
+    public void PlayTeleport(Action onComplete = null)
+    {
+        StopAnimation();
+        _currentAnim = StartCoroutine(PlayOnceCoroutine(_teleportSprites, _teleportFps, onComplete));
+    }
 
     private void Awake()
     {
@@ -46,6 +64,7 @@ public class PlayerAnimator : MonoBehaviour
     {
         PlayRun();
     }
+
 
     public void StopAnimation()
     {
@@ -88,8 +107,8 @@ public class PlayerAnimator : MonoBehaviour
             _spriteRenderer.sprite = sprite;
             yield return new WaitForSecondsRealtime(interval);
         }
+        _currentAnim = null;   // onComplete가 PlayRun 등을 호출해 _currentAnim을 덮어쓰기 전에 먼저 null로 비워야 함
         onComplete?.Invoke();
-        _currentAnim = null;
     }
 
     private IEnumerator PlayLoopCoroutine(Sprite[] sprites, float fps)

@@ -1,22 +1,28 @@
 fileFormatVersion: 2
-guid: 2a3450c6124401b4aa31dfb67fc959b6
+guid: 8d15c40de5840e84f8f4329ec65c9289
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 722973753925178434
-    second: attack_throw_0
+      213: -8753283788699527778
+    second: teleport_0
   - first:
-      213: -7604879076471432468
-    second: attack_throw_1
+      213: 3475970444626420675
+    second: teleport_1
   - first:
-      213: -5984873260311841982
-    second: attack_throw_2
+      213: -1693946357877086985
+    second: teleport_2
   - first:
-      213: 1719999966800325864
-    second: attack_throw_3
+      213: 5697982188757238426
+    second: teleport_3
   - first:
-      213: 5906420996603304629
-    second: attack_throw_4
+      213: 3320728301058369393
+    second: teleport_4
+  - first:
+      213: 306708660192380987
+    second: teleport_5
+  - first:
+      213: 6874293261119131606
+    second: teleport_6
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -112,7 +118,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: attack_throw_0
+      name: teleport_0
       rect:
         serializedVersion: 2
         x: 0
@@ -127,14 +133,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 24414a87cc4880a00800000000000000
-      internalID: 722973753925178434
+      spriteID: e95116465c6168680800000000000000
+      internalID: -8753283788699527778
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: attack_throw_1
+      name: teleport_1
       rect:
         serializedVersion: 2
         x: 64
@@ -149,14 +155,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: cea9e17b5ca067690800000000000000
-      internalID: -7604879076471432468
+      spriteID: 3c3e6b1f3b02d3030800000000000000
+      internalID: 3475970444626420675
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: attack_throw_2
+      name: teleport_2
       rect:
         serializedVersion: 2
         x: 128
@@ -171,14 +177,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 243f06d9a7571fca0800000000000000
-      internalID: -5984873260311841982
+      spriteID: 7f46b2e23c4ed78e0800000000000000
+      internalID: -1693946357877086985
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: attack_throw_3
+      name: teleport_3
       rect:
         serializedVersion: 2
         x: 192
@@ -193,14 +199,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8ec21da5bdaaed710800000000000000
-      internalID: 1719999966800325864
+      spriteID: a92c0698c9c431f40800000000000000
+      internalID: 5697982188757238426
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: attack_throw_4
+      name: teleport_4
       rect:
         serializedVersion: 2
         x: 256
@@ -215,8 +221,30 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5bad2745a92d7f150800000000000000
-      internalID: 5906420996603304629
+      spriteID: 177ab2cbbc8951e20800000000000000
+      internalID: 3320728301058369393
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: teleport_5
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b388d44c6e5a14400800000000000000
+      internalID: 306708660192380987
       vertices: []
       indices: 
       edges: []
@@ -225,7 +253,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: ffa8d35522d87ed4da845fefdeed300d
+    spriteID: a5a2c30019e3ad44cb96527e39421046
     internalID: 0
     vertices: []
     indices: 
@@ -237,11 +265,12 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      attack_throw_0: 722973753925178434
-      attack_throw_1: -7604879076471432468
-      attack_throw_2: -5984873260311841982
-      attack_throw_3: 1719999966800325864
-      attack_throw_4: 5906420996603304629
+      teleport_0: -8753283788699527778
+      teleport_1: 3475970444626420675
+      teleport_2: -1693946357877086985
+      teleport_3: 5697982188757238426
+      teleport_4: 3320728301058369393
+      teleport_5: 306708660192380987
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

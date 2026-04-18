@@ -21,6 +21,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float _knockBackHeight = 1.5f;
     [SerializeField] private float _knockBackDuration = 0.4f;
     [SerializeField] private float _stopOffset = 1.5f;
+    [SerializeField] private float _runFps = 12f;
     [SerializeField] private float _shurikenOffset = 3f;
 
     [Header("Combat")]
@@ -36,6 +37,10 @@ public class Player : MonoBehaviour
     private bool _isAttacking;
     private bool _attackAnimDone;
     private Animator _animator;
+    private bool _isRunStopping;
+    private float _currentAttackX = float.MinValue;
+    private bool _isTeleporting;
+    
     private List<AttackType> _comboList = new List<AttackType>();
 
     public int CurrentHp => _currentHp;
@@ -44,11 +49,13 @@ public class Player : MonoBehaviour
     public bool IsReached => _isReached;
     public int AttackDamage => _attackDamage;
     public bool IsAttacking => _isAttacking;
+    public bool IsRunStopping => _isRunStopping;
     public IReadOnlyList<AttackType> ComboList => _comboList;
+    public bool IsTeleporting => _isTeleporting;
 
     public event Action OnPlayerDead;
     public event Action<int> OnHpChanged;
-    public event Action<AttackType> OnAttackAdded;  // UI 연동용 포트
+    public event Action<AttackType> OnAttackAdded;  
 
     private void Awake()
     {
@@ -72,7 +79,7 @@ public class Player : MonoBehaviour
     {
         _comboList.Clear();
     }
-#region 공격 콤보 처리
+#region 공격 콤보 처리, 애니메이션 
     //IngameController에서 호출 내부 콤보 리스트 사용
     public void ExecuteCombo(float targetX)
     {
@@ -98,9 +105,10 @@ public class Player : MonoBehaviour
                 yield return new WaitForSecondsRealtime(0.1f);
         }
 
+        _currentAttackX = float.MinValue;
         ClearCombo();
         TeleportToStart();
-        _playerAnimator.PlayRun();
+        yield return new WaitUntil(() => !_isTeleporting);
         _isAttacking = false;
     }
     
@@ -109,11 +117,11 @@ public class Player : MonoBehaviour
         switch(type)
         {
             case AttackType.Sword:
-            case AttackType.Spell:
                 yield return MeleeAttack(targetX, type);
                 break;
             case AttackType.Shuriken:
-                yield return RangedAttack();
+            case AttackType.Spell:
+                yield return RangedAttack(targetX, type);
                 break;
         }
 
@@ -121,30 +129,55 @@ public class Player : MonoBehaviour
     private IEnumerator MeleeAttack(float targetX, AttackType type)     //근접 공격할 경우의 거리
     {
         float stoppedX = targetX - _stopOffset;
-        transform.DOMoveX(stoppedX, _attackMoveDuration)
-            .SetEase(Ease.OutQuad).SetUpdate(true);
-        yield return new WaitForSecondsRealtime(_attackMoveDuration);
 
+        if(!Mathf.Approximately(_currentAttackX, stoppedX))
+        {
+            transform.DOMoveX(stoppedX, _attackMoveDuration)
+            .SetEase(Ease.OutQuad).SetUpdate(true);
+            yield return new WaitForSecondsRealtime(_attackMoveDuration);
+
+            // 공격 위치에서 정지 애니메이션
+            _isRunStopping = true;
+            _playerAnimator.PlayRunStop(() => _isRunStopping = false);
+            yield return new WaitUntil(() => !_isRunStopping);
+
+            _currentAttackX = stoppedX;
+        }
+
+        // 공격 애니메이션
         _attackAnimDone = false;
         if(type == AttackType.Sword) _playerAnimator.PlaySword();
         else _playerAnimator.PlaySpell();
-
         yield return new WaitUntil(() => _attackAnimDone); 
-       
     }
 
-    private IEnumerator RangedAttack()              //원거리 공격할 경우 수리검만
+    private IEnumerator RangedAttack(float targetX, AttackType type)              //원거리 공격할 경우 수리검만
     {
-        float rangedX = _startPosition.x + _shurikenOffset;
-        transform.DOMoveX(rangedX, _attackMoveDuration)
-            .SetEase(Ease.OutQuad).SetUpdate(true);
-        yield return new WaitForSecondsRealtime(_attackMoveDuration);
+        //적 앞에서 _rangedOffset 만큼 뒤에서 공격
+        float rangedX = targetX - _stopOffset - _shurikenOffset;
 
-        _attackAnimDone = false;      
-        _playerAnimator.PlayShuriken();
+        //현재 위치와 다를 때만 이동 + 정지 애니메이션
+        if(!Mathf.Approximately(_currentAttackX, rangedX))
+        {
+            transform.DOMoveX(rangedX, _attackMoveDuration)
+            .SetEase(Ease.OutQuad).SetUpdate(true);
+            yield return new WaitForSecondsRealtime(_attackMoveDuration);
+
+            //공격 위치에서 정지 애니메이션
+            _isRunStopping = true;
+            _playerAnimator.PlayRunStop(() => _isRunStopping = false);
+            yield return new WaitUntil(() => !_isRunStopping);
+
+            _currentAttackX = rangedX;    
+        }
+        
+        _attackAnimDone = false;              
+        if(type == AttackType.Shuriken)             //타입에 따라 다른 애니메이션 재생
+            _playerAnimator.PlayShuriken();
+        else if(type == AttackType.Spell)
+            _playerAnimator.PlaySpell();
         
         yield return new WaitUntil(() => _attackAnimDone);
-        
     }
 
     public void OnAttackAniComplete()
@@ -154,12 +187,33 @@ public class Player : MonoBehaviour
 
     private void TeleportToStart()
     {
-        gameObject.SetActive(false);
+        _isTeleporting = true;
+        
+        _playerAnimator.HideSprite();
         transform.position = _startPosition;
-        gameObject.SetActive(true);
+        _playerAnimator.ShowSprite();
 
-        //TODO 복귀 이펙트 포트
+        _playerAnimator.PlayTeleport(() =>
+        {
+            _isTeleporting = false;
+            _playerAnimator.PlayRun();
+        });
+
+
     }
+
+    public void PlayStopThenBattle()
+    {
+        if(_isRunStopping || _isTeleporting) return;
+
+        _isRunStopping = true;
+        _playerAnimator.PlayRunStop(() =>
+        {
+            _isRunStopping = false;
+            TeleportToStart();
+        });
+    }
+
 #endregion 
 
 
@@ -169,8 +223,7 @@ public class Player : MonoBehaviour
     {
         _isReached = false;
         transform.DOKill();     // 복귀 트윈 등 기존 트윈 제거
-        _playerAnimator.PlayRun();
-
+        _playerAnimator.PlayRun(_runFps * slowFactor);
 
         float stoppedX = targetX - _stopOffset;     //적 앞 일정 거리에서 정지
         float distance = Mathf.Abs(transform.position.x - stoppedX);
@@ -182,8 +235,7 @@ public class Player : MonoBehaviour
             .SetUpdate(true)    // 언스케일 타임 기준으로 이동
             .OnComplete(() =>
             {
-                _isReached = true;
-                _playerAnimator.PlayRunStop();   
+                _isReached = true;   
             });
     }
 
@@ -191,7 +243,6 @@ public class Player : MonoBehaviour
     {
         transform.DOKill();
         _isReached = false;
-        _playerAnimator.PlayRun();
     }
 
     public void ReturnToStart()
@@ -244,24 +295,12 @@ public class Player : MonoBehaviour
         _isKnockBack = true;
 
         transform.DOKill();
+        _playerAnimator.StopAnimation();        //달리기 루프 즉시 중단
         StartCoroutine(KnockBackCoroutine());
     }
 
     private IEnumerator KnockBackCoroutine()
     {
-        float arcHeight = _startPosition.y + _knockBackHeight;  // 피격 시점 기준 아크 높이
-
-        /*
-        // 1단계: 피격 반응 Y축 위로 튕김
-        transform.DOMoveY(arcHeight, _knockBackDuration * 0.4f)
-            .SetEase(Ease.OutQuad).SetUpdate(true);
-        yield return new WaitForSecondsRealtime(_knockBackDuration * 0.4f);
-
-        // 2단계: Y축 아래로 낙하 
-        transform.DOMoveY(_startPosition.y, _knockBackDuration * 0.4f)
-            .SetEase(Ease.InQuad).SetUpdate(true);
-        yield return new WaitForSecondsRealtime(_knockBackDuration * 0.4f);
-        */
 
         float returnDuration = 0.6f;
         float halfReturn = returnDuration * 0.5f;
@@ -269,21 +308,19 @@ public class Player : MonoBehaviour
         // 3단계: X축 복귀 + Y 아크 동시 시작 (점프하며 뒤로)
         transform.DOMoveX(_startPosition.x, returnDuration)
             .SetEase(Ease.InOutQuad).SetUpdate(true);
-        transform.DOMoveY(arcHeight, halfReturn)
-            .SetEase(Ease.OutQuad).SetUpdate(true);
-        yield return new WaitForSecondsRealtime(halfReturn);
-
-        // 4단계: 착지 (X는 계속 이동 중, Y만 낙하, 실제 시간)
-        transform.DOMoveY(_startPosition.y, halfReturn)
-            .SetEase(Ease.InQuad).SetUpdate(true);
         yield return new WaitForSecondsRealtime(halfReturn);
 
         transform.DOKill();     //스냅 전 잔여 트윈 전부 제거
         transform.position = _startPosition;  // 정확한 위치 스냅
         _isKnockBack = false;
+        _playerAnimator.PlayRun();
 
         if(IsDead)
+        {
+            yield return null;
             OnPlayerDead?.Invoke();
+        }
+            
     }
 
     public void ResetHp()
