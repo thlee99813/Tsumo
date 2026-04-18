@@ -3886,6 +3886,7 @@ GameObject:
   - component: {fileID: 670580916}
   - component: {fileID: 670580915}
   - component: {fileID: 670580920}
+  - component: {fileID: 670580921}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -3910,7 +3911,10 @@ MonoBehaviour:
   _knockBackHeight: 1.5
   _knockBackDuration: 0.4
   _stopOffset: 1.5
+  _runFps: 12
+  _shurikenOffset: 3
   _attackDamage: 10
+  _attackMoveDuration: 0.2
   _currentHp: 0
 --- !u!61 &670580916
 BoxCollider2D:
@@ -4072,6 +4076,66 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerState
   _maxHp: 10000
+--- !u!114 &670580921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 670580914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5a2656dd93026e40b9ef77a5f99c2b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerAnimator
+  _swordSprites:
+  - {fileID: -2392683974767720159, guid: 473a9ba4c76e3c24ebf116c491520ac2, type: 3}
+  - {fileID: 6405105782506719745, guid: 473a9ba4c76e3c24ebf116c491520ac2, type: 3}
+  - {fileID: -5795668601737459797, guid: 473a9ba4c76e3c24ebf116c491520ac2, type: 3}
+  - {fileID: -309920884523937611, guid: 473a9ba4c76e3c24ebf116c491520ac2, type: 3}
+  - {fileID: -5460595768427902965, guid: 473a9ba4c76e3c24ebf116c491520ac2, type: 3}
+  - {fileID: -7642709561987584171, guid: 473a9ba4c76e3c24ebf116c491520ac2, type: 3}
+  _shurikenSprites:
+  - {fileID: 722973753925178434, guid: 2a3450c6124401b4aa31dfb67fc959b6, type: 3}
+  - {fileID: -7604879076471432468, guid: 2a3450c6124401b4aa31dfb67fc959b6, type: 3}
+  - {fileID: -5984873260311841982, guid: 2a3450c6124401b4aa31dfb67fc959b6, type: 3}
+  - {fileID: 1719999966800325864, guid: 2a3450c6124401b4aa31dfb67fc959b6, type: 3}
+  - {fileID: 5906420996603304629, guid: 2a3450c6124401b4aa31dfb67fc959b6, type: 3}
+  _spellSprites:
+  - {fileID: -7912594780333952869, guid: c83259e9198503d4eab646901dbbefcb, type: 3}
+  - {fileID: -7089938432966177888, guid: c83259e9198503d4eab646901dbbefcb, type: 3}
+  - {fileID: 8171462995014097991, guid: c83259e9198503d4eab646901dbbefcb, type: 3}
+  - {fileID: -1802169309707963297, guid: c83259e9198503d4eab646901dbbefcb, type: 3}
+  - {fileID: 7029497326534275916, guid: c83259e9198503d4eab646901dbbefcb, type: 3}
+  - {fileID: -3472711161611801713, guid: c83259e9198503d4eab646901dbbefcb, type: 3}
+  _teleportSprites:
+  - {fileID: -8753283788699527778, guid: 8d15c40de5840e84f8f4329ec65c9289, type: 3}
+  - {fileID: 3475970444626420675, guid: 8d15c40de5840e84f8f4329ec65c9289, type: 3}
+  - {fileID: -1693946357877086985, guid: 8d15c40de5840e84f8f4329ec65c9289, type: 3}
+  - {fileID: 5697982188757238426, guid: 8d15c40de5840e84f8f4329ec65c9289, type: 3}
+  - {fileID: 3320728301058369393, guid: 8d15c40de5840e84f8f4329ec65c9289, type: 3}
+  - {fileID: 306708660192380987, guid: 8d15c40de5840e84f8f4329ec65c9289, type: 3}
+  _runSpites:
+  - {fileID: 1537518874226183753, guid: 5b4eeb8f1d2554a4e800de94c91c5aba, type: 3}
+  - {fileID: -5142665512902488189, guid: 5b4eeb8f1d2554a4e800de94c91c5aba, type: 3}
+  - {fileID: 9216229089367592330, guid: 5b4eeb8f1d2554a4e800de94c91c5aba, type: 3}
+  - {fileID: -1116796916585442952, guid: 5b4eeb8f1d2554a4e800de94c91c5aba, type: 3}
+  - {fileID: 2371451695679576964, guid: 5b4eeb8f1d2554a4e800de94c91c5aba, type: 3}
+  - {fileID: 5583766383767401960, guid: 5b4eeb8f1d2554a4e800de94c91c5aba, type: 3}
+  - {fileID: 4317979762678997592, guid: 5b4eeb8f1d2554a4e800de94c91c5aba, type: 3}
+  _runStopSprites:
+  - {fileID: -6314616374327289248, guid: 75043d1a043ea814a8cf4fc63cc7127c, type: 3}
+  - {fileID: 2972212071210097004, guid: 75043d1a043ea814a8cf4fc63cc7127c, type: 3}
+  - {fileID: 2395242895152655332, guid: 75043d1a043ea814a8cf4fc63cc7127c, type: 3}
+  - {fileID: 4916679093801441168, guid: 75043d1a043ea814a8cf4fc63cc7127c, type: 3}
+  - {fileID: -9118673003516286683, guid: 75043d1a043ea814a8cf4fc63cc7127c, type: 3}
+  - {fileID: 926421715999633154, guid: 75043d1a043ea814a8cf4fc63cc7127c, type: 3}
+  _swordFps: 12
+  _shurikenFps: 12
+  _spellFps: 12
+  _runFps: 12
+  _runStopFps: 12
+  _teleportFps: 12
 --- !u!1 &681766940
 GameObject:
   m_ObjectHideFlags: 0
