@@ -208,7 +208,7 @@ public class IngameController : MonoBehaviour
         if (!_isRunning) yield break;
 
         OnTurnEnd?.Invoke();
-        yield return new WaitForSecondsRealtime(1f);
+        //yield return new WaitForSecondsRealtime(0.3f);
     }
 
     public void SetEnemy(Enemy enemy)

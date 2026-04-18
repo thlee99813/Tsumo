@@ -2209,7 +2209,7 @@ MonoBehaviour:
   _spellFps: 12
   _runFps: 12
   _runStopFps: 12
-  _teleportFps: 8
+  _teleportFps: 12
 --- !u!1 &692190129
 GameObject:
   m_ObjectHideFlags: 0

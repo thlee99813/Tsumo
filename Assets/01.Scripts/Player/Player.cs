@@ -231,7 +231,7 @@ public class Player : MonoBehaviour
         float duration = Mathf.Min(distance / slowSpeed, unscaledTimeBudget);
 
         transform.DOMoveX(stoppedX, duration)
-            .SetEase(Ease.Linear)
+            .SetEase(Ease.OutQuad)
             .SetUpdate(true)    // 언스케일 타임 기준으로 이동
             .OnComplete(() =>
             {
@@ -295,32 +295,36 @@ public class Player : MonoBehaviour
         _isKnockBack = true;
 
         transform.DOKill();
-        _playerAnimator.StopAnimation();        //달리기 루프 즉시 중단
         StartCoroutine(KnockBackCoroutine());
     }
 
     private IEnumerator KnockBackCoroutine()
     {
-
         float returnDuration = 0.6f;
         float halfReturn = returnDuration * 0.5f;
 
-        // 3단계: X축 복귀 + Y 아크 동시 시작 (점프하며 뒤로)
-        transform.DOMoveX(_startPosition.x, returnDuration)
-            .SetEase(Ease.InOutQuad).SetUpdate(true);
+        // 텔레포트 직후처럼 이미 시작 위치에 있으면 애니메이션 중단 없이 유지
+        bool alreadyAtStart = (transform.position - _startPosition).sqrMagnitude < 0.001f;
+
+        if(!alreadyAtStart)
+        {
+            transform.DOMoveX(_startPosition.x, returnDuration)
+                .SetEase(Ease.InOutQuad).SetUpdate(true);
+        }
+
         yield return new WaitForSecondsRealtime(halfReturn);
 
-        transform.DOKill();     //스냅 전 잔여 트윈 전부 제거
-        transform.position = _startPosition;  // 정확한 위치 스냅
+        transform.DOKill();
         _isKnockBack = false;
-        _playerAnimator.PlayRun();
+
+        if(!alreadyAtStart)
+            _playerAnimator.PlayRun();
 
         if(IsDead)
         {
             yield return null;
             OnPlayerDead?.Invoke();
         }
-            
     }
 
     public void ResetHp()
