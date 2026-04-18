@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using System;
 
+
 public class UIController : MonoBehaviour
 {
     [SerializeField] private TMP_Text _rerollCountText;
@@ -10,6 +11,7 @@ public class UIController : MonoBehaviour
 
     [Header("Panels")]
     [SerializeField] private GameObject _gameOverImage;
+    [SerializeField] private GameObject _battleResultPanel;
 
     public event Action OnRestartClicked;
 
@@ -52,6 +54,16 @@ public class UIController : MonoBehaviour
         {
             _gameOverImage.SetActive(false);
         }
+    }
+
+    public void ShowBattleResultPanel()
+    {
+        _battleResultPanel.SetActive(true);
+    }
+
+    public void HideBattleResultPanelImmediate()
+    {
+        _battleResultPanel.SetActive(false);
     }
 
     public void OnClickRestartButton()

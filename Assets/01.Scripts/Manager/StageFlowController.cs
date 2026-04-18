@@ -8,6 +8,7 @@ public class StageFlowController : MonoBehaviour
     [SerializeField] private DeckController _deckController;
     [SerializeField] private BattleController _battleController;
     [SerializeField] private UIController _uiController;
+    [SerializeField] private BattleResultPresenter _battleResultPresenter;
     [SerializeField] private Player _player;
 
     [Header("Enemy Spawn")]
@@ -56,7 +57,9 @@ public class StageFlowController : MonoBehaviour
         _ingameController.SetEnemy(_currentEnemy);
 
         _uiController.HideGameOver();
+        _uiController.HideBattleResultPanelImmediate();
         _uiController.SetStageText(_stageCodes[_currentStageIndex]);
+
 
         _isRunning = true;
         StartCoroutine(StageTurnLoop());
@@ -82,7 +85,7 @@ public class StageFlowController : MonoBehaviour
 
     private bool ValidateReferences()
     {
-        if (_ingameController == null || _deckController == null || _battleController == null || _uiController == null || _player == null)
+        if (_ingameController == null || _deckController == null || _battleController == null || _uiController == null || _battleResultPresenter == null || _player == null)
         {
             Debug.LogError("필수참조해제");
             return false;
@@ -116,42 +119,48 @@ public class StageFlowController : MonoBehaviour
                 yield return null;
             }
 
+
+            bool isFirePressed = _ingameController.ConsumeFireRequest();
+            FireExecutionData fireExecutionData = _deckController.BuildFireExecutionData(isFirePressed);
+
+            int enemyHpBeforeBattle = _currentEnemy.CurrentHp;
+            int playerHpBeforeBattle = _player.CurrentHp;
+
+            yield return _ingameController.RunFireProcessPhase(fireExecutionData.FinalDamage, fireExecutionData.IsFirePressed);
+
             if (!_isRunning || !_ingameController.IsRunning)
             {
                 yield break;
             }
 
-            bool isFirePressed = _ingameController.ConsumeFireRequest();
-            int finalDamage = 0;
+            int enemyRemainHp = _currentEnemy.CurrentHp;
+            int playerRemainHp = _player.CurrentHp;
+            int enemyDamageToPlayer = Mathf.Max(0, playerHpBeforeBattle - playerRemainHp);
 
-            if (isFirePressed)
-            {
-                FireScoreResult scoreResult = _deckController.CalculateFireScore();
-                Debug.Log(scoreResult.BuildDebugText());
-                finalDamage = scoreResult.FinalScore;
-            }
+            yield return _battleResultPresenter.PlayBattleResultPanel(fireExecutionData, enemyHpBeforeBattle, enemyRemainHp, playerHpBeforeBattle, enemyDamageToPlayer, playerRemainHp);
 
-            yield return _ingameController.RunFireProcessPhase(finalDamage, isFirePressed);
+
             if (!_isRunning || !_ingameController.IsRunning)
             {
                 yield break;
             }
 
             _deckController.CompleteTurnAfterFire();
-            yield return _ingameController.RunTurnResultPhase();
-            if (!_isRunning || !_ingameController.IsRunning)
-            {
-                yield break;
-            }
 
-            if (_enemyDefeatedThisTurn)
-            {
-                if (!MoveToNextStage())
+                yield return _ingameController.RunTurnResultPhase();
+                if (!_isRunning || !_ingameController.IsRunning)
                 {
                     yield break;
                 }
+
+                if (_enemyDefeatedThisTurn)
+                {
+                    if (!MoveToNextStage())
+                    {
+                        yield break;
+                    }
+                }
             }
-        }
     }
 
     private void HandleEnemyDead()
@@ -188,6 +197,7 @@ public class StageFlowController : MonoBehaviour
         StopFlow();
 
         _checkpointStageIndex = GetCheckpointIndex(_currentStageIndex);
+        _uiController.HideBattleResultPanelImmediate();
         _uiController.ShowGameOver(_stageCodes[_checkpointStageIndex]);
     }
 
@@ -208,7 +218,9 @@ public class StageFlowController : MonoBehaviour
         _ingameController.ResetForRespawn();
 
         _uiController.HideGameOver();
+        _uiController.HideBattleResultPanelImmediate();
         _uiController.SetStageText(_stageCodes[_currentStageIndex]);
+
 
         _isRunning = true;
         StartCoroutine(StageTurnLoop());
