@@ -16,6 +16,9 @@ public class PlayerAnimator : MonoBehaviour
     [SerializeField] private Sprite[] _runSpites;
     [SerializeField] private Sprite[] _runStopSprites;
 
+    [Header("Effect Frame Settings")]
+    [SerializeField] private float _effectFps = 12f;
+
     [Header("Frame Settings")]
     [SerializeField] private float _swordFps = 12f;
     [SerializeField] private float _shurikenFps = 12f;
