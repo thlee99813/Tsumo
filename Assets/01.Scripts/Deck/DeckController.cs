@@ -24,6 +24,8 @@ public class DeckController : MonoBehaviour
 
     [Header("Temp")]
     [SerializeField] private TempStorageController _tempStorageController;
+    [Header("Score")]
+    [SerializeField] private FireScoreCalculator _fireScoreCalculator;
 
 
     [Header("Debug")]
@@ -158,13 +160,15 @@ public class DeckController : MonoBehaviour
 
     public void OnClickFire()
     {
+        LogFireScore();
+
         ReturnAllCardsToDeckForNextTurn();
         ShuffleDeck();
         DrawHand();
         _rerollUsedThisTurn = 0;
         RefreshRerollCountUI();
-
     }
+
 
     private void MoveHandToDiscard()
     {
@@ -176,6 +180,19 @@ public class DeckController : MonoBehaviour
         _discardCards.AddRange(_handCards);
         _handCards.Clear();
     }
+
+    private void LogFireScore()
+    {
+        if (_fireScoreCalculator == null)
+        {
+            Debug.LogWarning("[FireScore] FireScoreCalculator 참조가 비어있습니다.");
+            return;
+        }
+
+        FireScoreResult result = _fireScoreCalculator.Calculate(_squadZones);
+        Debug.Log(result.BuildDebugText());
+    }
+
 
     private void ReturnAllCardsToDeckForNextTurn()
     {

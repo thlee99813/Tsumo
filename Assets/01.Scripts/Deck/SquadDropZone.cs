@@ -34,6 +34,10 @@ public class SquadDropZone : MonoBehaviour
         RefreshViews();
         return true;
     }
+    public List<CardData> GetRegisteredCardsSnapshot()
+    {
+        return new List<CardData>(_registeredCards);
+    }
 
     public void ReturnAllTo(List<CardData> deckCards)
     {
