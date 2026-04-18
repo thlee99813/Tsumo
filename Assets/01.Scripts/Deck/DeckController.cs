@@ -168,7 +168,6 @@ public class DeckController : MonoBehaviour
 
     public FireScoreResult CalculateFireScore()
     {
-<<<<<<< HEAD
         if (_fireScoreCalculator == null)
         {
             Debug.LogWarning("[DeckController] FireScoreCalculator 참조가 비어있습니다.");
@@ -185,19 +184,7 @@ public class DeckController : MonoBehaviour
         DrawHand();
         _rerollUsedThisTurn = 0;
         RefreshRerollCountUI();
-=======
-        FireExecutionData fireData = BuildFireExecutionData(true);
-        Debug.Log($"[DeckController] Fire Debug FinalDamage: {fireData.FinalDamage}");
-        CompleteTurnAfterFire();
->>>>>>> feature/deck-controller
     }
-
-    public void OnClickFire()
-    {
-        Debug.LogWarning("[DeckController] Fire 버튼은 IngameController.HandleFireInput에만 연결하세요.");
-    }
-
-
 
 
     private void MoveHandToDiscard()
@@ -239,17 +226,6 @@ public class DeckController : MonoBehaviour
         Debug.Log(result.BuildDebugText());
         return data;
     }
-
-    public void CompleteTurnAfterFire()
-    {
-        ReturnAllCardsToDeckForNextTurn();
-        ShuffleDeck();
-        DrawHand();
-        _rerollUsedThisTurn = 0;
-        RefreshRerollCountUI();
-    }
-
-
 
     private void ReturnAllCardsToDeckForNextTurn()
     {

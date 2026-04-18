@@ -9,11 +9,13 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float _moveDelay = 3f;
     [SerializeField] private float _moveDuration = 0.5f;
 
-    private int _currentHp;
+    [SerializeField] private int _currentHp;
     private Vector3 _startPosition;
 
     public bool IsDead => _currentHp <= 0;
+    public int CurrentHp => _currentHp;
     public int CounterDamage => _stats.CounterDamage;
+
 
     public event Action OnEnemyDead;
     public event Action OnEnemyReady;   //왼쪽 이동 완료 시 발행
@@ -70,8 +72,12 @@ public class Enemy : MonoBehaviour
         if(IsDead) return;
         _currentHp = Mathf.Max(0, _currentHp - damage);
 
-        if(IsDead)
+        if (IsDead)
+        {
+            gameObject.SetActive(false);
             OnEnemyDead?.Invoke();
+        }
+
     }
 
     // 슬로우모션 진입 시 적 이동 중단 (Time.timeScale 비의존)
@@ -83,6 +89,12 @@ public class Enemy : MonoBehaviour
 
     public void ResetEnemy()
     {
+        gameObject.SetActive(true);
+        transform.DOKill();
+        StopAllCoroutines();
+        transform.position = _startPosition;
         _currentHp = _stats.MaxHp;
+        StartCoroutine(MoveLoop());
     }
+
 }
