@@ -166,10 +166,19 @@ public class DeckController : MonoBehaviour
         RefreshRerollCountUI();
     }
 
-    public void OnClickFire()
+    public FireScoreResult CalculateFireScore()
     {
-        LogFireScore();
+        if (_fireScoreCalculator == null)
+        {
+            Debug.LogWarning("[DeckController] FireScoreCalculator 참조가 비어있습니다.");
+            return new FireScoreResult();
+        }
 
+        return _fireScoreCalculator.Calculate(_squadZones);
+    }
+
+    public void CompleteTurnAfterFire()
+    {
         ReturnAllCardsToDeckForNextTurn();
         ShuffleDeck();
         DrawHand();
@@ -189,18 +198,34 @@ public class DeckController : MonoBehaviour
         _handCards.Clear();
     }
 
-    private void LogFireScore()
+    public FireExecutionData BuildFireExecutionData(bool isFirePressed)
     {
+        FireExecutionData data = new FireExecutionData
+        {
+            IsFirePressed = isFirePressed,
+            FinalDamage = 0,
+            ScoreResult = null
+        };
+
+        if (!isFirePressed)
+        {
+            Debug.Log("[FireScore] 타임아웃: 플레이어 공격 0");
+            return data;
+        }
+
         if (_fireScoreCalculator == null)
         {
             Debug.LogWarning("[FireScore] FireScoreCalculator 참조가 비어있습니다.");
-            return;
+            return data;
         }
 
         FireScoreResult result = _fireScoreCalculator.Calculate(_squadZones);
-        Debug.Log(result.BuildDebugText());
-    }
+        data.ScoreResult = result;
+        data.FinalDamage = Mathf.Max(0, result.FinalScore);
 
+        Debug.Log(result.BuildDebugText());
+        return data;
+    }
 
     private void ReturnAllCardsToDeckForNextTurn()
     {
@@ -280,6 +305,7 @@ public class DeckController : MonoBehaviour
         int remainingCount = _maxRerollPerTurn - _rerollUsedThisTurn;
         _uiController.SetRerollCount(remainingCount, _maxRerollPerTurn);
     }
+
 
 
 }

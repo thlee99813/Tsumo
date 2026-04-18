@@ -31,7 +31,7 @@ public class Player : MonoBehaviour
     private SpriteRenderer _spriteRenderer;
     //!=======================================
 
-    private int _currentHp;
+    public int _currentHp;
     private Vector3 _startPosition;
     private bool _isKnockBack;
     private bool _isReached;        //접근 중인가
