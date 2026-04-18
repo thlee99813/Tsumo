@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 public enum TurnPhase
 {
@@ -38,16 +39,15 @@ public class IngameController : MonoBehaviour
     public event Action OnFireExecuted;
     public event Action OnTurnEnd;
 
+    public bool IsRunning => _isRunning;
+
     private void Start()
     {
-        _camera = Camera.main;
-        _enemyHalfWidth = _enemy.GetComponent<SpriteRenderer>().bounds.extents.x;
         _player.OnPlayerDead += HandlePlayerDead;
         _enemy.OnEnemyReady += HandleEnemyReady;
         _isRunning = true;
-        StartCoroutine(TurnLoop());
+        UpdateTimerUI(0f);
     }
-
     private void OnDestroy()
     {
         _player.OnPlayerDead -= HandlePlayerDead;
@@ -74,14 +74,6 @@ public class IngameController : MonoBehaviour
         //TODO StageFlowCOntroller에 게임오버 통보
     }
 
-    // 적 스프라이트 오른쪽 끝이 카메라 안으로 완전히 들어왔는지 체크
-    private bool IsEnemyInView()
-    {
-        float enemyRightEdge = _enemy.transform.position.x + _enemyHalfWidth;
-        Vector3 viewportPos = _camera.WorldToViewportPoint(new Vector3(enemyRightEdge, _enemy.transform.position.y, 0f));
-        return viewportPos.x <= 1f - _detectOffset;
-    }
-
     private void EnterSlowMotion()
     {
         if (_isSlowMotion) return;
@@ -97,19 +89,93 @@ public class IngameController : MonoBehaviour
         _backGround.SetSpeedMultiplier(1f);
     }
 
-    private System.Collections.IEnumerator TurnLoop()
+    public IEnumerator RunIdlePhase()
     {
-        while (_isRunning)
-        {
-            yield return StartCoroutine(IdlePhase());
-            yield return StartCoroutine(DeckBuildPhase());
-            yield return StartCoroutine(FireProcessPhase());
-            yield return StartCoroutine(TurnResultPhase());
-        }
+        _currentPhase = TurnPhase.Idle;
+        _isEnemyReady = false;
+
+        yield return new WaitUntil(() => _isEnemyReady || !_isRunning);
+        if (!_isRunning) yield break;
+
+        _currentPhase = TurnPhase.EnemyAppear;
+        EnterSlowMotion();
+        OnEnemyAppear?.Invoke();
+
+        _player.MoveToEnemy(_enemy.transform.position.x, _deckBuildTimeLimit, _slowMotionScale);
     }
+
+    public void BeginDeckBuildPhase()
+    {
+        _currentPhase = TurnPhase.DeckBuild;
+        _isFirePressed = false;
+        _timer = _deckBuildTimeLimit;
+        UpdateTimerUI(1f);
+    }
+
+    public bool TickDeckBuildPhase()
+    {
+        if (_currentPhase != TurnPhase.DeckBuild)
+        {
+            return true;
+        }
+
+        if (_isFirePressed)
+        {
+            UpdateTimerUI(0f);
+            return true;
+        }
+
+        _timer -= Time.unscaledDeltaTime;
+        float normalized = Mathf.Clamp01(_timer / _deckBuildTimeLimit);
+        UpdateTimerUI(normalized);
+
+        return _timer <= 0f;
+    }
+
+    public bool ConsumeFireRequest()
+    {
+        bool requested = _isFirePressed;
+        _isFirePressed = false;
+        return requested;
+    }
+
+    public IEnumerator RunFireProcessPhase(int finalDamage, bool isFirePressed)
+    {
+        _currentPhase = TurnPhase.FireProcess;
+        _player.StopMovement();
+
+        if (isFirePressed)
+        {
+            ExitSlowMotion();
+            _player.AttackMove(_enemy.transform.position.x);
+            yield return new WaitUntil(() => !_player.IsAttacking || !_isRunning);
+
+            if (!_isRunning) yield break;
+            _battleController.ExecuteBattle(finalDamage);
+        }
+        else
+        {
+            ExitSlowMotion();
+            _battleController.ExecuteBattle(0);
+        }
+
+        OnFireExecuted?.Invoke();
+    }
+
+    public IEnumerator RunTurnResultPhase()
+    {
+        _currentPhase = TurnPhase.TurnResult;
+        yield return new WaitUntil(() => !_player.IsKnockBack || !_isRunning);
+
+        if (!_isRunning) yield break;
+
+        OnTurnEnd?.Invoke();
+        yield return new WaitForSecondsRealtime(1f);
+    }
+
     
 
-    private System.Collections.IEnumerator IdlePhase()
+    private IEnumerator IdlePhase()
     {
         _currentPhase = TurnPhase.Idle;
         Debug.Log("[TurnPhase] Idle : 플레이어 이동 시작");
@@ -126,7 +192,7 @@ public class IngameController : MonoBehaviour
         _player.MoveToEnemy(_enemy.transform.position.x, _deckBuildTimeLimit, _slowMotionScale);
     }
 
-    private System.Collections.IEnumerator DeckBuildPhase()
+    private IEnumerator DeckBuildPhase()
     {
         _currentPhase = TurnPhase.DeckBuild;
         Debug.Log($"[TurnPhase] DeckBuild : {_deckBuildTimeLimit}초 타이머 시작");
@@ -144,7 +210,7 @@ public class IngameController : MonoBehaviour
         UpdateTimerUI(0f);
     }
 
-    private System.Collections.IEnumerator FireProcessPhase()
+    private IEnumerator FireProcessPhase()
     {
         _currentPhase = TurnPhase.FireProcess;
         _player.StopMovement();
@@ -171,7 +237,7 @@ public class IngameController : MonoBehaviour
         yield return null;
     }
 
-    private System.Collections.IEnumerator TurnResultPhase()
+    private IEnumerator TurnResultPhase()
     {
         _currentPhase = TurnPhase.TurnResult;
         Debug.Log("[TurnPhase] TurnResult : 넉백 종료 대기 중");

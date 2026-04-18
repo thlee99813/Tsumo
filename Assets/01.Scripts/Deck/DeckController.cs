@@ -166,16 +166,31 @@ public class DeckController : MonoBehaviour
         RefreshRerollCountUI();
     }
 
-    public void OnClickFire()
+    public FireScoreResult CalculateFireScore()
     {
-        LogFireScore();
+        if (_fireScoreCalculator == null)
+        {
+            Debug.LogWarning("[DeckController] FireScoreCalculator 참조가 비어있습니다.");
+            return new FireScoreResult();
+        }
 
+        return _fireScoreCalculator.Calculate(_squadZones);
+    }
+
+    public void CompleteTurnAfterFire()
+    {
         ReturnAllCardsToDeckForNextTurn();
         ShuffleDeck();
         DrawHand();
         _rerollUsedThisTurn = 0;
         RefreshRerollCountUI();
     }
+
+    public void OnClickFire()
+    {
+        Debug.LogWarning("[DeckController] Fire 버튼은 IngameController.HandleFireInput에만 연결하세요.");
+    }
+
 
 
     private void MoveHandToDiscard()
@@ -280,6 +295,7 @@ public class DeckController : MonoBehaviour
         int remainingCount = _maxRerollPerTurn - _rerollUsedThisTurn;
         _uiController.SetRerollCount(remainingCount, _maxRerollPerTurn);
     }
+
 
 
 }
