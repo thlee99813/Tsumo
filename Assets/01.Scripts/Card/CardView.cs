@@ -58,7 +58,7 @@ public class CardView : MonoBehaviour
 
         if (_effectText != null)
         {
-            _effectText.text = _cardData.SkillDisplayName;
+            _effectText.text = _cardData.NumberDisplayName;
         }
     }
 }

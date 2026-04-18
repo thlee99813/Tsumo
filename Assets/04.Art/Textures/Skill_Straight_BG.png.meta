@@ -1,0 +1,1235 @@
+fileFormatVersion: 2
+guid: a2feeccd8a3b8eb44907e71d32674801
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 8743275777510939786
+    second: Skill_Straight_BG_0
+  - first:
+      213: 2924360045051594103
+    second: Skill_Straight_BG_1
+  - first:
+      213: 3883437077850840997
+    second: Skill_Straight_BG_2
+  - first:
+      213: 1214918376316574386
+    second: Skill_Straight_BG_3
+  - first:
+      213: -4952847991001937101
+    second: Skill_Straight_BG_4
+  - first:
+      213: 49221641498553491
+    second: Skill_Straight_BG_5
+  - first:
+      213: -2700635303514113647
+    second: Skill_Straight_BG_6
+  - first:
+      213: -4724253068385056523
+    second: Skill_Straight_BG_7
+  - first:
+      213: -2045820339139324981
+    second: Skill_Straight_BG_8
+  - first:
+      213: -2973353484231273298
+    second: Skill_Straight_BG_9
+  - first:
+      213: -271093133046401408
+    second: Skill_Straight_BG_10
+  - first:
+      213: -6735109316983905210
+    second: Skill_Straight_BG_11
+  - first:
+      213: 6713002623769243235
+    second: Skill_Straight_BG_12
+  - first:
+      213: 5479639600650595081
+    second: Skill_Straight_BG_13
+  - first:
+      213: 3612704819372605662
+    second: Skill_Straight_BG_14
+  - first:
+      213: -6368091345261414305
+    second: Skill_Straight_BG_15
+  - first:
+      213: 4264543521404242972
+    second: Skill_Straight_BG_16
+  - first:
+      213: 3462438075624247923
+    second: Skill_Straight_BG_17
+  - first:
+      213: 7978344059410132723
+    second: Skill_Straight_BG_18
+  - first:
+      213: 1188916998905544763
+    second: Skill_Straight_BG_19
+  - first:
+      213: 5805721035878008850
+    second: Skill_Straight_BG_20
+  - first:
+      213: 2918569485846686999
+    second: Skill_Straight_BG_21
+  - first:
+      213: -4959380297280165588
+    second: Skill_Straight_BG_22
+  - first:
+      213: 5167642846398665787
+    second: Skill_Straight_BG_23
+  - first:
+      213: -2929905452819517117
+    second: Skill_Straight_BG_24
+  - first:
+      213: 1142720858884652603
+    second: Skill_Straight_BG_25
+  - first:
+      213: 1809714006565062915
+    second: Skill_Straight_BG_26
+  - first:
+      213: -2585012159536467736
+    second: Skill_Straight_BG_27
+  - first:
+      213: -2002268409774078994
+    second: Skill_Straight_BG_28
+  - first:
+      213: 6784123683870883413
+    second: Skill_Straight_BG_29
+  - first:
+      213: 6655195423099544382
+    second: Skill_Straight_BG_30
+  - first:
+      213: -3215554254982803777
+    second: Skill_Straight_BG_31
+  - first:
+      213: 1654328961807891192
+    second: Skill_Straight_BG_32
+  - first:
+      213: 5125078036362183891
+    second: Skill_Straight_BG_33
+  - first:
+      213: -4407932707292718908
+    second: Skill_Straight_BG_34
+  - first:
+      213: 3692520646699023613
+    second: Skill_Straight_BG_35
+  - first:
+      213: 8140006595586859952
+    second: Skill_Straight_BG_36
+  - first:
+      213: -6559860568551650817
+    second: Skill_Straight_BG_37
+  - first:
+      213: -1131451615382432515
+    second: Skill_Straight_BG_38
+  - first:
+      213: 111246022545115613
+    second: Skill_Straight_BG_39
+  - first:
+      213: 2151397319820146545
+    second: Skill_Straight_BG_40
+  - first:
+      213: -4020536977318270422
+    second: Skill_Straight_BG_41
+  - first:
+      213: -6019551687729340289
+    second: Skill_Straight_BG_42
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Skill_Straight_BG_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1536
+        height: 1024
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a8c11dbeefa565970800000000000000
+      internalID: 8743275777510939786
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_Straight_BG_1
+      rect:
+        serializedVersion: 2
+        x: 994
+        y: 1008
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 77545a097f9659820800000000000000
+      internalID: 2924360045051594103
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_Straight_BG_2
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 992
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5af51ec627db4e530800000000000000
+      internalID: 3883437077850840997
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_Straight_BG_3
+      rect:
+        serializedVersion: 2
+        x: 1041
+        y: 991
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2ba917b83d14cd010800000000000000
+      internalID: 1214918376316574386
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_Straight_BG_4
+      rect:
+        serializedVersion: 2
+        x: 1041
+        y: 984
+        width: 6
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 33b82d55ef2f34bb0800000000000000
+      internalID: -4952847991001937101
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_Straight_BG_5
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 983
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 39c68c872dedea000800000000000000
+      internalID: 49221641498553491
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_Straight_BG_6
+      rect:
+        serializedVersion: 2
+        x: 1041
+        y: 976
+        width: 6
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1997922008a658ad0800000000000000
+      internalID: -2700635303514113647
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_Straight_BG_7
+      rect:
+        serializedVersion: 2
+        x: 1088
+        y: 978
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5f80cdd4dd4107eb0800000000000000
+      internalID: -4724253068385056523
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_Straight_BG_8
+      rect:
+        serializedVersion: 2
+        x: 995
+        y: 963
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bc3d453ad39cb93e0800000000000000
+      internalID: -2045820339139324981
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_Straight_BG_9
+      rect:
+        serializedVersion: 2
+        x: 1391
+        y: 968
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ea499b472c68cb6d0800000000000000
+      internalID: -2973353484231273298
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_Straight_BG_10
+      rect:
+        serializedVersion: 2
+        x: 1410
+        y: 969
+        width: 9
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 086b8b75b32ec3cf0800000000000000
+      internalID: -271093133046401408
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_Straight_BG_11
+      rect:
+        serializedVersion: 2
+        x: 1041
+        y: 959
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 64420c5a2c51882a0800000000000000
+      internalID: -6735109316983905210
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_Straight_BG_12
+      rect:
+        serializedVersion: 2
+        x: 1289
+        y: 961
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 36ee70eb150692d50800000000000000
+      internalID: 6713002623769243235
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_Straight_BG_13
+      rect:
+        serializedVersion: 2
+        x: 1279
+        y: 935
+        width: 16
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 90b21f53f279b0c40800000000000000
+      internalID: 5479639600650595081
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_Straight_BG_14
+      rect:
+        serializedVersion: 2
+        x: 1310
+        y: 950
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ed0cb0d64e7e22230800000000000000
+      internalID: 3612704819372605662
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_Straight_BG_15
+      rect:
+        serializedVersion: 2
+        x: 1446
+        y: 953
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f58347c39aeff97a0800000000000000
+      internalID: -6368091345261414305
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_Straight_BG_16
+      rect:
+        serializedVersion: 2
+        x: 1041
+        y: 944
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c1c4e7afcb3be2b30800000000000000
+      internalID: 4264543521404242972
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_Straight_BG_17
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 87
+        width: 9
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 372de52c51d0d0030800000000000000
+      internalID: 3462438075624247923
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_Straight_BG_18
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 75
+        width: 12
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3fe2df4a6a5c8be60800000000000000
+      internalID: 7978344059410132723
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_Straight_BG_19
+      rect:
+        serializedVersion: 2
+        x: 126
+        y: 87
+        width: 11
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b30403b16b1ef7010800000000000000
+      internalID: 1188916998905544763
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_Straight_BG_20
+      rect:
+        serializedVersion: 2
+        x: 152
+        y: 95
+        width: 9
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2188588a580129050800000000000000
+      internalID: 5805721035878008850
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_Straight_BG_21
+      rect:
+        serializedVersion: 2
+        x: 177
+        y: 90
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 71daf20fb77d08820800000000000000
+      internalID: 2918569485846686999
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_Straight_BG_22
+      rect:
+        serializedVersion: 2
+        x: 182
+        y: 82
+        width: 21
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c296b8245edbc2bb0800000000000000
+      internalID: -4959380297280165588
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_Straight_BG_23
+      rect:
+        serializedVersion: 2
+        x: 255
+        y: 87
+        width: 10
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b345ea91ac727b740800000000000000
+      internalID: 5167642846398665787
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_Straight_BG_24
+      rect:
+        serializedVersion: 2
+        x: 287
+        y: 95
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 34176339382e657d0800000000000000
+      internalID: -2929905452819517117
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_Straight_BG_25
+      rect:
+        serializedVersion: 2
+        x: 287
+        y: 90
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b3ebf371192cbdf00800000000000000
+      internalID: 1142720858884652603
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_Straight_BG_26
+      rect:
+        serializedVersion: 2
+        x: 297
+        y: 93
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3090c5afc456d1910800000000000000
+      internalID: 1809714006565062915
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_Straight_BG_27
+      rect:
+        serializedVersion: 2
+        x: 1041
+        y: 95
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8e073ca0321302cd0800000000000000
+      internalID: -2585012159536467736
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_Straight_BG_28
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 60
+        width: 10
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ee30e626d738634e0800000000000000
+      internalID: -2002268409774078994
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_Straight_BG_29
+      rect:
+        serializedVersion: 2
+        x: 155
+        y: 74
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 55e3071fb8c062e50800000000000000
+      internalID: 6784123683870883413
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_Straight_BG_30
+      rect:
+        serializedVersion: 2
+        x: 994
+        y: 73
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e3367a00af00c5c50800000000000000
+      internalID: 6655195423099544382
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_Straight_BG_31
+      rect:
+        serializedVersion: 2
+        x: 1041
+        y: 71
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fbe01cb117e0063d0800000000000000
+      internalID: -3215554254982803777
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_Straight_BG_32
+      rect:
+        serializedVersion: 2
+        x: 56
+        y: 62
+        width: 6
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8fa333efc6b55f610800000000000000
+      internalID: 1654328961807891192
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_Straight_BG_33
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 53
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3d4468bf15fef1740800000000000000
+      internalID: 5125078036362183891
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_Straight_BG_34
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 48
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4c8ddf39e80e3d2c0800000000000000
+      internalID: -4407932707292718908
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_Straight_BG_35
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 40
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dfc7a40e6f77e3330800000000000000
+      internalID: 3692520646699023613
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_Straight_BG_36
+      rect:
+        serializedVersion: 2
+        x: 1041
+        y: 45
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0b3aa4ffedc17f070800000000000000
+      internalID: 8140006595586859952
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_Straight_BG_37
+      rect:
+        serializedVersion: 2
+        x: 1041
+        y: 40
+        width: 6
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ff9036b8191b6f4a0800000000000000
+      internalID: -6559860568551650817
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_Straight_BG_38
+      rect:
+        serializedVersion: 2
+        x: 993
+        y: 35
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: df4969020c64c40f0800000000000000
+      internalID: -1131451615382432515
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_Straight_BG_39
+      rect:
+        serializedVersion: 2
+        x: 1041
+        y: 24
+        width: 6
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dd90a780ba93b8100800000000000000
+      internalID: 111246022545115613
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_Straight_BG_40
+      rect:
+        serializedVersion: 2
+        x: 1041
+        y: 16
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1777b9ab67c4bdd10800000000000000
+      internalID: 2151397319820146545
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_Straight_BG_41
+      rect:
+        serializedVersion: 2
+        x: 1088
+        y: 10
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a2a2f9cbbee2438c0800000000000000
+      internalID: -4020536977318270422
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_Straight_BG_42
+      rect:
+        serializedVersion: 2
+        x: 1041
+        y: 5
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f702ac902a1467ca0800000000000000
+      internalID: -6019551687729340289
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Skill_Straight_BG_0: 8743275777510939786
+      Skill_Straight_BG_1: 2924360045051594103
+      Skill_Straight_BG_10: -271093133046401408
+      Skill_Straight_BG_11: -6735109316983905210
+      Skill_Straight_BG_12: 6713002623769243235
+      Skill_Straight_BG_13: 5479639600650595081
+      Skill_Straight_BG_14: 3612704819372605662
+      Skill_Straight_BG_15: -6368091345261414305
+      Skill_Straight_BG_16: 4264543521404242972
+      Skill_Straight_BG_17: 3462438075624247923
+      Skill_Straight_BG_18: 7978344059410132723
+      Skill_Straight_BG_19: 1188916998905544763
+      Skill_Straight_BG_2: 3883437077850840997
+      Skill_Straight_BG_20: 5805721035878008850
+      Skill_Straight_BG_21: 2918569485846686999
+      Skill_Straight_BG_22: -4959380297280165588
+      Skill_Straight_BG_23: 5167642846398665787
+      Skill_Straight_BG_24: -2929905452819517117
+      Skill_Straight_BG_25: 1142720858884652603
+      Skill_Straight_BG_26: 1809714006565062915
+      Skill_Straight_BG_27: -2585012159536467736
+      Skill_Straight_BG_28: -2002268409774078994
+      Skill_Straight_BG_29: 6784123683870883413
+      Skill_Straight_BG_3: 1214918376316574386
+      Skill_Straight_BG_30: 6655195423099544382
+      Skill_Straight_BG_31: -3215554254982803777
+      Skill_Straight_BG_32: 1654328961807891192
+      Skill_Straight_BG_33: 5125078036362183891
+      Skill_Straight_BG_34: -4407932707292718908
+      Skill_Straight_BG_35: 3692520646699023613
+      Skill_Straight_BG_36: 8140006595586859952
+      Skill_Straight_BG_37: -6559860568551650817
+      Skill_Straight_BG_38: -1131451615382432515
+      Skill_Straight_BG_39: 111246022545115613
+      Skill_Straight_BG_4: -4952847991001937101
+      Skill_Straight_BG_40: 2151397319820146545
+      Skill_Straight_BG_41: -4020536977318270422
+      Skill_Straight_BG_42: -6019551687729340289
+      Skill_Straight_BG_5: 49221641498553491
+      Skill_Straight_BG_6: -2700635303514113647
+      Skill_Straight_BG_7: -4724253068385056523
+      Skill_Straight_BG_8: -2045820339139324981
+      Skill_Straight_BG_9: -2973353484231273298
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
