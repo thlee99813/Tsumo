@@ -4,13 +4,19 @@ using TMPro;
 public class CardView : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer _borderRenderer;
-    [SerializeField] private TMP_Text _titleText;
     [SerializeField] private TMP_Text _effectText;
     [SerializeField] private CardData _cardData;
 
-    [SerializeField] private Color _swordColor = Color.red;
-    [SerializeField] private Color _kunaiColor = Color.green;
-    [SerializeField] private Color _foxSpiritColor = Color.cyan;
+    [Header("Border Sprites")]
+    [SerializeField] private Sprite _swordBorderSprite;
+    [SerializeField] private Sprite _kunaiBorderSprite;
+    [SerializeField] private Sprite _foxSpiritBorderSprite;
+
+    [Header("Text Colors")]
+    [SerializeField] private Color _swordTextColor = Color.red;
+    [SerializeField] private Color _kunaiTextColor = Color.green;
+    [SerializeField] private Color _foxSpiritTextColor = Color.cyan;
+
 
     private void Start()
     {
@@ -29,36 +35,52 @@ public class CardView : MonoBehaviour
 
     public void RefreshView()
     {
-        ApplyBorderColorByType();
+        if (_cardData == null) return;
+
+        ApplyBorderSpriteByType();
         ApplyTexts();
+        ApplyTextColorByType();
     }
+
     
 
-    public void ApplyBorderColorByType()
+    private void ApplyBorderSpriteByType()
     {
-        if (_borderRenderer == null || _cardData == null) return;
+        _borderRenderer.sprite = GetBorderSpriteByType(_cardData.Type);
+        _borderRenderer.color = Color.white;
+    }
 
-        _borderRenderer.color = _cardData.Type switch
-        {
-            CardType.Sword => _swordColor,
-            CardType.Kunai => _kunaiColor,
-            CardType.FoxSpirit => _foxSpiritColor,
-            _ => _borderRenderer.color
-        };
+    private void ApplyTextColorByType()
+    {
+        Color typeColor = GetTextColorByType(_cardData.Type);
+        _effectText.color = typeColor;
     }
 
     private void ApplyTexts()
     {
-        if (_cardData == null) return;
-
-        if (_titleText != null)
-        {
-            _titleText.text = _cardData.TypeDisplayName;
-        }
-
-        if (_effectText != null)
-        {
-            _effectText.text = _cardData.NumberDisplayName;
-        }
+        _effectText.text = _cardData.NumberDisplayName;
     }
+
+    private Sprite GetBorderSpriteByType(CardType cardType)
+    {
+        return cardType switch
+        {
+            CardType.Sword => _swordBorderSprite,
+            CardType.Kunai => _kunaiBorderSprite,
+            CardType.FoxSpirit => _foxSpiritBorderSprite,
+            _ => _swordBorderSprite
+        };
+    }
+
+    private Color GetTextColorByType(CardType cardType)
+    {
+        return cardType switch
+        {
+            CardType.Sword => _swordTextColor,
+            CardType.Kunai => _kunaiTextColor,
+            CardType.FoxSpirit => _foxSpiritTextColor,
+            _ => _swordTextColor
+        };
+    }
+
 }
