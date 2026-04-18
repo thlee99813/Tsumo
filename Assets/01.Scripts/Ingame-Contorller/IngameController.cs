@@ -149,19 +149,22 @@ public class IngameController : MonoBehaviour
         _currentPhase = TurnPhase.FireProcess;
         _player.StopMovement();
 
-        if (!_isFirePressed)
+        if (_isFirePressed)
         {
-            Debug.Log("[TurnPhase] FireProcess : 타임오버, 0 데미지 전투 처리");
-            ExitSlowMotion();
-            _battleController.ExecuteBattle(0);
+            Debug.Log($"[TurnPhase] FireProcess : Fire 입력, {_player.AttackDamage} 데미지");
+            //공격 이동 연출 후 전투 처리
+            _player.AttackMove(_enemy.transform.position.x);
+            yield return new WaitUntil(() => !_player.IsAttacking);
+            
+            
+            _battleController.ExecuteBattle(_player.AttackDamage);  //!! 뎀지 계산 이후에 교체 예정
+
         }
         else
         {
-            Debug.Log("[TurnPhase] FireProcess : Fire 입력, 전투 시작");
-            //! 무조건 ComboResolver 연결 후 실제 계산값으로 교체 해야함
-            //! 임시값임
-            int finalDamage = 10;
-            _battleController.ExecuteBattle(finalDamage);  
+            Debug.Log("[TurnPhase] FireProcess : 타임오버, 0 데미지 전투 처리");
+            ExitSlowMotion();
+            _battleController.ExecuteBattle(0); 
         }
 
         OnFireExecuted?.Invoke();

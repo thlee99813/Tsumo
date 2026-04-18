@@ -4,21 +4,30 @@ using DG.Tweening;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private PlayerStateSO _stats;
+    [Header("Stats")]
+    [SerializeField] private PlayerState _stats;
+
+    [Header("Movement")]
     [SerializeField] private float _moveSpeed = 3f;
     [SerializeField] private float _knockBackHeight = 1.5f;
     [SerializeField] private float _knockBackDuration = 0.4f;
     [SerializeField] private float _stopOffset = 1.5f;
 
+    [Header("Combat")]
+    [SerializeField] private int _attackDamage = 10;
+
     private int _currentHp;
     private Vector3 _startPosition;
     private bool _isKnockBack;
     private bool _isReached;        //접근 중인가
+    private bool _isAttacking;
 
     public int CurrentHp => _currentHp;
     public bool IsDead => _currentHp <= 0;
     public bool IsKnockBack => _isKnockBack;
     public bool IsReached => _isReached;
+    public int AttackDamage => _attackDamage;
+    public bool IsAttacking => _isAttacking;
 
     public event Action OnPlayerDead;
     public event Action<int> OnHpChanged;
@@ -57,6 +66,27 @@ public class Player : MonoBehaviour
         _isReached = false;
         transform.DOMove(_startPosition, 0.5f)
             .SetEase(Ease.OutQuad);
+    }
+
+    public void AttackMove(float targetX)
+    {
+        _isAttacking = true;
+        transform.DOKill();
+
+        float stoppedX = targetX - _stopOffset;
+
+        Sequence seq = DOTween.Sequence().SetUpdate(true);
+        //앞으로 돌진
+        seq.Append(transform.DOMoveX(stoppedX, 0.2f)
+        .SetEase(Ease.OutQuad));
+        // 뒤로 복귀
+        seq.Append(transform.DOMoveX(_startPosition.x, 0.4f)
+            .SetEase(Ease.InQuad));
+        seq.OnComplete(() =>
+        {
+            transform.position = new Vector3(_startPosition.x, transform.position.y, transform.position.z);
+            _isAttacking = false;
+        });
     }
 
    

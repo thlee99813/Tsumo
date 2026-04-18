@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] private EnemyStatsSO _stats;
+    [SerializeField] private EnemyStats _stats;
     [SerializeField] private float _moveDistance = 2f;
     [SerializeField] private float _moveDelay = 3f;
     [SerializeField] private float _moveDuration = 0.5f;
