@@ -27,9 +27,7 @@ public class Player : MonoBehaviour
     [SerializeField] private int _attackDamage = 10;
     [SerializeField] private float _attackMoveDuration = 0.2f;
 
-    //! Animation Test=======================
-    private SpriteRenderer _spriteRenderer;
-    //!=======================================
+    private PlayerAnimator _playerAnimator;
 
     public int _currentHp;
     private Vector3 _startPosition;
@@ -57,10 +55,10 @@ public class Player : MonoBehaviour
         _startPosition = transform.position;
         _currentHp = _stats.MaxHp;
         _animator = GetComponent<Animator>();
+        _playerAnimator = GetComponent<PlayerAnimator>();
 
-        //! Animation Test
-        _spriteRenderer = GetComponent<SpriteRenderer>();
-        //! Animation Test
+        //공격 완료 이벤트 구독
+        _playerAnimator.OnAnimationComplete += () => _attackAnimDone = true;
     }
 
     //PlayerInputHandler에서 호출
@@ -102,6 +100,7 @@ public class Player : MonoBehaviour
 
         ClearCombo();
         TeleportToStart();
+        _playerAnimator.PlayRun();
         _isAttacking = false;
     }
     
@@ -126,12 +125,12 @@ public class Player : MonoBehaviour
             .SetEase(Ease.OutQuad).SetUpdate(true);
         yield return new WaitForSecondsRealtime(_attackMoveDuration);
 
-        //_attackAnimDone = false;      //! Animation 연결
-        //_animator.SetTrigger(type == AttackType.Sword ? "Sword" : "Spell");   //! Animation 연결
-        //yield return new WaitUntil(() => _attackAnimDone);        //! Animation 연결
-        _spriteRenderer.color = type == AttackType.Sword ? Color.red : Color.magenta;
-        yield return new WaitForSecondsRealtime(0.3f); 
-        _spriteRenderer.color = Color.white;
+        _attackAnimDone = false;
+        if(type == AttackType.Sword) _playerAnimator.PlaySword();
+        else _playerAnimator.PlaySpell();
+
+        yield return new WaitUntil(() => _attackAnimDone); 
+       
     }
 
     private IEnumerator RangedAttack()              //원거리 공격할 경우 수리검만
@@ -141,12 +140,11 @@ public class Player : MonoBehaviour
             .SetEase(Ease.OutQuad).SetUpdate(true);
         yield return new WaitForSecondsRealtime(_attackMoveDuration);
 
-        //_attackAnimDone = false;      //! Animation 연결
-        //_animator.SetTrigger("Shuriken"); //! Animation 연결
-        //yield return new WaitUntil(() => _attackAnimDone); //! Animation 연결
-        _spriteRenderer.color = Color.yellow;
-        yield return new WaitForSecondsRealtime(0.3f);
-        _spriteRenderer.color = Color.white;
+        _attackAnimDone = false;      
+        _playerAnimator.PlayShuriken();
+        
+        yield return new WaitUntil(() => _attackAnimDone);
+        
     }
 
     public void OnAttackAniComplete()
@@ -171,6 +169,8 @@ public class Player : MonoBehaviour
     {
         _isReached = false;
         transform.DOKill();     // 복귀 트윈 등 기존 트윈 제거
+        _playerAnimator.PlayRun();
+
 
         float stoppedX = targetX - _stopOffset;     //적 앞 일정 거리에서 정지
         float distance = Mathf.Abs(transform.position.x - stoppedX);
@@ -180,13 +180,18 @@ public class Player : MonoBehaviour
         transform.DOMoveX(stoppedX, duration)
             .SetEase(Ease.Linear)
             .SetUpdate(true)    // 언스케일 타임 기준으로 이동
-            .OnComplete(() => _isReached = true);
+            .OnComplete(() =>
+            {
+                _isReached = true;
+                _playerAnimator.PlayRunStop();   
+            });
     }
 
     public void StopMovement()
     {
         transform.DOKill();
         _isReached = false;
+        _playerAnimator.PlayRun();
     }
 
     public void ReturnToStart()

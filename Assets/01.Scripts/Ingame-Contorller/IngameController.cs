@@ -177,7 +177,7 @@ public class IngameController : MonoBehaviour
         if (isFirePressed)
         {
             ExitSlowMotion();
-            _player.AttackMove(_enemy.transform.position.x);
+            _player.ExecuteCombo(_enemy.transform.position.x);
 
             yield return new WaitUntil(() => !_player.IsAttacking || !_isRunning);
 
