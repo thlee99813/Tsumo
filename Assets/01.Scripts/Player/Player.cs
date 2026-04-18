@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
     [Header("Combat")]
     [SerializeField] private int _attackDamage = 10;
 
-    private int _currentHp;
+    public int _currentHp;
     private Vector3 _startPosition;
     private bool _isKnockBack;
     private bool _isReached;        //접근 중인가
