@@ -29,9 +29,13 @@ public class DeckController : MonoBehaviour
 
 
     [Header("Debug")]
+
+    [SerializeField] private bool _handSort = false; 
     [SerializeField] private List<CardData> _deckCards = new List<CardData>();
     [SerializeField] private List<CardData> _handCards = new List<CardData>();
     [SerializeField] private List<CardData> _discardCards = new List<CardData>();
+
+    private CardSorter _cardSorter = new CardSorter();
 
 
     private void Start()
@@ -83,7 +87,11 @@ public class DeckController : MonoBehaviour
             _deckCards.RemoveAt(lastIndex);
             _handCards.Add(drawnCard);
         }
-
+        if(_handSort)
+        {
+            _cardSorter.Sort(_handCards);
+        }
+        
         ApplyHandToSlots();
     }
 
