@@ -1,6 +1,15 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+
+public enum AttackType
+{
+    Sword = 1,
+    Shuriken = 2,
+    Spell = 3
+}
 
 public class Player : MonoBehaviour
 {
@@ -12,15 +21,24 @@ public class Player : MonoBehaviour
     [SerializeField] private float _knockBackHeight = 1.5f;
     [SerializeField] private float _knockBackDuration = 0.4f;
     [SerializeField] private float _stopOffset = 1.5f;
+    [SerializeField] private float _shurikenOffset = 3f;
 
     [Header("Combat")]
     [SerializeField] private int _attackDamage = 10;
+    [SerializeField] private float _attackMoveDuration = 0.2f;
+
+    //! Animation Test=======================
+    private SpriteRenderer _spriteRenderer;
+    //!=======================================
 
     public int _currentHp;
     private Vector3 _startPosition;
     private bool _isKnockBack;
     private bool _isReached;        //접근 중인가
     private bool _isAttacking;
+    private bool _attackAnimDone;
+    private Animator _animator;
+    private List<AttackType> _comboList = new List<AttackType>();
 
     public int CurrentHp => _currentHp;
     public bool IsDead => _currentHp <= 0;
@@ -28,16 +46,126 @@ public class Player : MonoBehaviour
     public bool IsReached => _isReached;
     public int AttackDamage => _attackDamage;
     public bool IsAttacking => _isAttacking;
+    public IReadOnlyList<AttackType> ComboList => _comboList;
 
     public event Action OnPlayerDead;
     public event Action<int> OnHpChanged;
+    public event Action<AttackType> OnAttackAdded;  // UI 연동용 포트
 
     private void Awake()
     {
         _startPosition = transform.position;
         _currentHp = _stats.MaxHp;
+        _animator = GetComponent<Animator>();
+
+        //! Animation Test
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+        //! Animation Test
     }
 
+    //PlayerInputHandler에서 호출
+    public void AddAttack(AttackType type)
+    {
+        _comboList.Add(type);
+        Debug.Log($"[Player] 공격 추가 : {type} (현재콤보 : {_comboList.Count})");
+        OnAttackAdded?.Invoke(type);
+    }
+    public void ClearCombo()
+    {
+        _comboList.Clear();
+    }
+#region 공격 콤보 처리
+    //IngameController에서 호출 내부 콤보 리스트 사용
+    public void ExecuteCombo(float targetX)
+    {
+        if(_comboList.Count == 0)
+        {
+            _isAttacking = false;
+            return;
+        }
+        _isAttacking = true;
+        StartCoroutine(ComboCoroutine(targetX));
+    }
+
+    private IEnumerator ComboCoroutine(float targetX)
+    {
+        for(int i = 0; i < _comboList.Count; i++)
+        {
+            AttackType type = _comboList[i];
+            bool isLast = (i == _comboList.Count - 1);
+
+            yield return ExecuteSingleAttack(targetX, type);
+
+            if(!isLast)
+                yield return new WaitForSecondsRealtime(0.1f);
+        }
+
+        ClearCombo();
+        TeleportToStart();
+        _isAttacking = false;
+    }
+    
+    private IEnumerator ExecuteSingleAttack(float targetX, AttackType type)
+    {
+        switch(type)
+        {
+            case AttackType.Sword:
+            case AttackType.Spell:
+                yield return MeleeAttack(targetX, type);
+                break;
+            case AttackType.Shuriken:
+                yield return RangedAttack();
+                break;
+        }
+
+    }
+    private IEnumerator MeleeAttack(float targetX, AttackType type)     //근접 공격할 경우의 거리
+    {
+        float stoppedX = targetX - _stopOffset;
+        transform.DOMoveX(stoppedX, _attackMoveDuration)
+            .SetEase(Ease.OutQuad).SetUpdate(true);
+        yield return new WaitForSecondsRealtime(_attackMoveDuration);
+
+        //_attackAnimDone = false;      //! Animation 연결
+        //_animator.SetTrigger(type == AttackType.Sword ? "Sword" : "Spell");   //! Animation 연결
+        //yield return new WaitUntil(() => _attackAnimDone);        //! Animation 연결
+        _spriteRenderer.color = type == AttackType.Sword ? Color.red : Color.magenta;
+        yield return new WaitForSecondsRealtime(0.3f); 
+        _spriteRenderer.color = Color.white;
+    }
+
+    private IEnumerator RangedAttack()              //원거리 공격할 경우 수리검만
+    {
+        float rangedX = _startPosition.x + _shurikenOffset;
+        transform.DOMoveX(rangedX, _attackMoveDuration)
+            .SetEase(Ease.OutQuad).SetUpdate(true);
+        yield return new WaitForSecondsRealtime(_attackMoveDuration);
+
+        //_attackAnimDone = false;      //! Animation 연결
+        //_animator.SetTrigger("Shuriken"); //! Animation 연결
+        //yield return new WaitUntil(() => _attackAnimDone); //! Animation 연결
+        _spriteRenderer.color = Color.yellow;
+        yield return new WaitForSecondsRealtime(0.3f);
+        _spriteRenderer.color = Color.white;
+    }
+
+    public void OnAttackAniComplete()
+    {
+        _attackAnimDone = true;
+    }
+
+    private void TeleportToStart()
+    {
+        gameObject.SetActive(false);
+        transform.position = _startPosition;
+        gameObject.SetActive(true);
+
+        //TODO 복귀 이펙트 포트
+    }
+#endregion 
+
+
+#region 이동 관련
     // slowFactor 배율로 느리게 이동, unscaledTimeBudget 이내에 도착 (Time.timeScale 비의존)
     public void MoveToEnemy(float targetX, float unscaledTimeBudget, float slowFactor)
     {
@@ -88,9 +216,9 @@ public class Player : MonoBehaviour
             _isAttacking = false;
         });
     }
-
+#endregion
    
-
+#region 전투 처리
     public void TakeDamage(int damage)
     {
         if(_isKnockBack) return;
@@ -114,10 +242,11 @@ public class Player : MonoBehaviour
         StartCoroutine(KnockBackCoroutine());
     }
 
-    private System.Collections.IEnumerator KnockBackCoroutine()
+    private IEnumerator KnockBackCoroutine()
     {
         float arcHeight = _startPosition.y + _knockBackHeight;  // 피격 시점 기준 아크 높이
 
+        /*
         // 1단계: 피격 반응 Y축 위로 튕김
         transform.DOMoveY(arcHeight, _knockBackDuration * 0.4f)
             .SetEase(Ease.OutQuad).SetUpdate(true);
@@ -127,6 +256,7 @@ public class Player : MonoBehaviour
         transform.DOMoveY(_startPosition.y, _knockBackDuration * 0.4f)
             .SetEase(Ease.InQuad).SetUpdate(true);
         yield return new WaitForSecondsRealtime(_knockBackDuration * 0.4f);
+        */
 
         float returnDuration = 0.6f;
         float halfReturn = returnDuration * 0.5f;
@@ -158,3 +288,4 @@ public class Player : MonoBehaviour
     }
 
 }
+#endregion
