@@ -7,6 +7,7 @@ public class BattleController : MonoBehaviour
     [SerializeField] private Enemy _enemy;
 
     public event Action OnBattleComplete;
+    public event Action OnEnemyDead;
 
     private void Start()
     {
@@ -38,15 +39,16 @@ public class BattleController : MonoBehaviour
 
     private void HandleEnemyDead()
     {
-        //TODO IngameController 혹은 StakeFlowController에 적 사망 통보 
+        OnEnemyDead?.Invoke();
     }
+
     
     public void SetEnemy(Enemy enemy)
     {
-        if(_enemy != null)
-            _enemy.OnEnemyDead -= HandleEnemyDead;
         
+        _enemy.OnEnemyDead -= HandleEnemyDead;
         _enemy = enemy;
         _enemy.OnEnemyDead += HandleEnemyDead;
     }
+
 }
