@@ -3,11 +3,12 @@ using UnityEngine;
 
 public class SquadDropZone : MonoBehaviour
 {
-    [SerializeField, Min(1)] private int _maxCardCount = 3;
+    [SerializeField] private int _maxCardCount = 3;
     [SerializeField] private List<CardView> _slotViews = new List<CardView>();
 
     [Header("Debug")]
     [SerializeField] private List<CardData> _registeredCards = new List<CardData>();
+    private CardSorter _cardSorter = new CardSorter();
 
     public bool TryRegisterCard(CardData cardData)
     {
@@ -31,6 +32,7 @@ public class SquadDropZone : MonoBehaviour
         }
 
         _registeredCards.Add(cardData);
+        _cardSorter.Sort(_registeredCards);
         RefreshViews();
         return true;
     }
@@ -53,6 +55,7 @@ public class SquadDropZone : MonoBehaviour
 
     private void OnValidate()
     {
+        _cardSorter.Sort(_registeredCards);
         RefreshViews();
     }
 

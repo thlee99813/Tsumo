@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class HoverYakuInfo : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+public class HoverYakuInfo : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler
 {
     [SerializeField] private GameObject _targetObject;
 
@@ -27,18 +27,24 @@ public class HoverYakuInfo : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         }
     }
 
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        if (!_isPinned)
-        {
-            SetVisible(false);
-        }
-    }
-
     public void OnPointerClick(PointerEventData eventData)
     {
         _isPinned = true;
         SetVisible(true);
+    }
+
+    public void OnTargetPointerExit()
+    {
+        // if (!_isPinned)
+        // {
+        //     SetVisible(false);
+        // }
+        if (_isPinned)
+        {
+            return;
+        }
+
+        SetVisible(false);
     }
 
     public void ClosePinnedInfo()

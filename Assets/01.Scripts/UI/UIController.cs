@@ -15,4 +15,7 @@ public class UIController : MonoBehaviour
         int clampedRemaining = Mathf.Clamp(remainingCount, 0, maxCount);
         _rerollCountText.text = $"{clampedRemaining} / {maxCount}";
     }
+    
+
+
 }

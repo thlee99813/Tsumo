@@ -489,14 +489,14 @@ RectTransform:
   m_GameObject: {fileID: 193235464}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.0707, y: 1.0707, z: 1.0707}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1503584060}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -217, y: -21}
+  m_AnchoredPosition: {x: -229, y: 1}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &193235466
@@ -561,7 +561,7 @@ MonoBehaviour:
   m_characterSpacing: 0
   m_characterHorizontalScale: 1
   m_wordSpacing: 0
-  m_lineSpacing: 0
+  m_lineSpacing: 30
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
@@ -587,7 +587,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -38.353004, w: -25.426804}
+  m_margin: {x: 0, y: 0, z: 24.033394, w: -25.426804}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -751,14 +751,14 @@ RectTransform:
   m_GameObject: {fileID: 203829930}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.0707, y: 1.0707, z: 1.0707}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1503584060}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -9, y: -19}
+  m_AnchoredPosition: {x: -26.291882, y: 1.1410055}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &203829932
@@ -823,7 +823,7 @@ MonoBehaviour:
   m_characterSpacing: 0
   m_characterHorizontalScale: 1
   m_wordSpacing: 0
-  m_lineSpacing: 0
+  m_lineSpacing: 30
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
@@ -972,6 +972,9 @@ PrefabInstance:
     - {fileID: 8231079955266322882, guid: 208247d9671dd0848b60da5b77765fd8, type: 3}
     - {fileID: 2520981525658506460, guid: 208247d9671dd0848b60da5b77765fd8, type: 3}
     - {fileID: 5547461078941488074, guid: 208247d9671dd0848b60da5b77765fd8, type: 3}
+    - {fileID: 4206257701350789806, guid: 208247d9671dd0848b60da5b77765fd8, type: 3}
+    - {fileID: 7681269437857367984, guid: 208247d9671dd0848b60da5b77765fd8, type: 3}
+    - {fileID: 331437857445232806, guid: 208247d9671dd0848b60da5b77765fd8, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -2127,6 +2130,7 @@ MonoBehaviour:
   - {fileID: 1220089361}
   _tempStorageController: {fileID: 7514799178657648705}
   _fireScoreCalculator: {fileID: 986907476}
+  _handSort: 1
   _deckCards: []
   _handCards: []
   _discardCards: []
@@ -2260,7 +2264,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 216.4, y: 98.9}
+  m_AnchoredPosition: {x: 352, y: 63}
   m_SizeDelta: {x: 30.3632, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1111329282
@@ -2827,6 +2831,9 @@ PrefabInstance:
     - {fileID: 8231079955266322882, guid: 208247d9671dd0848b60da5b77765fd8, type: 3}
     - {fileID: 2520981525658506460, guid: 208247d9671dd0848b60da5b77765fd8, type: 3}
     - {fileID: 5547461078941488074, guid: 208247d9671dd0848b60da5b77765fd8, type: 3}
+    - {fileID: 4206257701350789806, guid: 208247d9671dd0848b60da5b77765fd8, type: 3}
+    - {fileID: 7681269437857367984, guid: 208247d9671dd0848b60da5b77765fd8, type: 3}
+    - {fileID: 331437857445232806, guid: 208247d9671dd0848b60da5b77765fd8, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -2965,6 +2972,7 @@ GameObject:
   - component: {fileID: 1503584060}
   - component: {fileID: 1503584062}
   - component: {fileID: 1503584061}
+  - component: {fileID: 1503584063}
   m_Layer: 5
   m_Name: YakuInfoImageBG
   m_TagString: Untagged
@@ -3033,6 +3041,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1503584059}
   m_CullTransparentMesh: 1
+--- !u!114 &1503584063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1503584059}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87652cdcf5053984ba81d51d18486ecf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HoverYakuInfoTargetExit
+  _hoverYakuInfo: {fileID: 177083905}
 --- !u!1 &1507969662
 GameObject:
   m_ObjectHideFlags: 0
@@ -3667,14 +3688,14 @@ RectTransform:
   m_GameObject: {fileID: 1690049881}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.0707, y: 1.0707, z: 1.0707}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1503584060}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 218, y: -22}
+  m_AnchoredPosition: {x: 209, y: 1}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1690049883
@@ -3739,7 +3760,7 @@ MonoBehaviour:
   m_characterSpacing: 0
   m_characterHorizontalScale: 1
   m_wordSpacing: 0
-  m_lineSpacing: 0
+  m_lineSpacing: 30
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
@@ -5283,6 +5304,9 @@ PrefabInstance:
     - {fileID: 8231079955266322882, guid: 208247d9671dd0848b60da5b77765fd8, type: 3}
     - {fileID: 2520981525658506460, guid: 208247d9671dd0848b60da5b77765fd8, type: 3}
     - {fileID: 5547461078941488074, guid: 208247d9671dd0848b60da5b77765fd8, type: 3}
+    - {fileID: 4206257701350789806, guid: 208247d9671dd0848b60da5b77765fd8, type: 3}
+    - {fileID: 7681269437857367984, guid: 208247d9671dd0848b60da5b77765fd8, type: 3}
+    - {fileID: 331437857445232806, guid: 208247d9671dd0848b60da5b77765fd8, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

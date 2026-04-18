@@ -194,6 +194,7 @@ GameObject:
   - component: {fileID: 6852625023286246337}
   - component: {fileID: 1523215425808968793}
   - component: {fileID: 9201063696137200457}
+  - component: {fileID: 4023319903028064293}
   m_Layer: 11
   m_Name: Card
   m_TagString: Untagged
@@ -364,6 +365,23 @@ MonoBehaviour:
   _dropCheckMask:
     serializedVersion: 2
     m_Bits: 1024
+--- !u!114 &4023319903028064293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5979369513378310480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6b7118eea181af4eb3354fabd9749e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CardHoverTween
+  _targetTransform: {fileID: 0}
+  _hoverScaleMultiplier: 1.12
+  _duration: 0.12
+  _ease: 6
+  _useUnscaledTime: 1
 --- !u!1 &6257125305150085326
 GameObject:
   m_ObjectHideFlags: 0
