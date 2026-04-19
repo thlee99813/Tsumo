@@ -10,7 +10,7 @@ public class Debugger : MonoBehaviour
     public bool IsSteering = false;
 
     [Header("Debug Target")]
-    public GameObject Player;
+    public BattleImpulseEmitter ImpurseSource;
     public GameObject Prefab;
 
     public int CurrentCameraIndex { get; private set; }
@@ -31,7 +31,7 @@ public class Debugger : MonoBehaviour
         else if (Keyboard.current.digit2Key.wasPressedThisFrame) ActivateCamera(1);
         else if (Keyboard.current.digit3Key.wasPressedThisFrame) ActivateCamera(2);
         else if (Keyboard.current.digit4Key.wasPressedThisFrame) ActivateCamera(3);
-        else if (Keyboard.current.digit5Key.wasPressedThisFrame) ActivateCamera(4);
+        else if (Keyboard.current.digit9Key.wasPressedThisFrame) ImpurseSource.EmitHitImpulse();
     }
     public void ActivateCamera(int index)
     {
