@@ -10,6 +10,7 @@ public class StageFlowController : MonoBehaviour
     [SerializeField] private UIController _uiController;
     [SerializeField] private BattleResultPresenter _battleResultPresenter;
     [SerializeField] private Player _player;
+    [SerializeField] private ComboSynergyJudge _comboSynergyJudge;
 
     [Header("Enemy Spawn")]
     [SerializeField] private Enemy _enemyPrefab;
@@ -122,6 +123,9 @@ public class StageFlowController : MonoBehaviour
 
             bool isFirePressed = _ingameController.ConsumeFireRequest();
             FireExecutionData fireExecutionData = _deckController.BuildFireExecutionData(isFirePressed);
+
+            if (isFirePressed && fireExecutionData.ScoreResult != null && _comboSynergyJudge != null)
+                _comboSynergyJudge.Evaluate(fireExecutionData.ScoreResult);
 
             _player.ClearCombo();
             if (fireExecutionData.IsFirePressed && fireExecutionData.ScoreResult != null)

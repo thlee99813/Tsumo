@@ -72,7 +72,7 @@ public class Player : MonoBehaviour
     public void AddAttack(AttackType type)
     {
         _comboList.Add(type);
-        Debug.Log($"[Player] 공격 추가 : {type} (현재콤보 : {_comboList.Count})");
+        //Debug.Log($"[Player] 공격 추가 : {type} (현재콤보 : {_comboList.Count})");
         OnAttackAdded?.Invoke(type);
     }
     public void ClearCombo()

@@ -5107,7 +5107,7 @@ MonoBehaviour:
   _runFps: 12
   _shurikenOffset: 3
   _attackDamage: 10
-  _attackMoveDuration: 0.2
+  _attackMoveDuration: 0.01
   _currentHp: 0
 --- !u!61 &670580916
 BoxCollider2D:
@@ -5628,6 +5628,7 @@ GameObject:
   m_Component:
   - component: {fileID: 692190130}
   - component: {fileID: 692190131}
+  - component: {fileID: 692190132}
   m_Layer: 0
   m_Name: StageFlowController
   m_TagString: Untagged
@@ -5668,10 +5669,23 @@ MonoBehaviour:
   _uiController: {fileID: 66396984}
   _battleResultPresenter: {fileID: 537314425}
   _player: {fileID: 670580915}
+  _comboSynergyJudge: {fileID: 692190132}
   _enemyPrefab: {fileID: 324108145492096438, guid: 9c84e5289a0797843b47e4dd5bbbbdee, type: 3}
   _enemySpawnPoint: {fileID: 1772224206}
   _enemyParent: {fileID: 1409858247}
   _currentStageIndex: 0
+--- !u!114 &692190132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 692190129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d891884cfd1c21845890384b2cfbe7c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ComboSynergyJudge
 --- !u!1 &750640621
 GameObject:
   m_ObjectHideFlags: 0

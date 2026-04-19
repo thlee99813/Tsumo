@@ -44,7 +44,6 @@ public class PlayerEffect : MonoBehaviour
     private IEnumerator PlayEffectCoroutine(Sprite[] sprites)
     {
         if(sprites == null || sprites.Length == 0) yield break;
-        Debug.Log("Effect Start");
         _spriteRenderer.enabled = true;
         float interval = 1f / _effectFps;
 
