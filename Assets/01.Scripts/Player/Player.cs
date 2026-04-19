@@ -18,8 +18,6 @@ public class Player : MonoBehaviour
 
     [Header("Movement")]
     [SerializeField] private float _moveSpeed = 3f;
-    [SerializeField] private float _knockBackHeight = 1.5f;
-    [SerializeField] private float _knockBackDuration = 0.4f;
     [SerializeField] private float _stopOffset = 1.5f;
     [SerializeField] private float _runFps = 12f;
     [SerializeField] private float _shurikenOffset = 3f;
@@ -40,6 +38,7 @@ public class Player : MonoBehaviour
     private bool _isRunStopping;
     private float _currentAttackX = float.MinValue;
     private bool _isTeleporting;
+    private PlayerEffect _effectAnimator;
     
     private List<AttackType> _comboList = new List<AttackType>();
 
@@ -63,7 +62,8 @@ public class Player : MonoBehaviour
         _currentHp = _stats.MaxHp;
         _animator = GetComponent<Animator>();
         _playerAnimator = GetComponent<PlayerAnimator>();
-
+        _effectAnimator = GetComponentInChildren<PlayerEffect>(); 
+        
         //공격 완료 이벤트 구독
         _playerAnimator.OnAnimationComplete += () => _attackAnimDone = true;
     }
@@ -85,11 +85,19 @@ public class Player : MonoBehaviour
     {
         if(_comboList.Count == 0)
         {
-            _isAttacking = false;
+            _isAttacking = true;
+            StartCoroutine(EmptyComboCoroutine());
             return;
         }
         _isAttacking = true;
         StartCoroutine(ComboCoroutine(targetX));
+    }
+
+    private IEnumerator EmptyComboCoroutine()
+    {
+        TeleportToStart();
+        yield return new WaitUntil(() => !_isTeleporting);
+        _isAttacking = false;
     }
 
     private IEnumerator ComboCoroutine(float targetX)
@@ -133,7 +141,7 @@ public class Player : MonoBehaviour
         if(!Mathf.Approximately(_currentAttackX, stoppedX))
         {
             transform.DOMoveX(stoppedX, _attackMoveDuration)
-            .SetEase(Ease.OutQuad).SetUpdate(true);
+            .SetEase(Ease.OutCubic).SetUpdate(true);
             yield return new WaitForSecondsRealtime(_attackMoveDuration);
 
             // 공격 위치에서 정지 애니메이션
@@ -146,8 +154,14 @@ public class Player : MonoBehaviour
 
         // 공격 애니메이션
         _attackAnimDone = false;
-        if(type == AttackType.Sword) _playerAnimator.PlaySword();
-        else _playerAnimator.PlaySpell();
+        if(type == AttackType.Sword)
+        {
+          _playerAnimator.PlaySword();
+
+          if(_effectAnimator != null)
+            _effectAnimator.PlaySwordEffect();
+        } 
+
         yield return new WaitUntil(() => _attackAnimDone); 
     }
 
@@ -160,7 +174,7 @@ public class Player : MonoBehaviour
         if(!Mathf.Approximately(_currentAttackX, rangedX))
         {
             transform.DOMoveX(rangedX, _attackMoveDuration)
-            .SetEase(Ease.OutQuad).SetUpdate(true);
+            .SetEase(Ease.OutCubic).SetUpdate(true);
             yield return new WaitForSecondsRealtime(_attackMoveDuration);
 
             //공격 위치에서 정지 애니메이션
@@ -173,9 +187,21 @@ public class Player : MonoBehaviour
         
         _attackAnimDone = false;              
         if(type == AttackType.Shuriken)             //타입에 따라 다른 애니메이션 재생
+        {
             _playerAnimator.PlayShuriken();
+
+            if(_effectAnimator != null)
+                _effectAnimator.PlayShurikenEffect();
+        }
+            
         else if(type == AttackType.Spell)
+        {
             _playerAnimator.PlaySpell();
+
+            if(_effectAnimator != null)
+                _effectAnimator.PlaySpellEffect();
+        }
+            
         
         yield return new WaitUntil(() => _attackAnimDone);
     }
@@ -262,10 +288,10 @@ public class Player : MonoBehaviour
         Sequence seq = DOTween.Sequence().SetUpdate(true);
         //앞으로 돌진
         seq.Append(transform.DOMoveX(stoppedX, 0.2f)
-        .SetEase(Ease.OutQuad));
+        .SetEase(Ease.OutCubic));
         // 뒤로 복귀
         seq.Append(transform.DOMoveX(_startPosition.x, 0.4f)
-            .SetEase(Ease.InQuad));
+            .SetEase(Ease.OutCubic));
         seq.OnComplete(() =>
         {
             transform.position = new Vector3(_startPosition.x, transform.position.y, transform.position.z);
@@ -309,7 +335,7 @@ public class Player : MonoBehaviour
         if(!alreadyAtStart)
         {
             transform.DOMoveX(_startPosition.x, returnDuration)
-                .SetEase(Ease.InOutQuad).SetUpdate(true);
+                .SetEase(Ease.OutCubic).SetUpdate(true);
         }
 
         yield return new WaitForSecondsRealtime(halfReturn);

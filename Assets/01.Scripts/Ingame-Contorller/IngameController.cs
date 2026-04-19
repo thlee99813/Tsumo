@@ -106,7 +106,7 @@ public class IngameController : MonoBehaviour
     {
         if (_isSlowMotion) return;
         _isSlowMotion = true;
-        _backGround.SetSpeedMultiplier(_slowMotionScale);
+        _backGround.SetSpeedMultiplier(0f);
         _enemy.PauseMovement();
     }
 
@@ -114,7 +114,7 @@ public class IngameController : MonoBehaviour
     {
         if (!_isSlowMotion) return;
         _isSlowMotion = false;
-        _backGround.SetSpeedMultiplier(1f);
+        //_backGround.SetSpeedMultiplier(1f);
     }
 
     public IEnumerator RunIdlePhase()
@@ -182,6 +182,7 @@ public class IngameController : MonoBehaviour
             _player.ExecuteCombo(_enemy.transform.position.x);
             yield return new WaitUntil(() => !_player.IsAttacking || !_isRunning);
             if (!_isRunning) yield break;
+
             _battleController.ExecuteBattle(finalDamage);
         }
         else
@@ -202,13 +203,15 @@ public class IngameController : MonoBehaviour
 
     public IEnumerator RunTurnResultPhase()
     {
+        _backGround.SetSpeedMultiplier(1f);
         _currentPhase = TurnPhase.TurnResult;
         yield return new WaitUntil(() => !_player.IsKnockBack || !_isRunning);
 
         if (!_isRunning) yield break;
+        
 
         OnTurnEnd?.Invoke();
-        //yield return new WaitForSecondsRealtime(0.3f);
+        
     }
 
     public void SetEnemy(Enemy enemy)

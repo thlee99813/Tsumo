@@ -123,6 +123,16 @@ public class StageFlowController : MonoBehaviour
             bool isFirePressed = _ingameController.ConsumeFireRequest();
             FireExecutionData fireExecutionData = _deckController.BuildFireExecutionData(isFirePressed);
 
+            _player.ClearCombo();
+            if (fireExecutionData.IsFirePressed && fireExecutionData.ScoreResult != null)
+            {
+                foreach (var squad in fireExecutionData.ScoreResult.SquadResults)
+                {
+                    if (squad.IsValid)
+                        _player.AddAttack(CardTypeToAttackType(squad.CardType));
+                }
+            }
+
             int enemyHpBeforeBattle = _currentEnemy.CurrentHp;
             int playerHpBeforeBattle = _player.CurrentHp;
 
@@ -205,6 +215,14 @@ public class StageFlowController : MonoBehaviour
     {
         return stageIndex < 3 ? 0 : 3;
     }
+
+    private AttackType CardTypeToAttackType(CardType cardType) => cardType switch
+    {
+        CardType.Sword     => AttackType.Sword,
+        CardType.Kunai     => AttackType.Shuriken,
+        CardType.FoxSpirit => AttackType.Spell,
+        _                  => AttackType.Sword
+    };
 
     private void HandleRestartClicked()
     {
