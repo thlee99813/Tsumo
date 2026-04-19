@@ -148,8 +148,10 @@ public class Player : MonoBehaviour
         _attackAnimDone = false;
         if(type == AttackType.Sword)
         {
-          _playerAnimator.PlaySword();  
-          _effectAnimator.PlaySwordEffect();
+          _playerAnimator.PlaySword();
+
+          if(_effectAnimator != null)
+            _effectAnimator.PlaySwordEffect();
         } 
 
         yield return new WaitUntil(() => _attackAnimDone); 
@@ -179,13 +181,17 @@ public class Player : MonoBehaviour
         if(type == AttackType.Shuriken)             //타입에 따라 다른 애니메이션 재생
         {
             _playerAnimator.PlayShuriken();
-            _effectAnimator.PlayShurikenEffect();
+
+            if(_effectAnimator != null)
+                _effectAnimator.PlayShurikenEffect();
         }
             
         else if(type == AttackType.Spell)
         {
             _playerAnimator.PlaySpell();
-            _effectAnimator.PlaySpellEffect();
+
+            if(_effectAnimator != null)
+                _effectAnimator.PlaySpellEffect();
         }
             
         
