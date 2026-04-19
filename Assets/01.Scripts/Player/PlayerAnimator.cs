@@ -16,9 +16,6 @@ public class PlayerAnimator : MonoBehaviour
     [SerializeField] private Sprite[] _runSpites;
     [SerializeField] private Sprite[] _runStopSprites;
 
-    [Header("Effect Frame Settings")]
-    [SerializeField] private float _effectFps = 12f;
-
     [Header("Frame Settings")]
     [SerializeField] private float _swordFps = 12f;
     [SerializeField] private float _shurikenFps = 12f;
@@ -103,14 +100,18 @@ public class PlayerAnimator : MonoBehaviour
 
     private IEnumerator PlayOnceCoroutine(Sprite[] sprites, float fps, Action onComplete)
     {
-        if(sprites == null || sprites.Length == 0) yield break;
+        if(sprites == null || sprites.Length == 0)
+        {
+            onComplete?.Invoke();
+            yield break;
+        }
 
         float interval = 1f / fps;
         for(int i = 0; i < sprites.Length; i++)
         {
             _spriteRenderer.sprite = sprites[i];
             if(i < sprites.Length - 1)
-                yield return new WaitForSecondsRealtime(interval);
+                yield return new WaitForSeconds(interval);
         }
         //yield return null;  // 마지막 프레임을 1 렌더 프레임만 유지 후 전환
         _currentAnim = null;   // onComplete가 PlayRun 등을 호출해 _currentAnim을 덮어쓰기 전에 먼저 null로 비워야 함
@@ -128,7 +129,7 @@ public class PlayerAnimator : MonoBehaviour
             _spriteRenderer.sprite = sprites[i];
             int next = (i + 1) % sprites.Length;
             _runFrameIndex = next;
-            yield return new WaitForSecondsRealtime(interval);
+            yield return new WaitForSeconds(interval);
             i = next;
         }
     }

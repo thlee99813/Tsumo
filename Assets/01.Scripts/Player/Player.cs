@@ -85,11 +85,19 @@ public class Player : MonoBehaviour
     {
         if(_comboList.Count == 0)
         {
-            _isAttacking = false;
+            _isAttacking = true;
+            StartCoroutine(EmptyComboCoroutine());
             return;
         }
         _isAttacking = true;
         StartCoroutine(ComboCoroutine(targetX));
+    }
+
+    private IEnumerator EmptyComboCoroutine()
+    {
+        TeleportToStart();
+        yield return new WaitUntil(() => !_isTeleporting);
+        _isAttacking = false;
     }
 
     private IEnumerator ComboCoroutine(float targetX)
