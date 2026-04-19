@@ -165,6 +165,60 @@ public class DeckController : MonoBehaviour
         _rerollUsedThisTurn++;
         RefreshRerollCountUI();
     }
+    //Cheat Code Start
+    public bool TryGetCardDefinition(CardType cardType, int number, out CardData cardData)
+    {
+        for (int i = 0; i < _cardDefinitions.Count; i++)
+        {
+            CardData definition = _cardDefinitions[i];
+            if (definition != null && definition.Type == cardType && definition.Number == number)
+            {
+                cardData = definition;
+                return true;
+            }
+        }
+
+        cardData = null;
+        return false;
+    }
+
+    public void ReplaceHandForDebug(List<CardData> targetHandCards)
+    {
+        _discardCards.AddRange(_handCards);
+        _handCards.Clear();
+
+        int targetCount = Mathf.Min(_drawCount, targetHandCards.Count);
+        for (int i = 0; i < targetCount; i++)
+        {
+            CardData targetCard = targetHandCards[i];
+            RemoveOneFromDrawPools(targetCard);
+            _handCards.Add(targetCard);
+        }
+
+        if (_handSort)
+        {
+            _cardSorter.Sort(_handCards);
+        }
+
+        ApplyHandToSlots();
+    }
+
+    private void RemoveOneFromDrawPools(CardData targetCard)
+    {
+        int deckIndex = _deckCards.IndexOf(targetCard);
+        if (deckIndex >= 0)
+        {
+            _deckCards.RemoveAt(deckIndex);
+            return;
+        }
+
+        int discardIndex = _discardCards.IndexOf(targetCard);
+        if (discardIndex >= 0)
+        {
+            _discardCards.RemoveAt(discardIndex);
+        }
+    }
+    //Cheat Code End
 
     public FireScoreResult CalculateFireScore()
     {
