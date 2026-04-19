@@ -32,6 +32,8 @@ public class PlayerAnimator : MonoBehaviour
     private Coroutine _currentAnim;
     private int _runFrameIndex = 0;
 
+    public float HitFrameDelay => _hitFrameDelay;
+
     public event Action OnAnimationComplete;        // 공격 애니메이션 완료 시 발행
 
 
@@ -115,7 +117,6 @@ public class PlayerAnimator : MonoBehaviour
                     yield return new WaitForSeconds(interval);
             }
         }
-        //yield return null;  // 마지막 프레임을 1 렌더 프레임만 유지 후 전환
         _currentAnim = null;   // onComplete가 PlayRun 등을 호출해 _currentAnim을 덮어쓰기 전에 먼저 null로 비워야 함
         onComplete?.Invoke();
     }

@@ -34,11 +34,11 @@ public class Player : MonoBehaviour
     private bool _isReached;        //접근 중인가
     private bool _isAttacking;
     private bool _attackAnimDone;
-    private Animator _animator;
     private bool _isRunStopping;
     private float _currentAttackX = float.MinValue;
     private bool _isTeleporting;
     private PlayerEffect _effectAnimator;
+    private BattleImpulseEmitter _impulseEmitter;
     
     private List<AttackType> _comboList = new List<AttackType>();
 
@@ -60,9 +60,9 @@ public class Player : MonoBehaviour
     {
         _startPosition = transform.position;
         _currentHp = _stats.MaxHp;
-        _animator = GetComponent<Animator>();
         _playerAnimator = GetComponent<PlayerAnimator>();
         _effectAnimator = GetComponentInChildren<PlayerEffect>(); 
+        _impulseEmitter = GetComponent<BattleImpulseEmitter>();
         
         //공격 완료 이벤트 구독
         _playerAnimator.OnAnimationComplete += () => _attackAnimDone = true;
@@ -156,13 +156,14 @@ public class Player : MonoBehaviour
         _attackAnimDone = false;
         if(type == AttackType.Sword)
         {
-          _playerAnimator.PlaySword();
+            _playerAnimator.PlaySword();
+            if(_effectAnimator != null)
+                StartCoroutine(PlayEffectDelayed(_effectAnimator.PlaySwordEffect, _playerAnimator.HitFrameDelay));
+        }
 
-          if(_effectAnimator != null)
-            _effectAnimator.PlaySwordEffect();
-        } 
-
+        _impulseEmitter?.EmitHitImpulse();  //!애니메이션 완료 후 화면 흔들기
         yield return new WaitUntil(() => _attackAnimDone); 
+        
     }
 
     private IEnumerator RangedAttack(float targetX, AttackType type)              //원거리 공격할 경우 수리검만
@@ -189,26 +190,30 @@ public class Player : MonoBehaviour
         if(type == AttackType.Shuriken)             //타입에 따라 다른 애니메이션 재생
         {
             _playerAnimator.PlayShuriken();
-
             if(_effectAnimator != null)
-                _effectAnimator.PlayShurikenEffect();
+                StartCoroutine(PlayEffectDelayed(_effectAnimator.PlayShurikenEffect, _playerAnimator.HitFrameDelay));
         }
-            
         else if(type == AttackType.Spell)
         {
             _playerAnimator.PlaySpell();
-
             if(_effectAnimator != null)
-                _effectAnimator.PlaySpellEffect();
+                StartCoroutine(PlayEffectDelayed(_effectAnimator.PlaySpellEffect, _playerAnimator.HitFrameDelay));
         }
             
         
         yield return new WaitUntil(() => _attackAnimDone);
+        _impulseEmitter?.EmitHitImpulse();  //!애니메이션 완료 후 화면 흔들기
     }
 
     public void OnAttackAniComplete()
     {
         _attackAnimDone = true;
+    }
+
+    private IEnumerator PlayEffectDelayed(Action effectAction, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        effectAction?.Invoke();
     }
 
     private void TeleportToStart()
