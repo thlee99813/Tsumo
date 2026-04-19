@@ -10,6 +10,8 @@ public enum SquadResultType
 
 public class ComboSynergyJudge : MonoBehaviour
 {
+    [SerializeField] private ComboSynergyEffect _effectPlayer;
+
     public struct SquadJudgement
     {
         public int SquadIndex;
@@ -69,7 +71,7 @@ public class ComboSynergyJudge : MonoBehaviour
             }
         }
 
-        // 디버그 로그 - 스쿼드별
+        // 디버그 로그 + 이펙트 재생
         for (int i = 0; i < judgements.Count; i++)
         {
             SquadJudgement j = judgements[i];
@@ -81,6 +83,9 @@ public class ComboSynergyJudge : MonoBehaviour
             };
             string synergyLabel = j.HasSynergy ? " + 시너지" : "";
             Debug.Log($"[ComboSynergy] 스쿼드 {j.SquadIndex + 1} ({j.CardType}): {comboLabel}{synergyLabel}");
+
+            if (j.ResultType != SquadResultType.None && _effectPlayer != null)
+                _effectPlayer.PlayComboEffect(j.ResultType, j.CardType, j.HasSynergy);
         }
 
         // 디버그 로그 - 시너지 발동 카드 종류

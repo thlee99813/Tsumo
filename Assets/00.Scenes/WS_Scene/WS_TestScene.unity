@@ -5330,6 +5330,8 @@ MonoBehaviour:
   _runFps: 12
   _runStopFps: 12
   _teleportFps: 6
+  _hitFrameIndex: 2
+  _hitFrameDelay: 0.3
 --- !u!114 &670580922
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5343,7 +5345,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerComboTestInput
   _player: {fileID: 670580915}
-  _targetEnemy: {fileID: 360782254}
+  _ingameController: {fileID: 974452970}
 --- !u!1 &681766940
 GameObject:
   m_ObjectHideFlags: 0
@@ -5668,6 +5670,7 @@ MonoBehaviour:
   _uiController: {fileID: 66396984}
   _battleResultPresenter: {fileID: 537314425}
   _player: {fileID: 670580915}
+  _comboSynergyJudge: {fileID: 0}
   _enemyPrefab: {fileID: 324108145492096438, guid: 9c84e5289a0797843b47e4dd5bbbbdee, type: 3}
   _enemySpawnPoint: {fileID: 1772224206}
   _enemyParent: {fileID: 1409858247}

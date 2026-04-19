@@ -127,9 +127,13 @@ public class StageFlowController : MonoBehaviour
             if (isFirePressed && fireExecutionData.ScoreResult != null && _comboSynergyJudge != null)
                 _comboSynergyJudge.Evaluate(fireExecutionData.ScoreResult);
 
-            _player.ClearCombo();
-            if (fireExecutionData.IsFirePressed && fireExecutionData.ScoreResult != null)
+            bool hasCardAttack = fireExecutionData.IsFirePressed
+                && fireExecutionData.ScoreResult != null
+                && fireExecutionData.ScoreResult.SquadResults.Exists(s => s.IsValid);
+
+            if (hasCardAttack)
             {
+                _player.ClearCombo();
                 foreach (var squad in fireExecutionData.ScoreResult.SquadResults)
                 {
                     if (squad.IsValid)
