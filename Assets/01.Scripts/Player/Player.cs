@@ -394,9 +394,8 @@ public class Player : MonoBehaviour
         float stoppedX = targetX - _stopOffset;
         float distance = Mathf.Abs(transform.position.x - stoppedX);
         float slowSpeed = _moveSpeed * slowFactor;
-        float duration = Mathf.Min(distance / slowSpeed, unscaledTimeBudget);
 
-        transform.DOMoveX(stoppedX, duration)
+        transform.DOMoveX(stoppedX, unscaledTimeBudget)
             .SetEase(Ease.OutQuad)
             .SetUpdate(true)
             .OnComplete(() =>
