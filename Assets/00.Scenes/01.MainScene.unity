@@ -11395,7 +11395,7 @@ MonoBehaviour:
     - {fileID: 7456525958588599657, guid: 269e6b964a9f25e449d645b5244600d3, type: 3}
     - {fileID: 166560880612732042, guid: 269e6b964a9f25e449d645b5244600d3, type: 3}
   _attackFps: 12
-  _effectFps: 12
+  _effectFps: 16
 --- !u!1 &692190129
 GameObject:
   m_ObjectHideFlags: 0
@@ -20265,7 +20265,7 @@ PrefabInstance:
       objectReference: {fileID: 670580920}
     - target: {fileID: 8176739397155390036, guid: 316dcc43e0a62434ebb0e3efbbe33f56, type: 3}
       propertyPath: _worldOffset.y
-      value: 0.8
+      value: -0.8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -20992,7 +20992,7 @@ Transform:
   m_GameObject: {fileID: 1290726289}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
