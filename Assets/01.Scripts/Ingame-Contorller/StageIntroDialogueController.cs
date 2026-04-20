@@ -30,6 +30,8 @@ public class StageIntroDialogueController : MonoBehaviour
         int index = 0;
         bool isTyping = true;
 
+        yield return WaitForLeftClickRelease();
+
         while (isTyping)
         {
             if (IsLeftClickPressed())
@@ -58,8 +60,18 @@ public class StageIntroDialogueController : MonoBehaviour
             }
         }
 
+        yield return WaitForLeftClickRelease();
         yield return new WaitUntil(IsLeftClickPressed);
     }
+    private IEnumerator WaitForLeftClickRelease()
+    {
+        while (Mouse.current != null && Mouse.current.leftButton.isPressed)
+        {
+            yield return null;
+        }
+    }
+
+
 
     private bool IsLeftClickPressed()
     {

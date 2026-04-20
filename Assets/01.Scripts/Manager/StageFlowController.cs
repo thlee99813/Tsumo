@@ -422,13 +422,16 @@ public class StageFlowController : MonoBehaviour
         else if (_currentStageIndex == _stage2StartIndex) // 2-1
         {
             yield return _stageIntroDialogueController.Play(
-                "추가점수 카드를 이용해 스쿼드를 구성하면\n기본콤보점수에 추가점수 1000점을줘");
+                "추가점수 카드를 이용해\n스쿼드를 구성하면",
+                "기본 콤보 점수에\n추가 점수 1000점을줘");
+
         }
         else if (_currentStageIndex == _stage2BossIndex) // 2-3
         {
             yield return _stageIntroDialogueController.Play(
                 "추가점수 카드가 오염됐어",
-                "오염된 카드를 스쿼드에 넣고 콤보를\n완성하지 못하면 -1000점으로 계산해");
+                "오염된 카드를 스쿼드에\n 넣고 콤보를 완성하지 못하면",
+                "-1000점으로 계산해");
         }
 
         _isStageIntroPending = false;
