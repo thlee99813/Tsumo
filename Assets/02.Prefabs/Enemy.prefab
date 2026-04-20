@@ -107,11 +107,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 649f80c508c7da644a839089bc048f2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
-  _stats: {fileID: 3049052211006299306}
+  _enemySpriteRenderer: {fileID: 2781092467509655273}
   _moveDistance: 2
   _moveDelay: 3
   _moveDuration: 0.5
   _currentHp: 0
+  _runtimeMaxHp: 0
+  _runtimeCounterDamage: 0
 --- !u!50 &5027859918039971739
 Rigidbody2D:
   serializedVersion: 5
@@ -198,4 +200,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyStats
   _maxHp: 10000
-  _countDamage: 1000
+  _counterDamage: 1000
+  _stageStats:
+  - _stageCode: 1-1
+    _maxHp: 10000
+    _counterDamage: 1000
+    _sprite: {fileID: 21300000, guid: 90f90355b4f9b1849abaec46afc49636, type: 3}
+  - _stageCode: 1-2
+    _maxHp: 10000
+    _counterDamage: 99999
+    _sprite: {fileID: 21300000, guid: 58110a381ea7dcd47bbe377d80d55fee, type: 3}
+  - _stageCode: 1-3
+    _maxHp: 10000
+    _counterDamage: 1000
+    _sprite: {fileID: 21300000, guid: 1441052eaa6c3514691f8473342e1ba7, type: 3}
+  - _stageCode: 2-1
+    _maxHp: 10000
+    _counterDamage: 1000
+    _sprite: {fileID: 21300000, guid: fe7149d58d63dce4280f9a2f6cc95498, type: 3}
+  - _stageCode: 2-2
+    _maxHp: 10000
+    _counterDamage: 1000
+    _sprite: {fileID: 21300000, guid: 90f90355b4f9b1849abaec46afc49636, type: 3}
+  - _stageCode: 2-3
+    _maxHp: 10000
+    _counterDamage: 1000
+    _sprite: {fileID: 21300000, guid: 58110a381ea7dcd47bbe377d80d55fee, type: 3}

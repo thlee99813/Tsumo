@@ -238,6 +238,7 @@ public class IngameController : MonoBehaviour
         _isRunning = true;
         ExitSlowMotion();
         UpdateTimerUI(0f);
+        _backGround.SetSpeedMultiplier(0f);
     }
 
 
