@@ -206,7 +206,7 @@ MonoBehaviour:
   _counterDamage: 1000
   _stageStats:
   - _stageCode: 1-1
-    _maxHp: 10000
+    _maxHp: 8000
     _counterDamage: 1000
     _sprite: {fileID: -2645222260220940297, guid: 18778c438cc71074681367a43be4bf09, type: 3}
     _idleSprites:
@@ -219,7 +219,7 @@ MonoBehaviour:
     _hitSprite: {fileID: -1557452836956017249, guid: 18778c438cc71074681367a43be4bf09, type: 3}
     _attackSprite: {fileID: 738859298856966268, guid: 18778c438cc71074681367a43be4bf09, type: 3}
   - _stageCode: 1-2
-    _maxHp: 10000
+    _maxHp: 8000
     _counterDamage: 1000
     _sprite: {fileID: -8344248237123652576, guid: cc77e6f1eddf54c42bd43ded54e64aae, type: 3}
     _idleSprites:
@@ -271,7 +271,7 @@ MonoBehaviour:
     _hitSprite: {fileID: 7360747103147785776, guid: 3c4bca3a7ebbdc540994cdf00ac407c1, type: 3}
     _attackSprite: {fileID: 216041576158704463, guid: 3c4bca3a7ebbdc540994cdf00ac407c1, type: 3}
   - _stageCode: 2-3
-    _maxHp: 10000
+    _maxHp: 15000
     _counterDamage: 1000
     _sprite: {fileID: 1849426136819008294, guid: 42159f34eaee4cf42ab6b64b6b768ec3, type: 3}
     _idleSprites:
@@ -297,6 +297,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAnimator
   _idleFps: 8
   _hitDuration: 0.15
+  _hitStopDuration: 0.3
+  _hitPunchScale: {x: 0.3, y: -0.2, z: 0}
+  _hitPunchDuration: 0.3
+  _hitPunchVibrato: 4
+  _hitPunchElasticity: 0.5
 --- !u!1 &7652107172352453558
 GameObject:
   m_ObjectHideFlags: 0
