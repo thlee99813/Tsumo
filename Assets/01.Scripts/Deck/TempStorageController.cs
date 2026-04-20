@@ -120,7 +120,7 @@ public class TempStorageController : MonoBehaviour
         Vector3 blockedScale = _defaultBlockedSlotScale;
         blockedScale.x = _defaultBlockedSlotScale.x * _blockedSlotXScaleMultiplier;
 
-        float reducedAmountX = (_defaultBlockedSlotScale.x + 0.15f);
+        float reducedAmountX = (_defaultBlockedSlotScale.x - 0.25f);
 
         Vector3 blockedLocalPosition = _defaultBlockedSlotLocalPosition;
         blockedLocalPosition.x -= reducedAmountX;

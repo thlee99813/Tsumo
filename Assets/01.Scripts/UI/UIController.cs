@@ -22,7 +22,7 @@ public class UIController : MonoBehaviour
         }
 
         int clampedRemaining = Mathf.Clamp(remainingCount, 0, maxCount);
-        _rerollCountText.text = $"{clampedRemaining} / {maxCount}";
+        _rerollCountText.text = $"{clampedRemaining}";
     }
     public void SetStageText(string stageCode)
     {
