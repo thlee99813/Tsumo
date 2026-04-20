@@ -61,6 +61,11 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    public void SetIdleFps(float multiplier)
+    {
+        _enemyAnimator?.SetIdleFps(multiplier);
+    }
+
     public void OnDamageProcessed()
     {
         if(IsDead) return;
@@ -82,11 +87,15 @@ public class Enemy : MonoBehaviour
     }
 
 
+    public void PlayHitEffect()
+    {
+        _enemyAnimator?.PlayHit();
+    }
+
     public void TakeDamage(int damage)
     {
         if(IsDead) return;
         _currentHp = Mathf.Max(0, _currentHp - damage);
-        _enemyAnimator?.PlayHit();  //피격 애니메이션
 
         if (IsDead)
         {
@@ -125,8 +134,6 @@ public class Enemy : MonoBehaviour
         out Sprite[] idleSprites,
         out Sprite hitSprite,
         out Sprite attackSprite);
-
-        Debug.Log($"[Enemy] ApplyStageStats: stageIndex={stageIndex}, idleSprites={idleSprites?.Length ?? -1}개, hitSprite={hitSprite}, attackSprite={attackSprite}");
 
         ApplyBattleStats(maxHp, counterDamage, resetHp);
         _enemyAnimator?.SetSprites(idleSprites, hitSprite, attackSprite);

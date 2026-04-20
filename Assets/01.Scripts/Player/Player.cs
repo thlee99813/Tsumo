@@ -61,7 +61,8 @@ public class Player : MonoBehaviour
 
     public event Action OnPlayerDead;
     public event Action<int> OnHpChanged;
-    public event Action<AttackType> OnAttackAdded;  
+    public event Action<AttackType> OnAttackAdded;
+    public event Action OnHitFrame;
 
     private void Awake()
     {
@@ -71,8 +72,8 @@ public class Player : MonoBehaviour
         _effectAnimator = GetComponentInChildren<PlayerEffect>();
         _comboSynergyEffect = GetComponent<ComboSynergyEffect>();
         _synergyOverlayEffect = GetComponentInChildren<SynergyOverlayEffect>();
-        //공격 완료 이벤트 구독
         _playerAnimator.OnAnimationComplete += () => _attackAnimDone = true;
+        _playerAnimator.OnHitFrame += () => OnHitFrame?.Invoke();
     }
 
     // StageFlowController에서 콤보 판정 후 호출

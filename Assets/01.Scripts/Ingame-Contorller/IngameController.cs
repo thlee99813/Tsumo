@@ -108,6 +108,8 @@ public class IngameController : MonoBehaviour
         _isSlowMotion = true;
         _backGround.SetSpeedMultiplier(0f);
         _enemy.PauseMovement();
+        _enemy.SetIdleFps(_slowMotionScale);
+        
     }
 
     private void ExitSlowMotion()
@@ -115,6 +117,7 @@ public class IngameController : MonoBehaviour
         if (!_isSlowMotion) return;
         _isSlowMotion = false;
         //_backGround.SetSpeedMultiplier(1f);
+        _enemy?.SetIdleFps(1f);
     }
 
     public IEnumerator RunIdlePhase()

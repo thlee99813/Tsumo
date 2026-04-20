@@ -37,6 +37,7 @@ public class PlayerAnimator : MonoBehaviour
     public float HitFrameDelay => _hitFrameDelay;
 
     public event Action OnAnimationComplete;        // 공격 애니메이션 완료 시 발행
+    public event Action OnHitFrame;                 // 타격 프레임 도달 시 발행
 
 
     //외부 호출용 - 공격
@@ -118,8 +119,9 @@ public class PlayerAnimator : MonoBehaviour
                 if(applyHitFrame && i == _hitFrameIndex)
                 {
                     _impulseEmitter?.EmitHitImpulse();
+                    OnHitFrame?.Invoke();
                     yield return new WaitForSeconds(_hitFrameDelay);
-                    
+
                 }
                 else
                 {

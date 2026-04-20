@@ -1,21 +1,40 @@
 using System.Collections;
+using DG.Tweening;
 using UnityEngine;
 
 public class EnemyAnimator : MonoBehaviour
 {
     [SerializeField] private float _idleFps = 8f;
     [SerializeField] private float _hitDuration = 0.15f;    // 피격 스프라이트 유지 시간
+    [SerializeField] private float _hitStopDuration = 0.3f;     //히트 스탑 시간
+    
+    [SerializeField] private Vector3 _hitPunchScale = new Vector3(0.3f, -0.2f, 0f);
+    [SerializeField] private float _hitPunchDuration = 0.3f;
+    [SerializeField] private int _hitPunchVibrato = 4;
+    [SerializeField] private float _hitPunchElasticity = 0.5f;
+
     
     private SpriteRenderer _spriteRenderer;
     private Coroutine _idleCoroutine;
+    private float _baseIdleFps;
 
     private Sprite[] _idleSprites;
     private Sprite _hitSprite;
     private Sprite _attackSprite;
 
+
     private void Awake()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
+        _baseIdleFps = _idleFps;
+    }
+
+    public void SetIdleFps(float multiplier)
+    {
+        _idleFps = _baseIdleFps * multiplier;
+        //현재 재생 중이면 재시작해서 새 fps 적용
+        if(_idleCoroutine != null)
+            PlayIdle();
     }
 
     public void SetSprites(Sprite[] idleSprites, Sprite hitSprite, Sprite attackSprite)
@@ -92,7 +111,21 @@ public class EnemyAnimator : MonoBehaviour
     private IEnumerator HitCoroutine()
     {
         _spriteRenderer.sprite = _hitSprite;
+
+        
+        transform.DOKill();
+        _spriteRenderer.color = Color.red;
+        _spriteRenderer.DOColor(Color.white, _hitStopDuration)
+            .SetUpdate(true);
+        
+        //펀치
+        transform.DOPunchScale(_hitPunchScale, _hitPunchDuration, _hitPunchVibrato, _hitPunchElasticity)
+            .SetUpdate(true);
+
+        //히트스탑
+        yield return new WaitForSecondsRealtime(_hitStopDuration);
         yield return new WaitForSecondsRealtime(_hitDuration);
+
         PlayIdle();
     }
 
