@@ -184,10 +184,15 @@ public class Player : MonoBehaviour
         onTeleport?.Invoke();
         TeleportToStart();
 
-        if (finalScore > 0)
-            _popupController?.ShowFinalScore(finalScore);
-
         yield return new WaitUntil(() => !_isTeleporting);
+
+        if (finalScore > 0 && _popupController != null)
+        {
+            bool popupDone = false;
+            _popupController.ShowFinalScore(finalScore, () => popupDone = true);
+            yield return new WaitUntil(() => popupDone);
+        }
+
         _isAttacking = false;
     }
 
@@ -338,7 +343,7 @@ public class Player : MonoBehaviour
         _playerAnimator.PlayTeleport(() =>
         {
             _isTeleporting = false;
-            _playerAnimator.PlayRun();
+            _playerAnimator.PlayIdle();
         });
     }
 

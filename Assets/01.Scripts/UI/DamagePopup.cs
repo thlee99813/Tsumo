@@ -14,9 +14,9 @@ public class DamagePopup : MonoBehaviour
     [SerializeField] private Color _finalScoreColor = Color.yellow;
     [SerializeField] private Color _bonusColor = Color.cyan;
 
-    public void ShowBaseScore(int score, Vector3 worldPos)
+    public void ShowBaseScore(int score, Vector3 worldPos, Action onComplete = null)
     {
-        Show(score.ToString(), worldPos, _baseScroeColor, 1f);
+        Show(score.ToString(), worldPos, _baseScroeColor, 1f, onComplete);
     }
 
     // +25% / 족보명 표시 후 사라지고 onComplete 호출
@@ -48,8 +48,8 @@ public class DamagePopup : MonoBehaviour
         });
     }
 
-    //0부터 최종 결과값까지 카운트업
-    public void ShowFinalScore(int score, Vector3 worldPos)
+    // 0부터 최종 결과값까지 카운트업
+    public void ShowFinalScore(int score, Vector3 worldPos, Action onComplete = null)
     {
         _text.DOKill();
         transform.DOKill();
@@ -72,24 +72,21 @@ public class DamagePopup : MonoBehaviour
 
         Sequence seq = DOTween.Sequence();
 
-        //카운트업 + 크기 증가
+        // 카운트업 + 크기 증가
         seq.Append(DOTween.To(() => current, x =>
         {
             current = x;
             _text.text = $"Total : {(int)current}";
 
-            //마일 스톤 도달 시 펀치 + 크기 증가
             int currentMilestone = ((int)current / milestone) * milestone;
-            if(currentMilestone > lastMilestone && currentMilestone > 0)
+            if (currentMilestone > lastMilestone && currentMilestone > 0)
             {
                 lastMilestone = currentMilestone;
 
-                //마일스톤 마다 단계적으로 커짐
                 int step = currentMilestone / milestone;
                 float targetScale = Mathf.Min(baseScale + step * 0.3f, maxScale);
                 transform.localScale = Vector3.one * targetScale;
 
-                //펀치 강도도 단계적으로 강해짐
                 float punchStrength = 0.2f + step * 0.1f;
                 transform.DOPunchScale(
                     Vector3.one * punchStrength,
@@ -99,12 +96,12 @@ public class DamagePopup : MonoBehaviour
                 ).SetUpdate(true);
             }
 
-        }, score, 0.8f + score / 20000f)    //점수 높을 수록 카운트업 시간 살짝 늘어남
+        }, score, 0.8f + score / 20000f)
             .SetEase(Ease.OutCubic));
-        
+
         seq.AppendCallback(() =>
         {
-           transform.DOPunchScale(Vector3.one * 0.5f, 0.4f, 8, 0.5f); 
+            transform.DOPunchScale(Vector3.one * 0.5f, 0.4f, 8, 0.5f);
         });
 
         seq.AppendInterval(0.8f);
@@ -114,11 +111,11 @@ public class DamagePopup : MonoBehaviour
         {
             transform.DOKill();
             gameObject.SetActive(false);
+            onComplete?.Invoke();
         });
     }
 
-
-    private void Show(string message, Vector3 worldPos, Color color, float scale)
+    private void Show(string message, Vector3 worldPos, Color color, float scale, Action onComplete = null)
     {
         _text.DOKill();
         transform.DOKill();
@@ -139,6 +136,7 @@ public class DamagePopup : MonoBehaviour
         {
             transform.DOKill();
             gameObject.SetActive(false);
+            onComplete?.Invoke();
         });
     }
 }

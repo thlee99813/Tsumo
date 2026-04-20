@@ -19,10 +19,12 @@ public class PlayerAnimator : MonoBehaviour
     [SerializeField] private Sprite[] _teleportSprites;
 
     [Header("Movement Sprites")]
+    [SerializeField] private Sprite[] _idleSprites;
     [SerializeField] private Sprite[] _runSpites;
     [SerializeField] private Sprite[] _runStopSprites;
 
     [Header("Frame Settings")]
+    [SerializeField] private float _idleFps = 8f;
     [SerializeField] private float _swordFps = 12f;
     [SerializeField] private float _shurikenFps = 12f;
     [SerializeField] private float _spellFps = 12f;
@@ -37,7 +39,7 @@ public class PlayerAnimator : MonoBehaviour
 
     private SpriteRenderer _spriteRenderer;
     private Coroutine _currentAnim;
-    private int _runFrameIndex = 0;
+    private int _loopFrameIndex = 0;
     private BattleImpulseEmitter _impulseEmitter;
 
     public event Action OnAnimationComplete;
@@ -49,6 +51,12 @@ public class PlayerAnimator : MonoBehaviour
     public void PlayCustomAttack(AttackType attackType, Sprite[] sprites, float fps) => PlayAttack(sprites, fps, GetTiming(attackType));
     public void HideSprite() => _spriteRenderer.enabled = false;
     public void ShowSprite() => _spriteRenderer.enabled = true;
+
+    public void PlayIdle(float fpsOverride = -1f)
+    {
+        float fps = fpsOverride > 0f ? fpsOverride : _idleFps;
+        PlayLoop(_idleSprites, fps);
+    }
 
     public void PlayRun(float fpsOverride = -1f)
     {
@@ -167,13 +175,13 @@ public class PlayerAnimator : MonoBehaviour
             yield break;
 
         float interval = 1f / fps;
-        int i = _runFrameIndex % sprites.Length;
+        int i = _loopFrameIndex % sprites.Length;
 
         while (true)
         {
             _spriteRenderer.sprite = sprites[i];
             int next = (i + 1) % sprites.Length;
-            _runFrameIndex = next;
+            _loopFrameIndex = next;
             yield return new WaitForSeconds(interval);
             i = next;
         }

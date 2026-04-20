@@ -16,14 +16,14 @@ public class DamagePopupController : MonoBehaviour
             AddToPool();
     }
 
-    public void ShowBaseScore(int score)
+    public void ShowBaseScore(int score, Action onComplete = null)
     {
-        GetNext().ShowBaseScore(score, _enemyHeadPoint.position);
+        GetNext().ShowBaseScore(score, _enemyHeadPoint.position, onComplete);
     }
 
-    public void ShowFinalScore(int score)
+    public void ShowFinalScore(int score, Action onComplete = null)
     {
-        GetNext().ShowFinalScore(score, _enemyHeadPoint.position);
+        GetNext().ShowFinalScore(score, _enemyHeadPoint.position, onComplete);
     }
 
     public void ShowYakuBonus(string yakuName, float bonusMultiplier, Action onComplete)
@@ -43,6 +43,7 @@ public class DamagePopupController : MonoBehaviour
             if (!p.gameObject.activeSelf)
                 return p;
         }
+
         AddToPool();
         return _pool[_pool.Count - 1];
     }
