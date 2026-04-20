@@ -1,49 +1,31 @@
 fileFormatVersion: 2
-guid: b78ebd7021269cb458736bdc5e07375c
+guid: cc77e6f1eddf54c42bd43ded54e64aae
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5477828970963736104
-    second: amulet_attack_animation01_0
+      213: -8344248237123652576
+    second: enemy02_0
   - first:
-      213: 1836080169233847491
-    second: amulet_attack_animation01_1
+      213: 4902278807225862461
+    second: enemy02_1
   - first:
-      213: -6142173702425896454
-    second: amulet_attack_animation01_2
+      213: 3973891588836079203
+    second: enemy02_2
   - first:
-      213: -4316333571366744387
-    second: amulet_attack_animation01_3
+      213: 5939415208979140777
+    second: enemy02_3
   - first:
-      213: 3612894662477389058
-    second: amulet_attack_animation01_4
+      213: 4134833182257289361
+    second: enemy02_4
   - first:
-      213: -7867041350147193064
-    second: amulet_attack_animation01_5
+      213: 1920860213811044243
+    second: enemy02_5
   - first:
-      213: -8745792243881916767
-    second: amulet_attack_animation01_6
+      213: -3268247702580750019
+    second: enemy02_6
   - first:
-      213: 8807120791363688346
-    second: amulet_attack_animation01_7
-  - first:
-      213: -7898355189033021239
-    second: amulet_attack_animation01_8
-  - first:
-      213: -5363238473863433242
-    second: amulet_attack_animation01_9
-  - first:
-      213: 1421515789234492119
-    second: amulet_attack_animation01_10
-  - first:
-      213: -2524678381678552872
-    second: amulet_attack_animation01_11
-  - first:
-      213: -2814165279459750145
-    second: amulet_attack_animation01_12
-  - first:
-      213: -4795892470917657985
-    second: amulet_attack_animation01_13
+      213: -212565809479656653
+    second: enemy02_7
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -139,13 +121,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: amulet_attack_animation01_0
+      name: enemy02_0
       rect:
         serializedVersion: 2
-        x: 576
+        x: 0
         y: 0
-        width: 192
-        height: 64
+        width: 80
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -154,20 +136,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8d9ec5dd297daf3b0800000000000000
-      internalID: -5477828970963736104
+      spriteID: 024b0942076433c80800000000000000
+      internalID: -8344248237123652576
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: amulet_attack_animation01_1
+      name: enemy02_1
       rect:
         serializedVersion: 2
-        x: 768
+        x: 80
         y: 0
-        width: 192
-        height: 64
+        width: 80
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -176,20 +158,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3c4925a9f211b7910800000000000000
-      internalID: 1836080169233847491
+      spriteID: d398f9e0a94680440800000000000000
+      internalID: 4902278807225862461
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: amulet_attack_animation01_2
+      name: enemy02_2
       rect:
         serializedVersion: 2
-        x: 960
+        x: 160
         y: 0
-        width: 192
-        height: 64
+        width: 80
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -198,20 +180,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: af9982e6f8d92caa0800000000000000
-      internalID: -6142173702425896454
+      spriteID: 366bc707859162730800000000000000
+      internalID: 3973891588836079203
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: amulet_attack_animation01_3
+      name: enemy02_3
       rect:
         serializedVersion: 2
-        x: 1152
+        x: 240
         y: 0
-        width: 192
-        height: 64
+        width: 80
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -220,20 +202,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: dbe879a5c7d4914c0800000000000000
-      internalID: -4316333571366744387
+      spriteID: 9a011c80aaa0d6250800000000000000
+      internalID: 5939415208979140777
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: amulet_attack_animation01_4
+      name: enemy02_4
       rect:
         serializedVersion: 2
-        x: 1344
+        x: 320
         y: 0
-        width: 192
-        height: 64
+        width: 80
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -242,20 +224,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 20d9ed7bd84932230800000000000000
-      internalID: 3612894662477389058
+      spriteID: 19891f93fd0e16930800000000000000
+      internalID: 4134833182257289361
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: amulet_attack_animation01_5
+      name: enemy02_5
       rect:
         serializedVersion: 2
-        x: 1536
+        x: 400
         y: 0
-        width: 192
-        height: 64
+        width: 80
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -264,8 +246,52 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 817ca2bc297a2d290800000000000000
-      internalID: -7867041350147193064
+      spriteID: 39f5363ff2448aa10800000000000000
+      internalID: 1920860213811044243
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: enemy02_6
+      rect:
+        serializedVersion: 2
+        x: 480
+        y: 0
+        width: 80
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d3910b9c70ad4a2d0800000000000000
+      internalID: -3268247702580750019
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: enemy02_7
+      rect:
+        serializedVersion: 2
+        x: 560
+        y: 0
+        width: 80
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 33b5292c580dc0df0800000000000000
+      internalID: -212565809479656653
       vertices: []
       indices: 
       edges: []
@@ -274,7 +300,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 9d4eb7407b8aa3a4484fcb7b5726ecee
+    spriteID: b52734a3c5d364d42986ca7739f2e6a4
     internalID: 0
     vertices: []
     indices: 
@@ -284,14 +310,16 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":192.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":80.0,"y":80.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      amulet_attack_animation01_0: -5477828970963736104
-      amulet_attack_animation01_1: 1836080169233847491
-      amulet_attack_animation01_2: -6142173702425896454
-      amulet_attack_animation01_3: -4316333571366744387
-      amulet_attack_animation01_4: 3612894662477389058
-      amulet_attack_animation01_5: -7867041350147193064
+      enemy02_0: -8344248237123652576
+      enemy02_1: 4902278807225862461
+      enemy02_2: 3973891588836079203
+      enemy02_3: 5939415208979140777
+      enemy02_4: 4134833182257289361
+      enemy02_5: 1920860213811044243
+      enemy02_6: -3268247702580750019
+      enemy02_7: -212565809479656653
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

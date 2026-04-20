@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5027859918039971739}
   - component: {fileID: 1479421548429889900}
   - component: {fileID: 3049052211006299306}
+  - component: {fileID: 6636140509868536370}
   m_Layer: 20
   m_Name: Enemy
   m_TagString: Untagged
@@ -88,7 +89,7 @@ SpriteRenderer:
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 0, b: 0, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1, y: 1}
@@ -207,27 +208,95 @@ MonoBehaviour:
   - _stageCode: 1-1
     _maxHp: 10000
     _counterDamage: 1000
-    _sprite: {fileID: 21300000, guid: 90f90355b4f9b1849abaec46afc49636, type: 3}
+    _sprite: {fileID: -2645222260220940297, guid: 18778c438cc71074681367a43be4bf09, type: 3}
+    _idleSprites:
+    - {fileID: -2645222260220940297, guid: 18778c438cc71074681367a43be4bf09, type: 3}
+    - {fileID: -2935894812036035174, guid: 18778c438cc71074681367a43be4bf09, type: 3}
+    - {fileID: 6995432362529508024, guid: 18778c438cc71074681367a43be4bf09, type: 3}
+    - {fileID: 3685678210754588982, guid: 18778c438cc71074681367a43be4bf09, type: 3}
+    - {fileID: 4534976220867909481, guid: 18778c438cc71074681367a43be4bf09, type: 3}
+    - {fileID: 1950635353428476510, guid: 18778c438cc71074681367a43be4bf09, type: 3}
+    _hitSprite: {fileID: -1557452836956017249, guid: 18778c438cc71074681367a43be4bf09, type: 3}
+    _attackSprite: {fileID: 738859298856966268, guid: 18778c438cc71074681367a43be4bf09, type: 3}
   - _stageCode: 1-2
     _maxHp: 10000
-    _counterDamage: 99999
-    _sprite: {fileID: 21300000, guid: 58110a381ea7dcd47bbe377d80d55fee, type: 3}
+    _counterDamage: 1000
+    _sprite: {fileID: -8344248237123652576, guid: cc77e6f1eddf54c42bd43ded54e64aae, type: 3}
+    _idleSprites:
+    - {fileID: -8344248237123652576, guid: cc77e6f1eddf54c42bd43ded54e64aae, type: 3}
+    - {fileID: 4902278807225862461, guid: cc77e6f1eddf54c42bd43ded54e64aae, type: 3}
+    - {fileID: 3973891588836079203, guid: cc77e6f1eddf54c42bd43ded54e64aae, type: 3}
+    - {fileID: 5939415208979140777, guid: cc77e6f1eddf54c42bd43ded54e64aae, type: 3}
+    - {fileID: 4134833182257289361, guid: cc77e6f1eddf54c42bd43ded54e64aae, type: 3}
+    - {fileID: 1920860213811044243, guid: cc77e6f1eddf54c42bd43ded54e64aae, type: 3}
+    _hitSprite: {fileID: -212565809479656653, guid: cc77e6f1eddf54c42bd43ded54e64aae, type: 3}
+    _attackSprite: {fileID: -3268247702580750019, guid: cc77e6f1eddf54c42bd43ded54e64aae, type: 3}
   - _stageCode: 1-3
     _maxHp: 10000
     _counterDamage: 1000
-    _sprite: {fileID: 21300000, guid: 1441052eaa6c3514691f8473342e1ba7, type: 3}
+    _sprite: {fileID: 7530882342723490412, guid: a80ee7a449ce7c74a86781b7d26fafd1, type: 3}
+    _idleSprites:
+    - {fileID: 7530882342723490412, guid: a80ee7a449ce7c74a86781b7d26fafd1, type: 3}
+    - {fileID: -6140901104394878956, guid: a80ee7a449ce7c74a86781b7d26fafd1, type: 3}
+    - {fileID: 4013065848458583736, guid: a80ee7a449ce7c74a86781b7d26fafd1, type: 3}
+    - {fileID: -2873887450218874798, guid: a80ee7a449ce7c74a86781b7d26fafd1, type: 3}
+    - {fileID: -420465581676208001, guid: a80ee7a449ce7c74a86781b7d26fafd1, type: 3}
+    - {fileID: -1866259742486705142, guid: a80ee7a449ce7c74a86781b7d26fafd1, type: 3}
+    _hitSprite: {fileID: 6814389419441331822, guid: a80ee7a449ce7c74a86781b7d26fafd1, type: 3}
+    _attackSprite: {fileID: 3121289133193185140, guid: a80ee7a449ce7c74a86781b7d26fafd1, type: 3}
   - _stageCode: 2-1
     _maxHp: 10000
     _counterDamage: 1000
-    _sprite: {fileID: 21300000, guid: fe7149d58d63dce4280f9a2f6cc95498, type: 3}
+    _sprite: {fileID: -576006781039431521, guid: 46a8de30b7730bc40aad6f18c7a56555, type: 3}
+    _idleSprites:
+    - {fileID: -576006781039431521, guid: 46a8de30b7730bc40aad6f18c7a56555, type: 3}
+    - {fileID: -8429015994568713721, guid: 46a8de30b7730bc40aad6f18c7a56555, type: 3}
+    - {fileID: 8093481655319932114, guid: 46a8de30b7730bc40aad6f18c7a56555, type: 3}
+    - {fileID: -8337563421814917320, guid: 46a8de30b7730bc40aad6f18c7a56555, type: 3}
+    - {fileID: -5645429605471230714, guid: 46a8de30b7730bc40aad6f18c7a56555, type: 3}
+    - {fileID: 276375657629504757, guid: 46a8de30b7730bc40aad6f18c7a56555, type: 3}
+    _hitSprite: {fileID: 9018254400224445706, guid: 46a8de30b7730bc40aad6f18c7a56555, type: 3}
+    _attackSprite: {fileID: 2534721038672015950, guid: 46a8de30b7730bc40aad6f18c7a56555, type: 3}
   - _stageCode: 2-2
     _maxHp: 10000
     _counterDamage: 1000
-    _sprite: {fileID: 21300000, guid: 90f90355b4f9b1849abaec46afc49636, type: 3}
+    _sprite: {fileID: 4263462626376336218, guid: 3c4bca3a7ebbdc540994cdf00ac407c1, type: 3}
+    _idleSprites:
+    - {fileID: 4263462626376336218, guid: 3c4bca3a7ebbdc540994cdf00ac407c1, type: 3}
+    - {fileID: -4903312786992590617, guid: 3c4bca3a7ebbdc540994cdf00ac407c1, type: 3}
+    - {fileID: 2884240175242025769, guid: 3c4bca3a7ebbdc540994cdf00ac407c1, type: 3}
+    - {fileID: 6724266193499394071, guid: 3c4bca3a7ebbdc540994cdf00ac407c1, type: 3}
+    - {fileID: -2442367439523030260, guid: 3c4bca3a7ebbdc540994cdf00ac407c1, type: 3}
+    - {fileID: -4496557474621786885, guid: 3c4bca3a7ebbdc540994cdf00ac407c1, type: 3}
+    _hitSprite: {fileID: 7360747103147785776, guid: 3c4bca3a7ebbdc540994cdf00ac407c1, type: 3}
+    _attackSprite: {fileID: 216041576158704463, guid: 3c4bca3a7ebbdc540994cdf00ac407c1, type: 3}
   - _stageCode: 2-3
     _maxHp: 10000
     _counterDamage: 1000
-    _sprite: {fileID: 21300000, guid: 58110a381ea7dcd47bbe377d80d55fee, type: 3}
+    _sprite: {fileID: 1849426136819008294, guid: 42159f34eaee4cf42ab6b64b6b768ec3, type: 3}
+    _idleSprites:
+    - {fileID: 1849426136819008294, guid: 42159f34eaee4cf42ab6b64b6b768ec3, type: 3}
+    - {fileID: -9198375480938026568, guid: 42159f34eaee4cf42ab6b64b6b768ec3, type: 3}
+    - {fileID: -3875739564742436541, guid: 42159f34eaee4cf42ab6b64b6b768ec3, type: 3}
+    - {fileID: -5823080796866003252, guid: 42159f34eaee4cf42ab6b64b6b768ec3, type: 3}
+    - {fileID: -9146396642330806895, guid: 42159f34eaee4cf42ab6b64b6b768ec3, type: 3}
+    - {fileID: -3187435884820053282, guid: 42159f34eaee4cf42ab6b64b6b768ec3, type: 3}
+    _hitSprite: {fileID: 2554699955862264644, guid: 42159f34eaee4cf42ab6b64b6b768ec3, type: 3}
+    _attackSprite: {fileID: -9057531046350208657, guid: 42159f34eaee4cf42ab6b64b6b768ec3, type: 3}
+--- !u!114 &6636140509868536370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2273589805404516463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7872a4101902f8b40968edc85458a73f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAnimator
+  _idleFps: 8
+  _hitDuration: 0.15
 --- !u!1 &7652107172352453558
 GameObject:
   m_ObjectHideFlags: 0

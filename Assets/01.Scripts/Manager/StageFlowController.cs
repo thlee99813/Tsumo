@@ -51,7 +51,7 @@ public class StageFlowController : MonoBehaviour
 
         if (_enemyPrefab == null)
         {
-            _enemyPrefab = _currentEnemy;
+            Debug.LogWarning("[StageFlowController] Enemy Prefab이 할당되지 않았습니다. 기존 씬 Enemy를 재사용합니다.");
         }
 
         _battleController.SetEnemy(_currentEnemy);
@@ -268,6 +268,17 @@ public class StageFlowController : MonoBehaviour
 
     private void SpawnNewEnemy()
     {
+        // _enemyPrefab 미할당 시 기존 Enemy를 Reset해서 재사용
+        if (_enemyPrefab == null)
+        {
+            _currentEnemy.ResetEnemy();
+            ApplyEnemyStatsForCurrentStage();
+            _battleController.SetEnemy(_currentEnemy);
+            _ingameController.SetEnemy(_currentEnemy);
+            _player.SetPopupTarget(_currentEnemy.HeadPoint);
+            return;
+        }
+
         Vector3 spawnPosition = _enemySpawnPoint != null ? _enemySpawnPoint.position : _currentEnemy.transform.position;
         Quaternion spawnRotation = _enemySpawnPoint != null ? _enemySpawnPoint.rotation : _currentEnemy.transform.rotation;
         Transform spawnParent = _enemyParent != null ? _enemyParent : _currentEnemy.transform.parent;
@@ -283,7 +294,6 @@ public class StageFlowController : MonoBehaviour
         _ingameController.SetEnemy(_currentEnemy);
         _player.SetPopupTarget(_currentEnemy.HeadPoint);
         ApplyEnemyStatsForCurrentStage();
-
     }
 
     private void ApplyEnemyStatsForCurrentStage()
