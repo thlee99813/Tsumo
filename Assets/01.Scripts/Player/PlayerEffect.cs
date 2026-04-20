@@ -45,7 +45,7 @@ public class PlayerEffect : MonoBehaviour
         float fps = fpsOverride > 0f ? fpsOverride : _effectFps;
         _currentEffect = StartCoroutine(PlayEffectCoroutine(sprites, fps));
     }
-
+    
     private IEnumerator PlayEffectCoroutine(Sprite[] sprites, float fps)
     {
         if(sprites == null || sprites.Length == 0) yield break;
