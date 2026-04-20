@@ -37,12 +37,12 @@ public class PlayerAnimator : MonoBehaviour
     [SerializeField] private AttackAnimationTiming _shurikenTiming = new AttackAnimationTiming();
     [SerializeField] private AttackAnimationTiming _spellTiming = new AttackAnimationTiming();
 
+    [Header("Reference")]
+    [SerializeField] private BattleImpulseEmitter _impulseEmitter;
+
     private SpriteRenderer _spriteRenderer;
     private Coroutine _currentAnim;
-    private int _runFrameIndex = 0;
-
-    [SerializeField] private BattleImpulseEmitter _impulseEmitter;
-    private int _loopFrameIndex = 0;
+    private int _loopFrameIndex;
 
     public event Action OnAnimationComplete;
     public event Action OnHitFrame;
@@ -81,6 +81,9 @@ public class PlayerAnimator : MonoBehaviour
     private void Awake()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
+
+        if (_impulseEmitter == null)
+            _impulseEmitter = GetComponent<BattleImpulseEmitter>();
     }
 
     private void Start()
