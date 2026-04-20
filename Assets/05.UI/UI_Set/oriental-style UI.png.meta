@@ -268,7 +268,7 @@ TextureImporter:
         height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 27, y: 0, z: 27, w: 0}
       customData: 
       outline: []
       physicsShape: []
@@ -290,7 +290,7 @@ TextureImporter:
         height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 26, y: 0, z: 26, w: 0}
       customData: 
       outline: []
       physicsShape: []
@@ -328,13 +328,13 @@ TextureImporter:
       name: oriental-style UI_6
       rect:
         serializedVersion: 2
-        x: 115
-        y: 147
-        width: 45
+        x: 117
+        y: 148
+        width: 38
         height: 43
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 18, y: 20, z: 17, w: 20}
       customData: 
       outline: []
       physicsShape: []
@@ -394,13 +394,13 @@ TextureImporter:
       name: oriental-style UI_9
       rect:
         serializedVersion: 2
-        x: 5
-        y: 144
-        width: 56
-        height: 16
+        x: 6
+        y: 145
+        width: 54
+        height: 14
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 26, y: 0, z: 26, w: 0}
       customData: 
       outline: []
       physicsShape: []
@@ -482,13 +482,13 @@ TextureImporter:
       name: oriental-style UI_13
       rect:
         serializedVersion: 2
-        x: 6
-        y: 129
-        width: 55
-        height: 14
+        x: 7
+        y: 130
+        width: 53
+        height: 12
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 26, y: 5, z: 26, w: 5}
       customData: 
       outline: []
       physicsShape: []
@@ -592,10 +592,10 @@ TextureImporter:
       name: oriental-style UI_18
       rect:
         serializedVersion: 2
-        x: 2
-        y: 90
-        width: 141
-        height: 11
+        x: 3
+        y: 91
+        width: 155
+        height: 9
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -614,12 +614,12 @@ TextureImporter:
       name: oriental-style UI_19
       rect:
         serializedVersion: 2
-        x: 147
+        x: 162
         y: 49
         width: 93
         height: 63
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -908,7 +908,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       oriental-style UI_0: -5585306065950653547
       oriental-style UI_1: -3606344528792618844
