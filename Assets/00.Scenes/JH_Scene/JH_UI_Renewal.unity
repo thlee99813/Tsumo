@@ -934,7 +934,7 @@ SpriteRenderer:
   m_SortingOrder: 2
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: cf97a7ff719f4ce4eb8a153d0e5888b6, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.6, g: 0.6, b: 0.6, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -5690,8 +5690,8 @@ MonoBehaviour:
   _shurikenOffset: 3
   _attackDamage: 10
   _attackMoveDuration: 0.2
-  _currentHp: 0
   _popupController: {fileID: 0}
+  _currentHp: 0
 --- !u!61 &670580916
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5914,6 +5914,7 @@ MonoBehaviour:
   _teleportFps: 12
   _hitFrameIndex: 2
   _hitFrameDelay: 0.3
+  _impulseEmitter: {fileID: 0}
 --- !u!1 &681766940
 GameObject:
   m_ObjectHideFlags: 0
@@ -6236,9 +6237,12 @@ MonoBehaviour:
   _deckController: {fileID: 1104391248}
   _battleController: {fileID: 447693665}
   _uiController: {fileID: 66396984}
+  _doraController: {fileID: 0}
   _battleResultPresenter: {fileID: 537314425}
   _player: {fileID: 670580915}
   _comboSynergyJudge: {fileID: 0}
+  _yakuEpicMomentController: {fileID: 0}
+  _synergyTierEffect: {fileID: 0}
   _enemyPrefab: {fileID: 324108145492096438, guid: 9c84e5289a0797843b47e4dd5bbbbdee, type: 3}
   _enemySpawnPoint: {fileID: 1772224206}
   _enemyParent: {fileID: 1409858247}
@@ -8692,6 +8696,7 @@ MonoBehaviour:
   - {fileID: 22483216}
   _tempStorageController: {fileID: 1105583188}
   _fireScoreCalculator: {fileID: 1104391249}
+  _doraController: {fileID: 0}
   _handSort: 0
   _deckCards: []
   _handCards: []
@@ -14070,7 +14075,7 @@ SpriteRenderer:
   m_SortingOrder: 2
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: cf97a7ff719f4ce4eb8a153d0e5888b6, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.6, g: 0.6, b: 0.6, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -15080,7 +15085,7 @@ SpriteRenderer:
   m_SortingOrder: 2
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: cf97a7ff719f4ce4eb8a153d0e5888b6, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.6, g: 0.6, b: 0.6, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -16044,7 +16049,7 @@ SpriteRenderer:
   m_SortingOrder: 2
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: cf97a7ff719f4ce4eb8a153d0e5888b6, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.6, g: 0.6, b: 0.6, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
