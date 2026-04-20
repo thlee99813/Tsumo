@@ -18,6 +18,8 @@ public class StageFlowController : MonoBehaviour
     [SerializeField] private ComboSynergyJudge _comboSynergyJudge;
     [SerializeField] private YakuEpicMomentController _yakuEpicMomentController;
     [SerializeField] private SynergyTierEffect _synergyTierEffect;
+    [SerializeField] private StageIntroDialogueController _stageIntroDialogueController;
+
 
 
     [Header("Enemy Spawn")]
@@ -41,6 +43,7 @@ public class StageFlowController : MonoBehaviour
     private Enemy _currentEnemy;
 
     private bool _isBossIntroPending;
+    private bool _isStageIntroPending;
 
 
     private void Start()
@@ -82,8 +85,10 @@ public class StageFlowController : MonoBehaviour
 
         _doraController.ApplyStage(_currentStageIndex);
         ApplyStageSpecialRule();
+        _isStageIntroPending = true;
         _isRunning = true;
         StartCoroutine(StageTurnLoop());
+
     }
 
     private void OnDestroy()
@@ -114,7 +119,9 @@ public class StageFlowController : MonoBehaviour
             || _player == null
             || _doraController == null
             || _tempStorageController == null
-            || _yakuEpicMomentController == null)
+            || _yakuEpicMomentController == null
+            || _stageIntroDialogueController == null)
+
         {
             Debug.LogError("필수참조해제");
             return false;
@@ -136,7 +143,14 @@ public class StageFlowController : MonoBehaviour
         {
             _enemyDefeatedThisTurn = false;
 
+            yield return PlayStageIntroIfNeeded();
+            if (!_isRunning || !_ingameController.IsRunning)
+            {
+                yield break;
+            }
+
             yield return _ingameController.RunIdlePhase();
+
             if (!_isRunning || !_ingameController.IsRunning)
             {
                 yield break;
@@ -257,6 +271,10 @@ public class StageFlowController : MonoBehaviour
         {
             _checkpointStageIndex = 3;
         }
+        if (_currentStageIndex == _stage2StartIndex)
+        {
+            _player.ResetHp();
+        }
 
         SpawnNewEnemy();
         _deckController.BuildDeckAndDrawHand();
@@ -265,6 +283,7 @@ public class StageFlowController : MonoBehaviour
 
         _doraController.ApplyStage(_currentStageIndex);
         ApplyStageSpecialRule();
+        _isStageIntroPending = true;
 
         return true;
     }
@@ -321,9 +340,11 @@ public class StageFlowController : MonoBehaviour
 
         _doraController.ApplyStage(_currentStageIndex);
         ApplyStageSpecialRule();
+        _isStageIntroPending = true;
 
         _isRunning = true;
         StartCoroutine(StageTurnLoop());
+
     }
 
     private void SpawnNewEnemy()
@@ -386,6 +407,36 @@ public class StageFlowController : MonoBehaviour
         _isBossIntroPending = false;
         _tempStorageController.RestoreDefaultSlotCount();
     }
+    private IEnumerator PlayStageIntroIfNeeded()
+    {
+        if (!_isStageIntroPending)
+        {
+            yield break;
+        }
+
+        if (_currentStageIndex == _stage1BossIndex) // 1-3
+        {
+            yield return _stageIntroDialogueController.Play(
+                "보스가 나타나 임시 저장소\n한칸을 부숴버렸어");
+        }
+        else if (_currentStageIndex == _stage2StartIndex) // 2-1
+        {
+            yield return _stageIntroDialogueController.Play(
+                "추가점수 카드를 이용해\n스쿼드를 구성하면",
+                "기본 콤보 점수에\n추가 점수 1000점을줘");
+
+        }
+        else if (_currentStageIndex == _stage2BossIndex) // 2-3
+        {
+            yield return _stageIntroDialogueController.Play(
+                "추가점수 카드가 오염됐어",
+                "오염된 카드를 스쿼드에\n 넣고 콤보를 완성하지 못하면",
+                "-1000점으로 계산해");
+        }
+
+        _isStageIntroPending = false;
+    }
+
 
 
 }
