@@ -186,7 +186,7 @@ public class IngameController : MonoBehaviour
                     if (squad.IsValid) squadScores.Add(squad.BaseScore);
             }
 
-            _player.ExecuteCombo(_enemy.transform.position.x, squadScores, fireData.FinalDamage);
+            _player.ExecuteCombo(_enemy.transform.position.x, squadScores, fireData.FinalDamage, fireData.ScoreResult);
             yield return new WaitUntil(() => !_player.IsAttacking || !_isRunning);
             if (!_isRunning) yield break;
 

@@ -139,7 +139,7 @@ public class Player : MonoBehaviour
     }
 
     //IngameController에서 호출 내부 콤보 리스트 사용
-    public void ExecuteCombo(float targetX, List<int> squadScores, int finalScore, Action onTeleport = null)
+    public void ExecuteCombo(float targetX, List<int> squadScores, int finalScore, FireScoreResult scoreResult = null, Action onTeleport = null)
     {
         if(_comboList.Count == 0)
         {
@@ -148,7 +148,7 @@ public class Player : MonoBehaviour
             return;
         }
         _isAttacking = true;
-        StartCoroutine(ComboCoroutine(targetX, squadScores, finalScore, onTeleport));
+        StartCoroutine(ComboCoroutine(targetX, squadScores, finalScore, scoreResult, onTeleport));
     }
 
     private IEnumerator EmptyComboCoroutine()
@@ -158,7 +158,7 @@ public class Player : MonoBehaviour
         _isAttacking = false;
     }
 
-    private IEnumerator ComboCoroutine(float targetX, List<int> squadScores, int finalScore, Action onTeleport = null)
+    private IEnumerator ComboCoroutine(float targetX, List<int> squadScores, int finalScore, FireScoreResult scoreResult = null, Action onTeleport = null)
     {
         for(int i = 0; i < _comboList.Count; i++)
         {
@@ -182,10 +182,23 @@ public class Player : MonoBehaviour
         _attackOverrides.Clear();
         _synergyCardTypes.Clear();
         ClearCombo();
-        if (finalScore > 0)
-            _popupController?.ShowFinalScore(finalScore);
+
         onTeleport?.Invoke();
         TeleportToStart();
+
+        // if (_popupController != null && scoreResult?.YakuResults != null)
+        // {
+        //     foreach (var yaku in scoreResult.YakuResults)
+        //     {
+        //         bool done = false;
+        //         _popupController.ShowYakuBonus(yaku.Name, yaku.BonusMultiplier, () => done = true);
+        //         yield return new WaitUntil(() => done);
+        //     }
+        // }
+
+        if (finalScore > 0)
+            _popupController?.ShowFinalScore(finalScore);
+
         yield return new WaitUntil(() => !_isTeleporting);
         _isAttacking = false;
     }
