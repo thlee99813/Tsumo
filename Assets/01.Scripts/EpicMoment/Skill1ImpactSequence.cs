@@ -96,7 +96,7 @@ public class Skill1ImpactSequence : MonoBehaviour
 
             hitSequence.AppendCallback(() =>
             {
-                ImpurseSource.EmitHitImpulse(true);
+                ImpurseSource.EmitHitImpulseAll(true);
             });
 
 
