@@ -53,6 +53,8 @@ public class DeckController : MonoBehaviour
 
     public void BuildDeck()
     {
+        ClearPlayZonesForRestart();
+
         _deckCards.Clear();
         _handCards.Clear();
         _discardCards.Clear();
@@ -230,7 +232,13 @@ public class DeckController : MonoBehaviour
             return new FireScoreResult();
         }
 
-        return _fireScoreCalculator.Calculate(_squadZones, _doraController.CurrentDoraCard, _doraController.IsUnlocked);
+        return _fireScoreCalculator.Calculate(
+        _squadZones,
+        _doraController.CurrentDoraCard,
+        _doraController.IsUnlocked && !_doraController.IsCursedDoraMode,
+        _doraController.CurrentCursedDoraCards,
+        _doraController.IsCursedDoraMode);
+
     }
 
     public void CompleteTurnAfterFire()
@@ -275,7 +283,12 @@ public class DeckController : MonoBehaviour
             return data;
         }
 
-        FireScoreResult result = _fireScoreCalculator.Calculate(_squadZones, _doraController.CurrentDoraCard, _doraController.IsUnlocked);
+        FireScoreResult result = _fireScoreCalculator.Calculate(
+            _squadZones,
+            _doraController.CurrentDoraCard,
+            _doraController.IsUnlocked && !_doraController.IsCursedDoraMode,
+            _doraController.CurrentCursedDoraCards,
+            _doraController.IsCursedDoraMode);
         data.ScoreResult = result;
         data.FinalDamage = Mathf.Max(0, result.FinalScore);
 
@@ -394,5 +407,15 @@ public class DeckController : MonoBehaviour
 
         _tempStorageController.RefreshAllSlotViews();
     }
+    private void ClearPlayZonesForRestart()
+    {
+        for (int i = 0; i < _squadZones.Count; i++)
+        {
+            _squadZones[i].ClearRegisteredCardsForRestart();
+        }
+
+        _tempStorageController.ClearStoredCardsForRestart();
+    }
+
 
 }

@@ -1,6 +1,6 @@
 using UnityEngine;
 using TMPro;
-
+using System.Collections.Generic;
 public class CardView : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer _borderRenderer;
@@ -8,9 +8,12 @@ public class CardView : MonoBehaviour
     [SerializeField] private CardData _cardData;
 
     [SerializeField] private GameObject _doraEffect;
+    [SerializeField] private GameObject _curseDoraEffect;
 
-    private static CardData _currentDoraCard;
     private static bool _isDoraEnabled;
+    private static bool _isCursedDoraMode;
+    private static readonly List<CardData> _activeDoraCards = new List<CardData>();
+
 
 
     [Header("Border Sprites")]
@@ -39,22 +42,47 @@ public class CardView : MonoBehaviour
         RefreshView();
     }
 
-    public static void SetDoraState(CardData doraCardData, bool isDoraEnabled)
+    public static void SetDoraState(List<CardData> doraCards, bool isDoraEnabled, bool isCursedDoraMode)
     {
-        _currentDoraCard = doraCardData;
         _isDoraEnabled = isDoraEnabled;
+        _isCursedDoraMode = isCursedDoraMode;
+        _activeDoraCards.Clear();
+
+        if (doraCards == null) return;
+
+        for (int i = 0; i < doraCards.Count; i++)
+        {
+            CardData card = doraCards[i];
+            if (card != null)
+            {
+                _activeDoraCards.Add(card);
+            }
+        }
     }
+
+
 
     private void ApplyDoraEffect()
     {
-        bool isMatch = _isDoraEnabled
-                    && _currentDoraCard != null
-                    && _cardData != null
-                    && _cardData.Type == _currentDoraCard.Type
-                    && _cardData.Number == _currentDoraCard.Number;
+        bool isMatch = false;
 
-        _doraEffect.SetActive(isMatch);
+        if (_isDoraEnabled && _cardData != null)
+        {
+            for (int i = 0; i < _activeDoraCards.Count; i++)
+            {
+                CardData dora = _activeDoraCards[i];
+                if (dora != null && _cardData.Type == dora.Type && _cardData.Number == dora.Number)
+                {
+                    isMatch = true;
+                    break;
+                }
+            }
+        }
+
+        _doraEffect.SetActive(isMatch && !_isCursedDoraMode);
+        _curseDoraEffect.SetActive(isMatch && _isCursedDoraMode);
     }
+
 
 
     public void RefreshView()
@@ -62,8 +90,10 @@ public class CardView : MonoBehaviour
         if (_cardData == null)
         {
             _doraEffect.SetActive(false);
+            _curseDoraEffect.SetActive(false);
             return;
         }
+
 
         ApplyBorderSpriteByType();
         ApplyTexts();

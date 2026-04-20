@@ -26,9 +26,10 @@ public class FireScoreResult
 
             if (!squad.IsValid)
             {
-                sb.AppendLine($"- Squad {squad.SquadIndex + 1}: {numbers} -> 무효 (0)");
+                sb.AppendLine($"- Squad {squad.SquadIndex + 1}: {numbers} -> 무효 ({squad.BaseScore})");
                 continue;
             }
+
 
             if (squad.DoraBonusScore > 0)
             {

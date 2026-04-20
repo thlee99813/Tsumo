@@ -9,6 +9,9 @@ public class SquadScoreResult
     public int ComboScore;
     public int DoraMatchCount;
     public int DoraBonusScore;
+    public int CursedDoraMatchCount;
+    public int CursedDoraScoreDelta;
+
 
 
     public string ComboDisplayName => ComboType switch

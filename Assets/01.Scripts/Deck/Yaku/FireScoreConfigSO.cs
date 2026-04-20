@@ -23,7 +23,14 @@ public class FireScoreConfigSO : ScriptableObject
     [Header("Dora")]
     [SerializeField] private int _doraBonusScorePerMatchedCard = 1000;
 
+    [Header("Cursed Dora")]
+    [SerializeField] private int _cursedDoraValidBonusScore = 500;
+    [SerializeField] private int _cursedDoraInvalidPenaltyScore = 1000;
+
     public int DoraBonusScorePerMatchedCard => _doraBonusScorePerMatchedCard;
+    public int CursedDoraValidBonusScore => _cursedDoraValidBonusScore;
+    public int CursedDoraInvalidPenaltyScore => _cursedDoraInvalidPenaltyScore;
+
 
 
     [Header("편일문")]

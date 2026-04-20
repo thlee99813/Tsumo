@@ -11,7 +11,6 @@ public class UIController : MonoBehaviour
 
     [Header("Panels")]
     [SerializeField] private GameObject _gameOverImage;
-    [SerializeField] private GameObject _battleResultPanel;
 
     public event Action OnRestartClicked;
 
@@ -56,15 +55,7 @@ public class UIController : MonoBehaviour
         }
     }
 
-    public void ShowBattleResultPanel()
-    {
-        _battleResultPanel.SetActive(true);
-    }
-
-    public void HideBattleResultPanelImmediate()
-    {
-        _battleResultPanel.SetActive(false);
-    }
+    
 
     public void OnClickRestartButton()
     {

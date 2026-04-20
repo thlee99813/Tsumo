@@ -44,7 +44,6 @@ public class BattleResultPresenter : MonoBehaviour
 
         float prevTimeScale = Time.timeScale;
         Time.timeScale = 0f;
-        _uiController.ShowBattleResultPanel();
         ClearAllTexts();
 
         FireScoreResult scoreResult = fireExecutionData != null ? fireExecutionData.ScoreResult : null;
@@ -154,7 +153,6 @@ public class BattleResultPresenter : MonoBehaviour
         yield return new WaitForSecondsRealtime(_resultPanelHoldSeconds);
 
         ClearAllTexts();
-        _uiController.HideBattleResultPanelImmediate();
         Time.timeScale = prevTimeScale;
     }
 
