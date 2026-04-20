@@ -15,20 +15,11 @@ MonoBehaviour:
   _sequenceScore: 1000
   _tripleScore: 1500
   _partialFlushTwoSetsBonus: 0.5
-  _partialFlushTwoSetsStandalone: 4500
   _doubleTripleBonus: 0.8
-  _doubleTripleStandalone: 5400
   _doubleSequenceBonus: 1
-  _doubleSequenceStandalone: 6000
   _allTriplesBonus: 1.5
-  _allTriplesStandalone: 7500
   _straightOneToNineBonus: 1.7
-  _straightOneToNineStandalone: 8100
   _fullFlushBonus: 1.8
-  _fullFlushStandalone: 8400
-  _sanshokuDojunBonus: 2.3
-  _sanshokuDojunStandalone: 9900
+  _sanshokuDojunBonus: 2.5
   _tripleSequenceBonus: 3.5
-  _tripleSequenceStandalone: 13500
   _sanshokuDoukouBonus: 4.5
-  _sanshokuDoukouStandalone: 15000
