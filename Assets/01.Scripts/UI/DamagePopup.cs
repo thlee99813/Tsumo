@@ -8,7 +8,7 @@ public class DamagePopup : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _text;
     [SerializeField] private float _riseDuration = 0.8f;
     [SerializeField] private float _riseHeight = 1.5f;
-    [SerializeField] private float _tallyStepDuration = 0.35f;
+    //[SerializeField] private float _tallyStepDuration = 0.35f;
     [SerializeField] private float _tallyFadeDuration = 0.4f;
     [SerializeField] private Color _baseScroeColor = Color.white;
     [SerializeField] private Color _finalScoreColor = Color.yellow;

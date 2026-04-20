@@ -16,6 +16,7 @@ public class StageFlowController : MonoBehaviour
     [SerializeField] private Player _player;
     [SerializeField] private ComboSynergyJudge _comboSynergyJudge;
     [SerializeField] private YakuEpicMomentController _yakuEpicMomentController;
+    [SerializeField] private SynergyTierEffect _synergyTierEffect;
 
 
     [Header("Enemy Spawn")]
@@ -175,10 +176,12 @@ public class StageFlowController : MonoBehaviour
             {
                 yield return _yakuEpicMomentController.PlayMatched(fireExecutionData.ScoreResult);
 
-                if (!_isRunning || !_ingameController.IsRunning)
-                {
-                    yield break;
-                }
+                if (!_isRunning || !_ingameController.IsRunning) yield break;
+
+                if (_synergyTierEffect != null && fireExecutionData.ScoreResult != null)
+                    yield return _synergyTierEffect.Play(fireExecutionData.ScoreResult.FinalMultiplier);
+
+                if (!_isRunning || !_ingameController.IsRunning) yield break;
             }
 
 
