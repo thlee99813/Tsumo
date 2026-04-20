@@ -55,6 +55,7 @@ public class StageFlowController : MonoBehaviour
         _ingameController.OnEnemyAppear += HandleEnemyAppear;
         _battleController.OnEnemyDead += HandleEnemyDead;
         _uiController.OnRestartClicked += HandleRestartClicked;
+        _player.OnEnemyAttack += HandleEnemyAttack;
 
         _currentStageIndex = Mathf.Clamp(_currentStageIndex, 0, _stageCodes.Length - 1);
 
@@ -280,8 +281,13 @@ public class StageFlowController : MonoBehaviour
         if (_currentStageIndex != _stage1BossIndex) return;
         if (!_isBossIntroPending) return;
 
-        _currentEnemy.PlayAttackAnimation();
+        //_currentEnemy.PlayAttackAnimation();
         _isBossIntroPending = false;
+    }
+
+    private void HandleEnemyAttack()
+    {
+        _currentEnemy.PlayAttackAnimation();
     }
 
 

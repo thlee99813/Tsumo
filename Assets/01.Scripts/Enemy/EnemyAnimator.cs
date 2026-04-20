@@ -132,7 +132,9 @@ public class EnemyAnimator : MonoBehaviour
     private IEnumerator AttackCoroutine()
     {
         _spriteRenderer.sprite = _attackSprite;
-        yield return new WaitForSecondsRealtime(0.35f); // 1프레임 정도 유지
+         transform.DOPunchScale(_hitPunchScale, _hitPunchDuration, _hitPunchVibrato, _hitPunchElasticity)
+            .SetUpdate(true);
+        yield return new WaitForSecondsRealtime(0.6f);
         PlayIdle();
     }
     
