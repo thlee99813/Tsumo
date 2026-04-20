@@ -115,12 +115,12 @@ TextureImporter:
       name: oriental-style button_0
       rect:
         serializedVersion: 2
-        x: 5
-        y: 52
-        width: 71
-        height: 25
+        x: 1
+        y: 69
+        width: 92
+        height: 22
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -137,12 +137,12 @@ TextureImporter:
       name: oriental-style button_1
       rect:
         serializedVersion: 2
-        x: 80
-        y: 48
+        x: 94
+        y: 64
         width: 49
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -162,9 +162,9 @@ TextureImporter:
         x: 0
         y: 1
         width: 64
-        height: 46
+        height: 62
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -181,12 +181,12 @@ TextureImporter:
       name: oriental-style button_3
       rect:
         serializedVersion: 2
-        x: 65
-        y: 5
-        width: 31
-        height: 40
+        x: 66
+        y: 27
+        width: 29
+        height: 38
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -204,11 +204,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 98
-        y: 3
+        y: 19
         width: 44
         height: 41
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -221,11 +221,33 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: oriental-style button_5
+      rect:
+        serializedVersion: 2
+        x: 67
+        y: 2
+        width: 14
+        height: 22
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: efbbb0c7f6641594db71d31a6c3632b7
+      internalID: 1667239150
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 95a2f031d3409304fa0553122e6e1802
     internalID: 0
     vertices: []
     indices: 
@@ -233,13 +255,16 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       oriental-style button_0: -3096218255343773874
       oriental-style button_1: -8539647358393396511
       oriental-style button_2: -5059993250485046999
       oriental-style button_3: -4316834809174597918
       oriental-style button_4: 9150841195964752674
+      oriental-style button_5: 1667239150
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
