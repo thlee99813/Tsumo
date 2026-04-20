@@ -238,6 +238,7 @@ MonoBehaviour:
   _effectText: {fileID: 5330153833367527905}
   _cardData: {fileID: 0}
   _doraEffect: {fileID: 728597781481706380}
+  _curseDoraEffect: {fileID: 7214593002668140289}
   _swordBorderSprite: {fileID: 21300000, guid: 061c1a7d5e23b0b41b92ffb673db04f4, type: 3}
   _kunaiBorderSprite: {fileID: 21300000, guid: db3bf5bc0d916f3438170444d2b8d9f8, type: 3}
   _foxSpiritBorderSprite: {fileID: 21300000, guid: e088c2037234ce246999e5ce8c2d9c6c, type: 3}
@@ -538,7 +539,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 4.2338653, y: 2.9634092, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8034606494031486218}

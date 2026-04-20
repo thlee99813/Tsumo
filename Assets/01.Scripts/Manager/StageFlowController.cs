@@ -11,8 +11,9 @@ public class StageFlowController : MonoBehaviour
     [SerializeField] private BattleController _battleController;
     [SerializeField] private UIController _uiController;
     [SerializeField] private DoraController _doraController;
+    [SerializeField] private TempStorageController _tempStorageController;
 
-    [SerializeField] private BattleResultPresenter _battleResultPresenter;
+
     [SerializeField] private Player _player;
     [SerializeField] private ComboSynergyJudge _comboSynergyJudge;
     [SerializeField] private YakuEpicMomentController _yakuEpicMomentController;
@@ -28,11 +29,19 @@ public class StageFlowController : MonoBehaviour
     [SerializeField] private int _currentStageIndex = 0;
 
     private readonly string[] _stageCodes = { "1-1", "1-2", "1-3", "2-1", "2-2", "2-3" };
+    [SerializeField] private int _stage1BossIndex = 2;      // 1-3
+    [SerializeField] private int _stage2StartIndex = 3;     // 2-1
+    [SerializeField] private int _bossTempUsableSlotCount = 1;
+    [SerializeField] private int _stage2BossIndex = 5; // 2-3
+
 
     private int _checkpointStageIndex = 0;
     private bool _isRunning;
     private bool _enemyDefeatedThisTurn;
     private Enemy _currentEnemy;
+
+    private bool _isBossIntroPending;
+
 
     private void Start()
     {
@@ -43,6 +52,7 @@ public class StageFlowController : MonoBehaviour
         }
 
         _ingameController.OnPlayerDead += HandlePlayerDead;
+        _ingameController.OnEnemyAppear += HandleEnemyAppear;
         _battleController.OnEnemyDead += HandleEnemyDead;
         _uiController.OnRestartClicked += HandleRestartClicked;
 
@@ -67,11 +77,10 @@ public class StageFlowController : MonoBehaviour
         ApplyEnemyStatsForCurrentStage();
 
         _uiController.HideGameOver();
-        _uiController.HideBattleResultPanelImmediate();
         _uiController.SetStageText(_stageCodes[_currentStageIndex]);
 
         _doraController.ApplyStage(_currentStageIndex);
-
+        ApplyStageSpecialRule();
         _isRunning = true;
         StartCoroutine(StageTurnLoop());
     }
@@ -81,6 +90,7 @@ public class StageFlowController : MonoBehaviour
         if (_ingameController != null)
         {
             _ingameController.OnPlayerDead -= HandlePlayerDead;
+            _ingameController.OnEnemyAppear -= HandleEnemyAppear;
         }
 
         if (_battleController != null)
@@ -100,9 +110,9 @@ public class StageFlowController : MonoBehaviour
             || _deckController == null
             || _battleController == null
             || _uiController == null
-            || _battleResultPresenter == null
             || _player == null
             || _doraController == null
+            || _tempStorageController == null
             || _yakuEpicMomentController == null)
         {
             Debug.LogError("필수참조해제");
@@ -196,8 +206,6 @@ public class StageFlowController : MonoBehaviour
             int playerRemainHp = _player.CurrentHp;
             int enemyDamageToPlayer = Mathf.Max(0, playerHpBeforeBattle - playerRemainHp);
 
-            yield return _battleResultPresenter.PlayBattleResultPanel(fireExecutionData, enemyHpBeforeBattle, enemyRemainHp, playerHpBeforeBattle, enemyDamageToPlayer, playerRemainHp);
-
 
             if (!_isRunning || !_ingameController.IsRunning)
             {
@@ -255,6 +263,7 @@ public class StageFlowController : MonoBehaviour
         _uiController.SetStageText(_stageCodes[_currentStageIndex]);
 
         _doraController.ApplyStage(_currentStageIndex);
+        ApplyStageSpecialRule();
 
         return true;
     }
@@ -264,9 +273,17 @@ public class StageFlowController : MonoBehaviour
         StopFlow();
 
         _checkpointStageIndex = GetCheckpointIndex(_currentStageIndex);
-        _uiController.HideBattleResultPanelImmediate();
         _uiController.ShowGameOver(_stageCodes[_checkpointStageIndex]);
     }
+    private void HandleEnemyAppear()
+    {
+        if (_currentStageIndex != _stage1BossIndex) return;
+        if (!_isBossIntroPending) return;
+
+        _currentEnemy.PlayAttackAnimation();
+        _isBossIntroPending = false;
+    }
+
 
     private int GetCheckpointIndex(int stageIndex)
     {
@@ -294,10 +311,10 @@ public class StageFlowController : MonoBehaviour
         _ingameController.ResetForRespawn();
 
         _uiController.HideGameOver();
-        _uiController.HideBattleResultPanelImmediate();
         _uiController.SetStageText(_stageCodes[_currentStageIndex]);
 
         _doraController.ApplyStage(_currentStageIndex);
+        ApplyStageSpecialRule();
 
         _isRunning = true;
         StartCoroutine(StageTurnLoop());
@@ -305,7 +322,6 @@ public class StageFlowController : MonoBehaviour
 
     private void SpawnNewEnemy()
     {
-        // _enemyPrefab 미할당 시 기존 Enemy를 Reset해서 재사용
         if (_enemyPrefab == null)
         {
             _currentEnemy.ResetEnemy();
@@ -345,4 +361,25 @@ public class StageFlowController : MonoBehaviour
         enemy.ResetEnemy();
         
     }
+    private void ApplyStageSpecialRule()
+    {
+        if (_currentStageIndex == _stage1BossIndex)
+        {
+            _isBossIntroPending = true;
+            _tempStorageController.SetUsableSlotCount(_bossTempUsableSlotCount, true);
+            return;
+        }
+
+        if (_currentStageIndex == _stage2BossIndex)
+        {
+            _isBossIntroPending = false;
+            _tempStorageController.SetUsableSlotCount(_bossTempUsableSlotCount, true);
+            return;
+        }
+
+        _isBossIntroPending = false;
+        _tempStorageController.RestoreDefaultSlotCount();
+    }
+
+
 }

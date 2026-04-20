@@ -132,7 +132,7 @@ public class EnemyAnimator : MonoBehaviour
     private IEnumerator AttackCoroutine()
     {
         _spriteRenderer.sprite = _attackSprite;
-        yield return new WaitForSecondsRealtime(0.1f); // 1프레임 정도 유지
+        yield return new WaitForSecondsRealtime(0.35f); // 1프레임 정도 유지
         PlayIdle();
     }
     

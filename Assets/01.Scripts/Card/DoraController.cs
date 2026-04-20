@@ -1,11 +1,23 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class DoraController : MonoBehaviour
 {
     [Header("Refs")]
     [SerializeField] private DeckController _deckController;
-    [SerializeField] private GameObject _doraRootObject;
-    [SerializeField] private CardView _doraCardView;
+    [SerializeField] private GameObject _normalDoraRootObject;
+    [SerializeField] private CardView _normalDoraCardView;
+    [SerializeField] private List<GameObject> _cursedDoraRootObjects = new List<GameObject>();
+    [SerializeField] private List<CardView> _cursedDoraCardViews = new List<CardView>();
+    [SerializeField] private int _cursedDoraStageIndex = 5; // 2-3
+    [SerializeField] private int _cursedDoraCount = 6;
+    [SerializeField] private bool _isCursedDoraMode;
+    [SerializeField] private List<CardData> _currentCursedDoraCards = new List<CardData>();
+
+    public bool IsCursedDoraMode => _isCursedDoraMode;
+    public List<CardData> CurrentCursedDoraCards => _currentCursedDoraCards;
+
+
 
     [Header("Rule")]
     [SerializeField] private int _doraUnlockStageIndex = 3;
@@ -19,20 +31,54 @@ public class DoraController : MonoBehaviour
 
     public void ApplyStage(int stageIndex)
     {
-        bool shouldUnlock = stageIndex >= _doraUnlockStageIndex;
-        _isUnlocked = shouldUnlock;
+        _isUnlocked = stageIndex >= _doraUnlockStageIndex;
+        _isCursedDoraMode = _isUnlocked && stageIndex == _cursedDoraStageIndex;
 
-        if (!shouldUnlock)
+        if (!_isUnlocked)
         {
             _currentDoraCard = null;
-            _doraRootObject.SetActive(false);
+            _currentCursedDoraCards.Clear();
+            _normalDoraRootObject.SetActive(false);
+            SetCursedDoraRootsActive(0);
             SyncDoraVisualState();
             return;
         }
 
-        _doraRootObject.SetActive(true);
+        if (_isCursedDoraMode)
+        {
+            _normalDoraRootObject.SetActive(false);
+            int visibleCount = GetCursedDoraVisibleCount();
+            SetCursedDoraRootsActive(visibleCount);
+            RollNewCursedDoraCards(visibleCount);
+        }
+        else
+        {
+            _currentCursedDoraCards.Clear();
+            SetCursedDoraRootsActive(0);
+            _normalDoraRootObject.SetActive(true);
 
-        if (_currentDoraCard == null)
+            if (_currentDoraCard == null)
+            {
+                RollNewDoraCard();
+            }
+        }
+
+        SyncDoraVisualState();
+    }
+
+
+
+
+    public void RollAfterFire()
+    {
+        if (!_isUnlocked) return;
+
+        if (_isCursedDoraMode)
+        {
+            int visibleCount = GetCursedDoraVisibleCount();
+            RollNewCursedDoraCards(visibleCount);
+        }
+        else
         {
             RollNewDoraCard();
         }
@@ -41,24 +87,107 @@ public class DoraController : MonoBehaviour
     }
 
 
-    public void RollAfterFire()
-    {
-        if (!_isUnlocked) return;
-        RollNewDoraCard();
-        SyncDoraVisualState();
-    }
-
 
     private void RollNewDoraCard()
     {
         _currentDoraCard = _deckController.GetRandomCardDefinition();
-        _doraCardView.SetCardData(_currentDoraCard);
+        _normalDoraCardView.SetCardData(_currentDoraCard);
     }
+
+    private void RollNewCursedDoraCards(int count)
+    {
+        _currentCursedDoraCards.Clear();
+        HashSet<int> usedCardKeys = new HashSet<int>();
+
+        for (int i = 0; i < count; i++)
+        {
+            CardData cardData = GetUniqueCursedDoraCard(usedCardKeys);
+            _currentCursedDoraCards.Add(cardData);
+            _cursedDoraCardViews[i].SetCardData(cardData);
+        }
+    }
+
+    private CardData GetUniqueCursedDoraCard(HashSet<int> usedCardKeys)
+    {
+        for (int tryCount = 0; tryCount < 64; tryCount++)
+        {
+            CardData cardData = _deckController.GetRandomCardDefinition();
+            int key = ((int)cardData.Type * 10) + cardData.Number;
+
+            if (usedCardKeys.Add(key))
+            {
+                return cardData;
+            }
+        }
+
+        for (int typeIndex = 0; typeIndex < 3; typeIndex++)
+        {
+            CardType cardType = (CardType)typeIndex;
+            for (int number = 1; number <= 9; number++)
+            {
+                int key = (typeIndex * 10) + number;
+                if (usedCardKeys.Contains(key))
+                {
+                    continue;
+                }
+
+                if (_deckController.TryGetCardDefinition(cardType, number, out CardData cardData))
+                {
+                    usedCardKeys.Add(key);
+                    return cardData;
+                }
+            }
+        }
+
+        return _deckController.GetRandomCardDefinition();
+    }
+
+
+    private int GetCursedDoraVisibleCount()
+    {
+        return Mathf.Min(_cursedDoraCount, Mathf.Min(_cursedDoraRootObjects.Count, _cursedDoraCardViews.Count));
+    }
+
+    private void SetCursedDoraRootsActive(int activeCount)
+    {
+        for (int i = 0; i < _cursedDoraRootObjects.Count; i++)
+        {
+            _cursedDoraRootObjects[i].SetActive(i < activeCount);
+        }
+    }
+
     private void SyncDoraVisualState()
     {
-        CardView.SetDoraState(_currentDoraCard, _isUnlocked);
+        List<CardData> activeDoraCards = new List<CardData>();
+
+        if (_isCursedDoraMode)
+        {
+            for (int i = 0; i < _currentCursedDoraCards.Count; i++)
+            {
+                CardData cardData = _currentCursedDoraCards[i];
+                if (cardData != null)
+                {
+                    activeDoraCards.Add(cardData);
+                }
+            }
+        }
+        else if (_currentDoraCard != null)
+        {
+            activeDoraCards.Add(_currentDoraCard);
+        }
+
+        CardView.SetDoraState(activeDoraCards, _isUnlocked, _isCursedDoraMode);
+
+        _normalDoraCardView.RefreshView();
+        for (int i = 0; i < _cursedDoraCardViews.Count; i++)
+        {
+            _cursedDoraCardViews[i].RefreshView();
+        }
+
         _deckController.RefreshAllCardViews();
     }
+
+
 
         
 

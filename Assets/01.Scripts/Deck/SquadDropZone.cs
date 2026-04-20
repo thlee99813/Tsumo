@@ -41,6 +41,12 @@ public class SquadDropZone : MonoBehaviour
         return new List<CardData>(_registeredCards);
     }
 
+    public void ClearRegisteredCardsForRestart()
+    {
+        _registeredCards.Clear();
+        RefreshViews();
+    }
+
     public void ReturnAllTo(List<CardData> deckCards)
     {
         if (deckCards == null || _registeredCards.Count == 0)
@@ -52,6 +58,7 @@ public class SquadDropZone : MonoBehaviour
         _registeredCards.Clear();
         RefreshViews();
     }
+
 
     private void OnValidate()
     {

@@ -9,14 +9,25 @@ public class FireScoreCalculator : MonoBehaviour
     [Header("Option")]
     [SerializeField] private bool _applyYakuOnlyWhenAllThreeValid = true;
 
-    public FireScoreResult Calculate(List<SquadDropZone> squadZones, CardData doraCardData, bool isDoraEnabled)
+    public FireScoreResult Calculate(
+        List<SquadDropZone> squadZones,
+        CardData doraCardData,
+        bool isDoraEnabled,
+        List<CardData> cursedDoraCards,
+        bool isCursedDoraEnabled)
     {
         FireScoreContext context = new FireScoreContext();
         FireScoreResult result = new FireScoreResult();
 
         for (int i = 0; i < squadZones.Count; i++)
         {
-            SquadScoreResult squadResult = EvaluateSquad(i, squadZones[i], doraCardData, isDoraEnabled);
+            SquadScoreResult squadResult = EvaluateSquad(
+                i,
+                squadZones[i],
+                doraCardData,
+                isDoraEnabled,
+                cursedDoraCards,
+                isCursedDoraEnabled);
             context.SquadResults.Add(squadResult);
             result.SquadResults.Add(squadResult);
             result.BaseScoreTotal += squadResult.BaseScore;
@@ -327,7 +338,13 @@ public class FireScoreCalculator : MonoBehaviour
         }
     }
 
-    private SquadScoreResult EvaluateSquad(int squadIndex, SquadDropZone squadZone, CardData doraCardData, bool isDoraEnabled)
+    private SquadScoreResult EvaluateSquad(
+    int squadIndex,
+    SquadDropZone squadZone,
+    CardData doraCardData,
+    bool isDoraEnabled,
+    List<CardData> cursedDoraCards,
+    bool isCursedDoraEnabled)
     {
         SquadScoreResult result = new SquadScoreResult
         {
@@ -337,25 +354,26 @@ public class FireScoreCalculator : MonoBehaviour
             BaseScore = 0
         };
 
-        if (squadZone == null)
-        {
-            return result;
-        }
+        if (squadZone == null) return result;
 
         List<CardData> cards = squadZone.GetRegisteredCardsSnapshot();
-        if (cards == null || cards.Count != 3)
+        if (cards == null || cards.Count == 0) return result;
+
+        int cursedMatchCount = GetCursedDoraMatchCount(cards, cursedDoraCards, isCursedDoraEnabled);
+
+        if (cards.Count != 3)
         {
+            ApplyCursedDoraScore(result, cursedMatchCount, false);
             return result;
         }
 
-        if (cards[0] == null || cards[1] == null || cards[2] == null)
-        {
-            return result;
-        }
+        if (cards[0] == null || cards[1] == null || cards[2] == null) return result;
+
 
         CardType type = cards[0].Type;
         if (cards[1].Type != type || cards[2].Type != type)
         {
+            ApplyCursedDoraScore(result, cursedMatchCount, false);
             return result;
         }
 
@@ -372,9 +390,9 @@ public class FireScoreCalculator : MonoBehaviour
             result.ComboScore = GetTripleScore();
             result.BaseScore = result.ComboScore;
             ApplyDoraBonus(result, cards, doraCardData, isDoraEnabled);
+            ApplyCursedDoraScore(result, cursedMatchCount, true);
             return result;
         }
-
 
         if (numbers[0] + 1 == numbers[1] && numbers[1] + 1 == numbers[2])
         {
@@ -383,11 +401,14 @@ public class FireScoreCalculator : MonoBehaviour
             result.ComboScore = GetSequenceScore();
             result.BaseScore = result.ComboScore;
             ApplyDoraBonus(result, cards, doraCardData, isDoraEnabled);
+            ApplyCursedDoraScore(result, cursedMatchCount, true);
             return result;
         }
 
+        ApplyCursedDoraScore(result, cursedMatchCount, false);
         return result;
     }
+
 
     private int GetSequenceScore()
     {
@@ -435,5 +456,52 @@ public class FireScoreCalculator : MonoBehaviour
     {
         return _config != null ? _config.DoraBonusScorePerMatchedCard : 1000;
     }
+    private int GetCursedDoraMatchCount(List<CardData> cards, List<CardData> cursedDoraCards, bool isCursedDoraEnabled)
+    {
+        if (!isCursedDoraEnabled || cursedDoraCards == null || cursedDoraCards.Count == 0) return 0;
+
+        int matchCount = 0;
+        for (int i = 0; i < cards.Count; i++)
+        {
+            CardData card = cards[i];
+            for (int j = 0; j < cursedDoraCards.Count; j++)
+            {
+                CardData cursed = cursedDoraCards[j];
+                if (cursed != null && card.Type == cursed.Type && card.Number == cursed.Number)
+                {
+                    matchCount++;
+                    break;
+                }
+            }
+        }
+
+        return matchCount;
+    }
+
+    private void ApplyCursedDoraScore(SquadScoreResult squadResult, int cursedMatchCount, bool isValidCombo)
+    {
+        if (cursedMatchCount <= 0) return;
+
+        squadResult.CursedDoraMatchCount = cursedMatchCount;
+
+        int scoreDelta = isValidCombo
+            ? GetCursedDoraValidBonusScore() * cursedMatchCount
+            : -GetCursedDoraInvalidPenaltyScore();
+
+        squadResult.CursedDoraScoreDelta = scoreDelta;
+        squadResult.BaseScore += scoreDelta;
+    }
+
+
+    private int GetCursedDoraValidBonusScore()
+    {
+        return _config != null ? _config.CursedDoraValidBonusScore : 1000;
+    }
+
+    private int GetCursedDoraInvalidPenaltyScore()
+    {
+        return _config != null ? _config.CursedDoraInvalidPenaltyScore : 1000;
+    }
+
 
 }
