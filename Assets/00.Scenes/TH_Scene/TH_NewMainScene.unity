@@ -3094,7 +3094,6 @@ Transform:
   - {fileID: 692190130}
   - {fileID: 537314424}
   - {fileID: 1904523341}
-  - {fileID: 1592962966}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &310091521
@@ -7372,7 +7371,7 @@ MonoBehaviour:
   _shurikenOffset: 3
   _attackDamage: 10
   _attackMoveDuration: 0.1
-  _popupController: {fileID: 1592962965}
+  _popupController: {fileID: 0}
   _currentHp: 0
 --- !u!61 &670580916
 BoxCollider2D:
@@ -17932,53 +17931,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1572436425}
   m_CullTransparentMesh: 1
---- !u!1 &1592962964
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1592962966}
-  - component: {fileID: 1592962965}
-  m_Layer: 0
-  m_Name: DamagePopupController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1592962965
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1592962964}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42ab21842a683554793013131abfada3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DamagePopupController
-  _popupPrefab: {fileID: 3812433905132680320, guid: 18338a338fc556f41b2c88e284750a46, type: 3}
-  _enemyHeadPoint: {fileID: 2119594478}
-  _initialPoolSize: 5
---- !u!4 &1592962966
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1592962964}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.15096, y: 4.6618, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 304977807}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1605667905
 GameObject:
   m_ObjectHideFlags: 0
@@ -22676,11 +22628,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2116051860}
   m_CullTransparentMesh: 1
---- !u!4 &2119594478 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3624465327413123530, guid: 9c84e5289a0797843b47e4dd5bbbbdee, type: 3}
-  m_PrefabInstance: {fileID: 7009739289092729833}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2126311017
 GameObject:
   m_ObjectHideFlags: 0

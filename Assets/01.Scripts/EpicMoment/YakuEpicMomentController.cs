@@ -18,7 +18,7 @@ public class YakuEpicMomentController : MonoBehaviour
     }
 
     [SerializeField] private List<YakuMomentEntry> _entries = new List<YakuMomentEntry>();
-    [SerializeField] private bool _playAllMatched = false;
+    [SerializeField] private bool _playAllMatched = true;
     [SerializeField] private bool _hideAllOnAwake = true;
 
     private void Awake()

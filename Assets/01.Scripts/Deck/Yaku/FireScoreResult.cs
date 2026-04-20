@@ -30,7 +30,14 @@ public class FireScoreResult
                 continue;
             }
 
-            sb.AppendLine($"- Squad {squad.SquadIndex + 1}: {squad.CardType} {numbers} -> {squad.ComboDisplayName} ({squad.BaseScore})");
+            if (squad.DoraBonusScore > 0)
+            {
+                sb.AppendLine($"- Squad {squad.SquadIndex + 1}: {squad.CardType} {numbers} -> {squad.ComboDisplayName} (기본 {squad.ComboScore} + 도라 {squad.DoraBonusScore} = {squad.BaseScore})");
+            }
+            else
+            {
+                sb.AppendLine($"- Squad {squad.SquadIndex + 1}: {squad.CardType} {numbers} -> {squad.ComboDisplayName} ({squad.BaseScore})");
+            }
         }
 
         if (!YakuApplied)

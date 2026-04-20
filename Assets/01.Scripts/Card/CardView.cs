@@ -7,6 +7,12 @@ public class CardView : MonoBehaviour
     [SerializeField] private TMP_Text _effectText;
     [SerializeField] private CardData _cardData;
 
+    [SerializeField] private GameObject _doraEffect;
+
+    private static CardData _currentDoraCard;
+    private static bool _isDoraEnabled;
+
+
     [Header("Border Sprites")]
     [SerializeField] private Sprite _swordBorderSprite;
     [SerializeField] private Sprite _kunaiBorderSprite;
@@ -33,14 +39,38 @@ public class CardView : MonoBehaviour
         RefreshView();
     }
 
+    public static void SetDoraState(CardData doraCardData, bool isDoraEnabled)
+    {
+        _currentDoraCard = doraCardData;
+        _isDoraEnabled = isDoraEnabled;
+    }
+
+    private void ApplyDoraEffect()
+    {
+        bool isMatch = _isDoraEnabled
+                    && _currentDoraCard != null
+                    && _cardData != null
+                    && _cardData.Type == _currentDoraCard.Type
+                    && _cardData.Number == _currentDoraCard.Number;
+
+        _doraEffect.SetActive(isMatch);
+    }
+
+
     public void RefreshView()
     {
-        if (_cardData == null) return;
+        if (_cardData == null)
+        {
+            _doraEffect.SetActive(false);
+            return;
+        }
 
         ApplyBorderSpriteByType();
         ApplyTexts();
         ApplyTextColorByType();
+        ApplyDoraEffect();
     }
+
 
     
 
