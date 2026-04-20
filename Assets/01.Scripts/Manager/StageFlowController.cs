@@ -55,6 +55,7 @@ public class StageFlowController : MonoBehaviour
 
         _battleController.SetEnemy(_currentEnemy);
         _ingameController.SetEnemy(_currentEnemy);
+        ApplyEnemyStatsForCurrentStage();
 
         _uiController.HideGameOver();
         _uiController.HideBattleResultPanelImmediate();
@@ -98,6 +99,7 @@ public class StageFlowController : MonoBehaviour
     {
         _isRunning = false;
         StopAllCoroutines();
+        Time.timeScale = 1f;
     }
 
     private IEnumerator StageTurnLoop()
@@ -227,6 +229,7 @@ public class StageFlowController : MonoBehaviour
     private void HandleRestartClicked()
     {
         StopFlow();
+        Time.timeScale = 1f;
 
         _currentStageIndex = _checkpointStageIndex;
 
@@ -259,7 +262,16 @@ public class StageFlowController : MonoBehaviour
 
         _battleController.SetEnemy(_currentEnemy);
         _ingameController.SetEnemy(_currentEnemy);
+        ApplyEnemyStatsForCurrentStage();
+
     }
+
+    private void ApplyEnemyStatsForCurrentStage()
+    {
+        _currentEnemy.ApplyStageStats(_currentStageIndex, true);
+    }
+
+
     public void RunRespawn(Player player, Enemy enemy)
     {
         player.ResetHp();
