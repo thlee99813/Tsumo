@@ -5673,7 +5673,6 @@ GameObject:
   - component: {fileID: 670580921}
   - component: {fileID: 670580922}
   - component: {fileID: 670580923}
-  - component: {fileID: 670580924}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -5957,28 +5956,6 @@ MonoBehaviour:
   _force: 1
   _impulseVelocity: {x: 1, y: 0, z: 0}
   _overlaySyncSeconds: 0.18
---- !u!114 &670580924
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 670580914}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b7f425ee71c9414eb42063a32aa700e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ComboSynergyEffect
-  _enhancedComboEffect:
-    SwordSprites: []
-    KunaiSprites: []
-    FoxSpiritSprites:
-    - {fileID: 722973753925178434, guid: 2a3450c6124401b4aa31dfb67fc959b6, type: 3}
-    - {fileID: -7604879076471432468, guid: 2a3450c6124401b4aa31dfb67fc959b6, type: 3}
-    - {fileID: -5984873260311841982, guid: 2a3450c6124401b4aa31dfb67fc959b6, type: 3}
-    - {fileID: 1719999966800325864, guid: 2a3450c6124401b4aa31dfb67fc959b6, type: 3}
-    - {fileID: 5906420996603304629, guid: 2a3450c6124401b4aa31dfb67fc959b6, type: 3}
-  _effectFps: 12
 --- !u!1 &681766940
 GameObject:
   m_ObjectHideFlags: 0
@@ -6262,8 +6239,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 691247471}
-  - component: {fileID: 691247473}
   - component: {fileID: 691247472}
+  - component: {fileID: 691247473}
+  - component: {fileID: 691247474}
   m_Layer: 0
   m_Name: PlayerEffect
   m_TagString: Untagged
@@ -6375,6 +6353,43 @@ MonoBehaviour:
   - {fileID: 3612894662477389058, guid: b78ebd7021269cb458736bdc5e07375c, type: 3}
   - {fileID: -7867041350147193064, guid: b78ebd7021269cb458736bdc5e07375c, type: 3}
   _effectFps: 15
+--- !u!114 &691247474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 691247470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b7f425ee71c9414eb42063a32aa700e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ComboSynergyEffect
+  _enhancedComboEffect:
+    SwordSprites:
+    - {fileID: -7229928665976283714, guid: 33660e36b3440fe46b6363124fa99180, type: 3}
+    - {fileID: 2191300640638623486, guid: 33660e36b3440fe46b6363124fa99180, type: 3}
+    - {fileID: 8279047039829569711, guid: 33660e36b3440fe46b6363124fa99180, type: 3}
+    - {fileID: -7116245626013635851, guid: 33660e36b3440fe46b6363124fa99180, type: 3}
+    - {fileID: -4754475498794496798, guid: 33660e36b3440fe46b6363124fa99180, type: 3}
+    - {fileID: 7312315636368925230, guid: 33660e36b3440fe46b6363124fa99180, type: 3}
+    - {fileID: -7325995147308524313, guid: 33660e36b3440fe46b6363124fa99180, type: 3}
+    KunaiSprites:
+    - {fileID: -2178585893684083682, guid: 49c095a9089816749ac6532c8a1d80e5, type: 3}
+    - {fileID: 3494912846761952123, guid: 49c095a9089816749ac6532c8a1d80e5, type: 3}
+    - {fileID: 1133101973147161192, guid: 49c095a9089816749ac6532c8a1d80e5, type: 3}
+    - {fileID: -2763889812903652050, guid: 49c095a9089816749ac6532c8a1d80e5, type: 3}
+    - {fileID: -9156695965244448308, guid: 49c095a9089816749ac6532c8a1d80e5, type: 3}
+    - {fileID: -538613053083023411, guid: 49c095a9089816749ac6532c8a1d80e5, type: 3}
+    - {fileID: 6744199986765766413, guid: 49c095a9089816749ac6532c8a1d80e5, type: 3}
+    FoxSpiritSprites:
+    - {fileID: -2576458065839119443, guid: 269e6b964a9f25e449d645b5244600d3, type: 3}
+    - {fileID: -4378635091683153283, guid: 269e6b964a9f25e449d645b5244600d3, type: 3}
+    - {fileID: 2782405516878030760, guid: 269e6b964a9f25e449d645b5244600d3, type: 3}
+    - {fileID: 5061423048931032273, guid: 269e6b964a9f25e449d645b5244600d3, type: 3}
+    - {fileID: 7456525958588599657, guid: 269e6b964a9f25e449d645b5244600d3, type: 3}
+    - {fileID: 166560880612732042, guid: 269e6b964a9f25e449d645b5244600d3, type: 3}
+  _effectFps: 12
 --- !u!1 &692190129
 GameObject:
   m_ObjectHideFlags: 0

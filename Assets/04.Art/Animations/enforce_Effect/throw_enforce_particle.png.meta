@@ -1,0 +1,406 @@
+fileFormatVersion: 2
+guid: 49c095a9089816749ac6532c8a1d80e5
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -2178585893684083682
+    second: throw_enforce_particle_0
+  - first:
+      213: 3494912846761952123
+    second: throw_enforce_particle_1
+  - first:
+      213: 1133101973147161192
+    second: throw_enforce_particle_2
+  - first:
+      213: -2763889812903652050
+    second: throw_enforce_particle_3
+  - first:
+      213: -9156695965244448308
+    second: throw_enforce_particle_4
+  - first:
+      213: -538613053083023411
+    second: throw_enforce_particle_5
+  - first:
+      213: 6744199986765766413
+    second: throw_enforce_particle_6
+  - first:
+      213: 2133190204246817019
+    second: throw_enforce_particle_7
+  - first:
+      213: 1634014631372450725
+    second: throw_enforce_particle_8
+  - first:
+      213: -4413794387552094821
+    second: throw_enforce_particle_9
+  - first:
+      213: 1031109505009561259
+    second: throw_enforce_particle_10
+  - first:
+      213: -7788187503897389656
+    second: throw_enforce_particle_11
+  - first:
+      213: -3801567625777287372
+    second: throw_enforce_particle_12
+  - first:
+      213: 909252210552480868
+    second: throw_enforce_particle_13
+  - first:
+      213: 4524482475198209006
+    second: throw_enforce_particle_14
+  - first:
+      213: 9161325952715290925
+    second: throw_enforce_particle_15
+  - first:
+      213: 7480549846989844548
+    second: throw_enforce_particle_16
+  - first:
+      213: -2234455237001415580
+    second: throw_enforce_particle_17
+  - first:
+      213: 4416958010664137024
+    second: throw_enforce_particle_18
+  - first:
+      213: -4106759052423445033
+    second: throw_enforce_particle_19
+  - first:
+      213: -1479472029805578393
+    second: throw_enforce_particle_20
+  - first:
+      213: -6345217143755545835
+    second: throw_enforce_particle_21
+  - first:
+      213: 6215613475591152205
+    second: throw_enforce_particle_22
+  - first:
+      213: 8147111378443454364
+    second: throw_enforce_particle_23
+  - first:
+      213: -3154165346179813644
+    second: throw_enforce_particle_24
+  - first:
+      213: -953288824487527011
+    second: throw_enforce_particle_25
+  - first:
+      213: 1652308584438448087
+    second: throw_enforce_particle_26
+  - first:
+      213: 3971134308311092044
+    second: throw_enforce_particle_27
+  - first:
+      213: 2325744070584815138
+    second: throw_enforce_particle_28
+  - first:
+      213: 7529278705951180256
+    second: throw_enforce_particle_29
+  - first:
+      213: -7597314816839385465
+    second: throw_enforce_particle_30
+  - first:
+      213: 5238973798879486391
+    second: throw_enforce_particle_31
+  - first:
+      213: -8905338409907002476
+    second: throw_enforce_particle_32
+  - first:
+      213: 2361312089647902540
+    second: throw_enforce_particle_33
+  - first:
+      213: 5586491995752376284
+    second: throw_enforce_particle_34
+  - first:
+      213: 1678838508490100101
+    second: throw_enforce_particle_35
+  - first:
+      213: 4232835803473863044
+    second: throw_enforce_particle_36
+  - first:
+      213: -8325632946936816734
+    second: throw_enforce_particle_37
+  - first:
+      213: 1309574582089786934
+    second: throw_enforce_particle_38
+  - first:
+      213: -8911863484984565658
+    second: throw_enforce_particle_39
+  - first:
+      213: 748040340057470208
+    second: throw_enforce_particle_40
+  - first:
+      213: 2711861272006000310
+    second: throw_enforce_particle_41
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 0
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 32
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: throw_enforce_particle_0
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 192
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e14884e1cab14c1e0800000000000000
+      internalID: -2178585893684083682
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: throw_enforce_particle_1
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 0
+        width: 192
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b730230a7bc608030800000000000000
+      internalID: 3494912846761952123
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: throw_enforce_particle_2
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 0
+        width: 192
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8621bbbbd3699bf00800000000000000
+      internalID: 1133101973147161192
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: throw_enforce_particle_3
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 0
+        width: 192
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e259e8fdbd0b4a9d0800000000000000
+      internalID: -2763889812903652050
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: throw_enforce_particle_4
+      rect:
+        serializedVersion: 2
+        x: 960
+        y: 0
+        width: 192
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cc12a5ba881ece080800000000000000
+      internalID: -9156695965244448308
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: throw_enforce_particle_5
+      rect:
+        serializedVersion: 2
+        x: 1152
+        y: 0
+        width: 192
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dc7099b28467688f0800000000000000
+      internalID: -538613053083023411
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: throw_enforce_particle_6
+      rect:
+        serializedVersion: 2
+        x: 1344
+        y: 0
+        width: 192
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d0f1e59d726389d50800000000000000
+      internalID: 6744199986765766413
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 3ad1dbf5b3f4c3d45a2ca5f51f2cc149
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":192.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      throw_enforce_particle_0: -2178585893684083682
+      throw_enforce_particle_1: 3494912846761952123
+      throw_enforce_particle_2: 1133101973147161192
+      throw_enforce_particle_3: -2763889812903652050
+      throw_enforce_particle_4: -9156695965244448308
+      throw_enforce_particle_5: -538613053083023411
+      throw_enforce_particle_6: 6744199986765766413
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
