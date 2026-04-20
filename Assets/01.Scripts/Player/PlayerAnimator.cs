@@ -32,11 +32,12 @@ public class PlayerAnimator : MonoBehaviour
     private Coroutine _currentAnim;
     private int _runFrameIndex = 0;
 
-    private BattleImpulseEmitter _impulseEmitter;
+    [SerializeField] private BattleImpulseEmitter _impulseEmitter;
 
     public float HitFrameDelay => _hitFrameDelay;
 
     public event Action OnAnimationComplete;        // 공격 애니메이션 완료 시 발행
+    public event Action OnHitFrame;                 // 타격 프레임 도달 시 발행
 
 
     //외부 호출용 - 공격
@@ -68,7 +69,6 @@ public class PlayerAnimator : MonoBehaviour
     private void Awake()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        _impulseEmitter = GetComponent<BattleImpulseEmitter>();
     }
 
     private void Start()
@@ -118,8 +118,9 @@ public class PlayerAnimator : MonoBehaviour
                 if(applyHitFrame && i == _hitFrameIndex)
                 {
                     _impulseEmitter?.EmitHitImpulse();
+                    OnHitFrame?.Invoke();
                     yield return new WaitForSeconds(_hitFrameDelay);
-                    
+
                 }
                 else
                 {

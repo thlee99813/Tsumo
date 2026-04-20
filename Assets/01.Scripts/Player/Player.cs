@@ -25,13 +25,17 @@ public class Player : MonoBehaviour
     [Header("Combat")]
     [SerializeField] private int _attackDamage = 10;
     [SerializeField] private float _attackMoveDuration = 0.2f;
+    [Header("DamagePopup")]
+    [SerializeField] private DamagePopupController _popupController;
 
     private PlayerAnimator _playerAnimator;
     private ComboSynergyEffect _comboSynergyEffect;
     private SynergyOverlayEffect _synergyOverlayEffect;
-    private Dictionary<AttackType, Sprite[]> _attackOverrides = new();
+    private List<Sprite[]> _attackOverridesList = new();
+    private List<Sprite[]> _effectOverridesList = new();
     private HashSet<CardType> _synergyCardTypes = new();
 
+    [Header("Test HP")]
     public int _currentHp;
     private Vector3 _startPosition;
     private bool _isKnockBack;
@@ -42,7 +46,7 @@ public class Player : MonoBehaviour
     private float _currentAttackX = float.MinValue;
     private bool _isTeleporting;
     private PlayerEffect _effectAnimator;
-    [SerializeField] private DamagePopupController _popupController;
+    
     
     private List<AttackType> _comboList = new List<AttackType>();
 
@@ -58,7 +62,8 @@ public class Player : MonoBehaviour
 
     public event Action OnPlayerDead;
     public event Action<int> OnHpChanged;
-    public event Action<AttackType> OnAttackAdded;  
+    public event Action<AttackType> OnAttackAdded;
+    public event Action OnHitFrame;
 
     private void Awake()
     {
@@ -66,57 +71,44 @@ public class Player : MonoBehaviour
         _currentHp = _stats.MaxHp;
         _playerAnimator = GetComponent<PlayerAnimator>();
         _effectAnimator = GetComponentInChildren<PlayerEffect>();
-        _comboSynergyEffect = GetComponent<ComboSynergyEffect>();
+        _comboSynergyEffect = GetComponentInChildren<ComboSynergyEffect>();
         _synergyOverlayEffect = GetComponentInChildren<SynergyOverlayEffect>();
-        //공격 완료 이벤트 구독
         _playerAnimator.OnAnimationComplete += () => _attackAnimDone = true;
+        _playerAnimator.OnHitFrame += () => OnHitFrame?.Invoke();
     }
 
     // StageFlowController에서 콤보 판정 후 호출
+    // judgements의 ResultType != None 항목이 _comboList와 1:1 대응
     public void PrepareComboOverrides(List<ComboSynergyJudge.SquadJudgement> judgements)
     {
-        _attackOverrides.Clear();
+        _attackOverridesList.Clear();
+        _effectOverridesList.Clear();
         _synergyCardTypes.Clear();
+
+        if (judgements == null) return;
 
         foreach (var j in judgements)
         {
             if (j.ResultType == SquadResultType.None) continue;
 
-            // 강화 콤보 → 공격 애니메이션 스프라이트 교체
+            Sprite[] attack = null;
+            Sprite[] effect = null;
             if (_comboSynergyEffect != null)
             {
-                Sprite[] sprites = _comboSynergyEffect.GetAttackSprites(j.ResultType, j.CardType);
-                if (sprites != null && sprites.Length > 0)
-                {
-                    _attackOverrides[CardTypeToAttackType(j.CardType)] = sprites;
-                    Debug.Log($"[Player] 강화 콤보 등록: {j.CardType} ({sprites.Length}프레임)");
-                }
-            }
-            else
-            {
-                Debug.LogWarning("[Player] ComboSynergyEffect 없음 — Player 오브젝트에 붙여야 합니다.");
+                Sprite[] a = _comboSynergyEffect.GetAttackSprites(j.ResultType, j.CardType);
+                attack = (a != null && a.Length > 0) ? a : null;
+
+                Sprite[] e = _comboSynergyEffect.GetEffectSprites(j.ResultType, j.CardType);
+                effect = (e != null && e.Length > 0) ? e : null;
             }
 
-            // 시너지 → 오버레이 이펙트 대상 카드 타입 기억
+            _attackOverridesList.Add(attack);
+            _effectOverridesList.Add(effect);
+
             if (j.HasSynergy)
-            {
                 _synergyCardTypes.Add(j.CardType);
-                Debug.Log($"[Player] 시너지 등록: {j.CardType}");
-                if (_synergyOverlayEffect == null)
-                    Debug.LogWarning("[Player] SynergyOverlayEffect 없음 — Player 자식 오브젝트에 붙여야 합니다.");
-            }
         }
-
-        Debug.Log($"[Player] 준비 완료 — 강화콤보 {_attackOverrides.Count}개 / 시너지 {_synergyCardTypes.Count}개");
     }
-
-    private static AttackType CardTypeToAttackType(CardType cardType) => cardType switch
-    {
-        CardType.Sword     => AttackType.Sword,
-        CardType.Kunai     => AttackType.Shuriken,
-        CardType.FoxSpirit => AttackType.Spell,
-        _                  => AttackType.Sword
-    };
 
 //PlayerInputHandler에서 호출
     public void AddAttack(AttackType type)
@@ -136,8 +128,9 @@ public class Player : MonoBehaviour
     }
 
     //IngameController에서 호출 내부 콤보 리스트 사용
-    public void ExecuteCombo(float targetX, List<int> squadScores, int finalScore, Action onTeleport = null)
+    public void ExecuteCombo(float targetX, List<int> squadScores, int finalScore, FireScoreResult scoreResult = null, Action onTeleport = null)
     {
+
         if(_comboList.Count == 0)
         {
             _isAttacking = true;
@@ -145,7 +138,7 @@ public class Player : MonoBehaviour
             return;
         }
         _isAttacking = true;
-        StartCoroutine(ComboCoroutine(targetX, squadScores, finalScore, onTeleport));
+        StartCoroutine(ComboCoroutine(targetX, squadScores, finalScore, scoreResult, onTeleport));
     }
 
     private IEnumerator EmptyComboCoroutine()
@@ -155,14 +148,17 @@ public class Player : MonoBehaviour
         _isAttacking = false;
     }
 
-    private IEnumerator ComboCoroutine(float targetX, List<int> squadScores, int finalScore, Action onTeleport = null)
+    private IEnumerator ComboCoroutine(float targetX, List<int> squadScores, int finalScore, FireScoreResult scoreResult = null, Action onTeleport = null)
     {
         for(int i = 0; i < _comboList.Count; i++)
         {
             AttackType type = _comboList[i];
             bool isLast = (i == _comboList.Count - 1);
 
-            yield return ExecuteSingleAttack(targetX, type);
+            Sprite[] attackOverride = (i < _attackOverridesList.Count) ? _attackOverridesList[i] : null;
+            Sprite[] effectOverride = (i < _effectOverridesList.Count) ? _effectOverridesList[i] : null;
+
+            yield return ExecuteSingleAttack(targetX, type, attackOverride, effectOverride);
 
             if(squadScores != null && i < squadScores.Count)
                 _popupController?.ShowBaseScore(squadScores[i]);
@@ -172,32 +168,46 @@ public class Player : MonoBehaviour
         }
 
         _currentAttackX = float.MinValue;
-        _attackOverrides.Clear();
+        _attackOverridesList.Clear();
+        _effectOverridesList.Clear();
         _synergyCardTypes.Clear();
         ClearCombo();
-        if (finalScore > 0)
-            _popupController?.ShowFinalScore(finalScore);
+
         onTeleport?.Invoke();
         TeleportToStart();
+
+        // if (_popupController != null && scoreResult?.YakuResults != null)
+        // {
+        //     foreach (var yaku in scoreResult.YakuResults)
+        //     {
+        //         bool done = false;
+        //         _popupController.ShowYakuBonus(yaku.Name, yaku.BonusMultiplier, () => done = true);
+        //         yield return new WaitUntil(() => done);
+        //     }
+        // }
+
+        if (finalScore > 0)
+            _popupController?.ShowFinalScore(finalScore);
+
         yield return new WaitUntil(() => !_isTeleporting);
         _isAttacking = false;
     }
     
-    private IEnumerator ExecuteSingleAttack(float targetX, AttackType type)
+    private IEnumerator ExecuteSingleAttack(float targetX, AttackType type, Sprite[] attackOverride, Sprite[] effectOverride)
     {
         switch(type)
         {
             case AttackType.Sword:
-                yield return MeleeAttack(targetX, type);
+                yield return MeleeAttack(targetX, type, attackOverride, effectOverride);
                 break;
             case AttackType.Shuriken:
             case AttackType.Spell:
-                yield return RangedAttack(targetX, type);
+                yield return RangedAttack(targetX, type, attackOverride, effectOverride);
                 break;
         }
-
     }
-    private IEnumerator MeleeAttack(float targetX, AttackType type)     //근접 공격할 경우의 거리
+
+    private IEnumerator MeleeAttack(float targetX, AttackType type, Sprite[] attackOverride, Sprite[] effectOverride)
     {
         float stoppedX = targetX - _stopOffset;
 
@@ -207,7 +217,6 @@ public class Player : MonoBehaviour
             .SetEase(Ease.OutCubic).SetUpdate(true);
             yield return new WaitForSecondsRealtime(_attackMoveDuration);
 
-            // 공격 위치에서 정지 애니메이션
             _isRunStopping = true;
             _playerAnimator.PlayRunStop(() => _isRunStopping = false);
             yield return new WaitUntil(() => !_isRunStopping);
@@ -215,89 +224,85 @@ public class Player : MonoBehaviour
             _currentAttackX = stoppedX;
         }
 
-        // 공격 애니메이션
         _attackAnimDone = false;
         if(type == AttackType.Sword)
         {
-            if(_attackOverrides.TryGetValue(AttackType.Sword, out Sprite[] swordOverride))
-            {
-                Debug.Log($"[Player] Sword 강화 콤보 애니메이션 재생 ({swordOverride.Length}프레임)");
-                _playerAnimator.PlayCustomAttack(swordOverride, _comboSynergyEffect.Fps);
-            }
+            if(attackOverride != null)
+                _playerAnimator.PlayCustomAttack(attackOverride, _comboSynergyEffect != null ? _comboSynergyEffect.Fps : 12f);
             else
                 _playerAnimator.PlaySword();
+
             if(_synergyCardTypes.Contains(CardType.Sword) && _synergyOverlayEffect != null)
-            {
-                Debug.Log("[Player] Sword 시너지 오버레이 재생");
                 _synergyOverlayEffect.PlaySynergy(CardType.Sword);
-            }
+
             if(_effectAnimator != null)
-                StartCoroutine(PlayEffectDelayed(_effectAnimator.PlaySwordEffect, _playerAnimator.HitFrameDelay));
+            {
+                if(effectOverride != null)
+                    StartCoroutine(PlayEffectDelayed(() => _effectAnimator.PlayCustomEffect(effectOverride, _comboSynergyEffect != null ? _comboSynergyEffect.EffectFps : 12f), _playerAnimator.HitFrameDelay));
+                else
+                    StartCoroutine(PlayEffectDelayed(_effectAnimator.PlaySwordEffect, _playerAnimator.HitFrameDelay));
+            }
         }
 
-        yield return new WaitUntil(() => _attackAnimDone); 
-        
+        yield return new WaitUntil(() => _attackAnimDone);
     }
 
-    private IEnumerator RangedAttack(float targetX, AttackType type)              //원거리 공격할 경우 수리검만
+    private IEnumerator RangedAttack(float targetX, AttackType type, Sprite[] attackOverride, Sprite[] effectOverride)
     {
-        //적 앞에서 _rangedOffset 만큼 뒤에서 공격
         float rangedX = targetX - _stopOffset - _shurikenOffset;
 
-        //현재 위치와 다를 때만 이동 + 정지 애니메이션
         if(!Mathf.Approximately(_currentAttackX, rangedX))
         {
             transform.DOMoveX(rangedX, _attackMoveDuration)
             .SetEase(Ease.OutCubic).SetUpdate(true);
             yield return new WaitForSecondsRealtime(_attackMoveDuration);
 
-            //공격 위치에서 정지 애니메이션
             _isRunStopping = true;
             _playerAnimator.PlayRunStop(() => _isRunStopping = false);
             yield return new WaitUntil(() => !_isRunStopping);
 
-            _currentAttackX = rangedX;    
+            _currentAttackX = rangedX;
         }
-        
+
         _attackAnimDone = false;
         if(type == AttackType.Shuriken)
         {
-            if(_attackOverrides.TryGetValue(AttackType.Shuriken, out Sprite[] shurikenOverride))
-            {
-                Debug.Log($"[Player] Shuriken 강화 콤보 애니메이션 재생 ({shurikenOverride.Length}프레임)");
-                _playerAnimator.PlayCustomAttack(shurikenOverride, _comboSynergyEffect.Fps);
-            }
+            if(attackOverride != null)
+                _playerAnimator.PlayCustomAttack(attackOverride, _comboSynergyEffect != null ? _comboSynergyEffect.Fps : 12f);
             else
                 _playerAnimator.PlayShuriken();
+
             if(_synergyCardTypes.Contains(CardType.Kunai) && _synergyOverlayEffect != null)
-            {
-                Debug.Log("[Player] Kunai 시너지 오버레이 재생");
                 _synergyOverlayEffect.PlaySynergy(CardType.Kunai);
-            }
+
             if(_effectAnimator != null)
-                StartCoroutine(PlayEffectDelayed(_effectAnimator.PlayShurikenEffect, _playerAnimator.HitFrameDelay));
+            {
+                if(effectOverride != null)
+                    StartCoroutine(PlayEffectDelayed(() => _effectAnimator.PlayCustomEffect(effectOverride, _comboSynergyEffect != null ? _comboSynergyEffect.EffectFps : 12f), _playerAnimator.HitFrameDelay));
+                else
+                    StartCoroutine(PlayEffectDelayed(_effectAnimator.PlayShurikenEffect, _playerAnimator.HitFrameDelay));
+            }
         }
         else if(type == AttackType.Spell)
         {
-            if(_attackOverrides.TryGetValue(AttackType.Spell, out Sprite[] spellOverride))
-            {
-                Debug.Log($"[Player] Spell 강화 콤보 애니메이션 재생 ({spellOverride.Length}프레임)");
-                _playerAnimator.PlayCustomAttack(spellOverride, _comboSynergyEffect.Fps);
-            }
+            if(attackOverride != null)
+                _playerAnimator.PlayCustomAttack(attackOverride, _comboSynergyEffect != null ? _comboSynergyEffect.Fps : 12f);
             else
                 _playerAnimator.PlaySpell();
+
             if(_synergyCardTypes.Contains(CardType.FoxSpirit) && _synergyOverlayEffect != null)
-            {
-                Debug.Log("[Player] FoxSpirit 시너지 오버레이 재생");
                 _synergyOverlayEffect.PlaySynergy(CardType.FoxSpirit);
-            }
+
             if(_effectAnimator != null)
-                StartCoroutine(PlayEffectDelayed(_effectAnimator.PlaySpellEffect, _playerAnimator.HitFrameDelay));
+            {
+                if(effectOverride != null)
+                    StartCoroutine(PlayEffectDelayed(() => _effectAnimator.PlayCustomEffect(effectOverride, _comboSynergyEffect != null ? _comboSynergyEffect.EffectFps : 12f), _playerAnimator.HitFrameDelay));
+                else
+                    StartCoroutine(PlayEffectDelayed(_effectAnimator.PlaySpellEffect, _playerAnimator.HitFrameDelay));
+            }
         }
-            
-        
+
         yield return new WaitUntil(() => _attackAnimDone);
-        
     }
 
     public void OnAttackAniComplete()
@@ -308,6 +313,7 @@ public class Player : MonoBehaviour
     private IEnumerator PlayEffectDelayed(Action effectAction, float delay)
     {
         yield return new WaitForSeconds(delay);
+        _effectAnimator.PlayLeafParticle();
         effectAction?.Invoke();
     }
 

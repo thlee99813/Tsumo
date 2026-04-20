@@ -9,21 +9,19 @@ public class FireScoreCalculator : MonoBehaviour
     [Header("Option")]
     [SerializeField] private bool _applyYakuOnlyWhenAllThreeValid = true;
 
-    public FireScoreResult Calculate(List<SquadDropZone> squadZones)
+    public FireScoreResult Calculate(List<SquadDropZone> squadZones, CardData doraCardData, bool isDoraEnabled)
     {
         FireScoreContext context = new FireScoreContext();
         FireScoreResult result = new FireScoreResult();
 
-        if (squadZones != null)
+        for (int i = 0; i < squadZones.Count; i++)
         {
-            for (int i = 0; i < squadZones.Count; i++)
-            {
-                SquadScoreResult squadResult = EvaluateSquad(i, squadZones[i]);
-                context.SquadResults.Add(squadResult);
-                result.SquadResults.Add(squadResult);
-                result.BaseScoreTotal += squadResult.BaseScore;
-            }
+            SquadScoreResult squadResult = EvaluateSquad(i, squadZones[i], doraCardData, isDoraEnabled);
+            context.SquadResults.Add(squadResult);
+            result.SquadResults.Add(squadResult);
+            result.BaseScoreTotal += squadResult.BaseScore;
         }
+
 
         bool canApplyYaku = !_applyYakuOnlyWhenAllThreeValid || context.AreAllSquadsValid(3);
         float yakuBonusSum = 0f;
@@ -329,7 +327,7 @@ public class FireScoreCalculator : MonoBehaviour
         }
     }
 
-    private SquadScoreResult EvaluateSquad(int squadIndex, SquadDropZone squadZone)
+    private SquadScoreResult EvaluateSquad(int squadIndex, SquadDropZone squadZone, CardData doraCardData, bool isDoraEnabled)
     {
         SquadScoreResult result = new SquadScoreResult
         {
@@ -371,15 +369,20 @@ public class FireScoreCalculator : MonoBehaviour
         {
             result.IsValid = true;
             result.ComboType = SquadComboType.Triple;
-            result.BaseScore = GetTripleScore();
+            result.ComboScore = GetTripleScore();
+            result.BaseScore = result.ComboScore;
+            ApplyDoraBonus(result, cards, doraCardData, isDoraEnabled);
             return result;
         }
+
 
         if (numbers[0] + 1 == numbers[1] && numbers[1] + 1 == numbers[2])
         {
             result.IsValid = true;
             result.ComboType = SquadComboType.Sequence;
-            result.BaseScore = GetSequenceScore();
+            result.ComboScore = GetSequenceScore();
+            result.BaseScore = result.ComboScore;
+            ApplyDoraBonus(result, cards, doraCardData, isDoraEnabled);
             return result;
         }
 
@@ -405,4 +408,32 @@ public class FireScoreCalculator : MonoBehaviour
     {
         return _config != null ? _config.GetDisplayName(yakuId) : yakuId.ToString();
     }
+
+    private void ApplyDoraBonus(SquadScoreResult squadResult, List<CardData> cards, CardData doraCardData, bool isDoraEnabled)
+    {
+        if (!isDoraEnabled || doraCardData == null || !squadResult.IsValid) return;
+
+        int matchCount = 0;
+        for (int i = 0; i < cards.Count; i++)
+        {
+            CardData card = cards[i];
+            if (card.Type == doraCardData.Type && card.Number == doraCardData.Number)
+            {
+                matchCount++;
+            }
+        }
+
+        if (matchCount <= 0) return;
+
+        int bonusScore = matchCount * GetDoraBonusScorePerCard();
+        squadResult.DoraMatchCount = matchCount;
+        squadResult.DoraBonusScore = bonusScore;
+        squadResult.BaseScore += bonusScore;
+    }
+
+    private int GetDoraBonusScorePerCard()
+    {
+        return _config != null ? _config.DoraBonusScorePerMatchedCard : 1000;
+    }
+
 }

@@ -1,22 +1,19 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class DamagePopupController : MonoBehaviour
 {
     [SerializeField] private DamagePopup _popupPrefab;
     [SerializeField] private Transform _enemyHeadPoint;
-    [SerializeField] private int _poolSize = 5;
+    [SerializeField] private int _initialPoolSize = 5;
 
-    private DamagePopup[] _pool;
-    private int _poolIndex = 0;
+    private List<DamagePopup> _pool = new List<DamagePopup>();
 
     private void Awake()
     {
-        _pool = new DamagePopup[_poolSize];
-        for(int i = 0; i < _poolSize; i++)
-        {
-            _pool[i] = Instantiate(_popupPrefab, transform);
-            _pool[i].gameObject.SetActive(false);
-        }
+        for (int i = 0; i < _initialPoolSize; i++)
+            AddToPool();
     }
 
     public void ShowBaseScore(int score)
@@ -29,6 +26,11 @@ public class DamagePopupController : MonoBehaviour
         GetNext().ShowFinalScore(score, _enemyHeadPoint.position);
     }
 
+    public void ShowYakuBonus(string yakuName, float bonusMultiplier, Action onComplete)
+    {
+        GetNext().ShowYakuBonus(yakuName, bonusMultiplier, _enemyHeadPoint.position, onComplete);
+    }
+
     public void SetEnemyHeadPoint(Transform headPoint)
     {
         _enemyHeadPoint = headPoint;
@@ -36,8 +38,19 @@ public class DamagePopupController : MonoBehaviour
 
     private DamagePopup GetNext()
     {
-        DamagePopup popup = _pool[_poolIndex];
-        _poolIndex = (_poolIndex + 1) % _poolSize;
-        return popup;
+        foreach (DamagePopup p in _pool)
+        {
+            if (!p.gameObject.activeSelf)
+                return p;
+        }
+        AddToPool();
+        return _pool[_pool.Count - 1];
+    }
+
+    private void AddToPool()
+    {
+        DamagePopup popup = Instantiate(_popupPrefab, transform);
+        popup.gameObject.SetActive(false);
+        _pool.Add(popup);
     }
 }

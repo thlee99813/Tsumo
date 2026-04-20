@@ -12,11 +12,18 @@ public class BattleController : MonoBehaviour
     private void Start()
     {
         _enemy.OnEnemyDead += HandleEnemyDead;
+        _player.OnHitFrame += HandlePlayerHitFrame;
     }
 
     private void OnDestroy()
     {
         _enemy.OnEnemyDead -= HandleEnemyDead;
+        _player.OnHitFrame -= HandlePlayerHitFrame;
+    }
+
+    private void HandlePlayerHitFrame()
+    {
+        if (_enemy != null) _enemy.PlayHitEffect();
     }
 
     public void ExecuteBattle(int finalDamage)

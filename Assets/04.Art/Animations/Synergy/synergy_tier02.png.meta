@@ -1,0 +1,399 @@
+fileFormatVersion: 2
+guid: 43ba15601af45e84fa83fda455ca5697
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -1894843222352634172
+    second: synergy_tier02_0
+  - first:
+      213: -837981103204522918
+    second: synergy_tier02_1
+  - first:
+      213: 6291086275852504611
+    second: synergy_tier02_2
+  - first:
+      213: -8091779611870763459
+    second: synergy_tier02_3
+  - first:
+      213: -1177137006958085006
+    second: synergy_tier02_4
+  - first:
+      213: -6764134899093285628
+    second: synergy_tier02_5
+  - first:
+      213: -7594137960977594691
+    second: synergy_tier02_6
+  - first:
+      213: -5116852077813646386
+    second: synergy_tier02_7
+  - first:
+      213: 4541578683538814744
+    second: synergy_tier02_8
+  - first:
+      213: 7547070221291815563
+    second: synergy_tier02_9
+  - first:
+      213: -6521537050808830941
+    second: synergy_tier02_10
+  - first:
+      213: -1634367280626978733
+    second: synergy_tier02_11
+  - first:
+      213: -4615734876940158746
+    second: synergy_tier02_12
+  - first:
+      213: 5996434842481876413
+    second: synergy_tier02_13
+  - first:
+      213: -3183432178757404173
+    second: synergy_tier02_14
+  - first:
+      213: -4631631708767230425
+    second: synergy_tier02_15
+  - first:
+      213: -749020811606264583
+    second: synergy_tier02_16
+  - first:
+      213: 6660327314628650013
+    second: synergy_tier02_17
+  - first:
+      213: -5767947961512266935
+    second: synergy_tier02_18
+  - first:
+      213: 7164948669654636294
+    second: synergy_tier02_19
+  - first:
+      213: -878014776355408711
+    second: synergy_tier02_20
+  - first:
+      213: -7671409676383434542
+    second: synergy_tier02_21
+  - first:
+      213: 4020961243592229232
+    second: synergy_tier02_22
+  - first:
+      213: 6872823652822197550
+    second: synergy_tier02_23
+  - first:
+      213: -4323547266290209493
+    second: synergy_tier02_24
+  - first:
+      213: -2994451699284916907
+    second: synergy_tier02_25
+  - first:
+      213: -4893116751798303476
+    second: synergy_tier02_26
+  - first:
+      213: 8720299879340947135
+    second: synergy_tier02_27
+  - first:
+      213: 1446250073061770850
+    second: synergy_tier02_28
+  - first:
+      213: 961417229306073546
+    second: synergy_tier02_29
+  - first:
+      213: 6709071766713879042
+    second: synergy_tier02_30
+  - first:
+      213: -3752669917918022824
+    second: synergy_tier02_31
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 0
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 32
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: synergy_tier02_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4ce5d9ae02a24b5e0800000000000000
+      internalID: -1894843222352634172
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: synergy_tier02_1
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a54210f50a4ee54f0800000000000000
+      internalID: -837981103204522918
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: synergy_tier02_2
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 32e0683e2ad6e4750800000000000000
+      internalID: 6291086275852504611
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: synergy_tier02_3
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d36e1b9a05934bf80800000000000000
+      internalID: -8091779611870763459
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: synergy_tier02_4
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 27cfb400128f9afe0800000000000000
+      internalID: -1177137006958085006
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: synergy_tier02_5
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 405d8bea527f022a0800000000000000
+      internalID: -6764134899093285628
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: synergy_tier02_6
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: db60f9c82c33c9690800000000000000
+      internalID: -7594137960977594691
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: synergy_tier02_7
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ecbb2bd352a4df8b0800000000000000
+      internalID: -5116852077813646386
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: ff240ad54015a644ca48eade3b8cb396
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":128.0,"y":128.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      synergy_tier02_0: -1894843222352634172
+      synergy_tier02_1: -837981103204522918
+      synergy_tier02_2: 6291086275852504611
+      synergy_tier02_3: -8091779611870763459
+      synergy_tier02_4: -1177137006958085006
+      synergy_tier02_5: -6764134899093285628
+      synergy_tier02_6: -7594137960977594691
+      synergy_tier02_7: -5116852077813646386
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

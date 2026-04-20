@@ -1,5 +1,7 @@
-using System.Collections;
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+
 
 public class StageFlowController : MonoBehaviour
 {
@@ -8,9 +10,14 @@ public class StageFlowController : MonoBehaviour
     [SerializeField] private DeckController _deckController;
     [SerializeField] private BattleController _battleController;
     [SerializeField] private UIController _uiController;
+    [SerializeField] private DoraController _doraController;
+
     [SerializeField] private BattleResultPresenter _battleResultPresenter;
     [SerializeField] private Player _player;
     [SerializeField] private ComboSynergyJudge _comboSynergyJudge;
+    [SerializeField] private YakuEpicMomentController _yakuEpicMomentController;
+    [SerializeField] private SynergyTierEffect _synergyTierEffect;
+
 
     [Header("Enemy Spawn")]
     [SerializeField] private Enemy _enemyPrefab;
@@ -51,18 +58,19 @@ public class StageFlowController : MonoBehaviour
 
         if (_enemyPrefab == null)
         {
-            _enemyPrefab = _currentEnemy;
+            Debug.LogWarning("[StageFlowController] Enemy Prefab이 할당되지 않았습니다. 기존 씬 Enemy를 재사용합니다.");
         }
 
         _battleController.SetEnemy(_currentEnemy);
         _ingameController.SetEnemy(_currentEnemy);
-        _player.SetPopupTarget(_currentEnemy.transform);
+       _player.SetPopupTarget(_currentEnemy.HeadPoint);
         ApplyEnemyStatsForCurrentStage();
 
         _uiController.HideGameOver();
         _uiController.HideBattleResultPanelImmediate();
         _uiController.SetStageText(_stageCodes[_currentStageIndex]);
 
+        _doraController.ApplyStage(_currentStageIndex);
 
         _isRunning = true;
         StartCoroutine(StageTurnLoop());
@@ -88,13 +96,20 @@ public class StageFlowController : MonoBehaviour
 
     private bool ValidateReferences()
     {
-        if (_ingameController == null || _deckController == null || _battleController == null || _uiController == null || _battleResultPresenter == null || _player == null)
+        if (_ingameController == null
+            || _deckController == null
+            || _battleController == null
+            || _uiController == null
+            || _battleResultPresenter == null
+            || _player == null
+            || _doraController == null
+            || _yakuEpicMomentController == null)
         {
             Debug.LogError("필수참조해제");
             return false;
         }
-
         return true;
+
     }
 
     public void StopFlow()
@@ -135,7 +150,7 @@ public class StageFlowController : MonoBehaviour
                 }
                 else
                 {
-                    var judgements = _comboSynergyJudge.Evaluate(fireExecutionData.ScoreResult);
+                    List<ComboSynergyJudge.SquadJudgement> judgements = _comboSynergyJudge.Evaluate(fireExecutionData.ScoreResult);
                     _player.PrepareComboOverrides(judgements);
                 }
             }
@@ -147,7 +162,7 @@ public class StageFlowController : MonoBehaviour
             if (hasCardAttack)
             {
                 _player.ClearCombo();
-                foreach (var squad in fireExecutionData.ScoreResult.SquadResults)
+                foreach (SquadScoreResult squad in fireExecutionData.ScoreResult.SquadResults)
                 {
                     if (squad.IsValid)
                         _player.AddAttack(CardTypeToAttackType(squad.CardType));
@@ -156,6 +171,19 @@ public class StageFlowController : MonoBehaviour
 
             int enemyHpBeforeBattle = _currentEnemy.CurrentHp;
             int playerHpBeforeBattle = _player.CurrentHp;
+
+            if (fireExecutionData.IsFirePressed)
+            {
+                yield return _yakuEpicMomentController.PlayMatched(fireExecutionData.ScoreResult);
+
+                if (!_isRunning || !_ingameController.IsRunning) yield break;
+
+                if (_synergyTierEffect != null && fireExecutionData.ScoreResult != null)
+                    yield return _synergyTierEffect.Play(fireExecutionData.ScoreResult.FinalMultiplier);
+
+                if (!_isRunning || !_ingameController.IsRunning) yield break;
+            }
+
 
             yield return _ingameController.RunFireProcessPhase(fireExecutionData);
 
@@ -177,6 +205,12 @@ public class StageFlowController : MonoBehaviour
             }
 
             _deckController.CompleteTurnAfterFire();
+
+            if (fireExecutionData.IsFirePressed)
+            {
+                _doraController.RollAfterFire();
+            }
+
 
                 yield return _ingameController.RunTurnResultPhase();
                 if (!_isRunning || !_ingameController.IsRunning)
@@ -220,6 +254,8 @@ public class StageFlowController : MonoBehaviour
         _ingameController.ResetForRespawn();
         _uiController.SetStageText(_stageCodes[_currentStageIndex]);
 
+        _doraController.ApplyStage(_currentStageIndex);
+
         return true;
     }
 
@@ -261,6 +297,7 @@ public class StageFlowController : MonoBehaviour
         _uiController.HideBattleResultPanelImmediate();
         _uiController.SetStageText(_stageCodes[_currentStageIndex]);
 
+        _doraController.ApplyStage(_currentStageIndex);
 
         _isRunning = true;
         StartCoroutine(StageTurnLoop());
@@ -268,6 +305,17 @@ public class StageFlowController : MonoBehaviour
 
     private void SpawnNewEnemy()
     {
+        // _enemyPrefab 미할당 시 기존 Enemy를 Reset해서 재사용
+        if (_enemyPrefab == null)
+        {
+            _currentEnemy.ResetEnemy();
+            ApplyEnemyStatsForCurrentStage();
+            _battleController.SetEnemy(_currentEnemy);
+            _ingameController.SetEnemy(_currentEnemy);
+            _player.SetPopupTarget(_currentEnemy.HeadPoint);
+            return;
+        }
+
         Vector3 spawnPosition = _enemySpawnPoint != null ? _enemySpawnPoint.position : _currentEnemy.transform.position;
         Quaternion spawnRotation = _enemySpawnPoint != null ? _enemySpawnPoint.rotation : _currentEnemy.transform.rotation;
         Transform spawnParent = _enemyParent != null ? _enemyParent : _currentEnemy.transform.parent;
@@ -281,9 +329,8 @@ public class StageFlowController : MonoBehaviour
 
         _battleController.SetEnemy(_currentEnemy);
         _ingameController.SetEnemy(_currentEnemy);
-        _player.SetPopupTarget(_currentEnemy.transform);
+        _player.SetPopupTarget(_currentEnemy.HeadPoint);
         ApplyEnemyStatsForCurrentStage();
-
     }
 
     private void ApplyEnemyStatsForCurrentStage()

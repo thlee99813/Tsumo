@@ -204,12 +204,12 @@ public class BattleResultPresenter : MonoBehaviour
             if (squad.ComboType == SquadComboType.Sequence)
             {
                 sequenceCount++;
-                sequenceScore = squad.BaseScore;
+                if (sequenceScore == 0) sequenceScore = squad.ComboScore;
             }
             else if (squad.ComboType == SquadComboType.Triple)
             {
                 tripleCount++;
-                tripleScore = squad.BaseScore;
+                if (tripleScore == 0) tripleScore = squad.ComboScore;
             }
         }
     }
