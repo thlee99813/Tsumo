@@ -19,6 +19,7 @@ public class StageFlowController : MonoBehaviour
     [SerializeField] private YakuEpicMomentController _yakuEpicMomentController;
     [SerializeField] private SynergyTierEffect _synergyTierEffect;
     [SerializeField] private StageIntroDialogueController _stageIntroDialogueController;
+    [SerializeField] private GameObject _gameClearPanel;
 
 
 
@@ -263,7 +264,7 @@ public class StageFlowController : MonoBehaviour
         if (_currentStageIndex >= _stageCodes.Length)
         {
             StopFlow();
-            Debug.Log("[StageFlowController] All Stage Clear");
+            _gameClearPanel.SetActive(true);
             return false;
         }
 
@@ -336,6 +337,7 @@ public class StageFlowController : MonoBehaviour
         _ingameController.ResetForRespawn();
 
         _uiController.HideGameOver();
+        _uiController.HideGameClear();
         _uiController.SetStageText(_stageCodes[_currentStageIndex]);
 
         _doraController.ApplyStage(_currentStageIndex);

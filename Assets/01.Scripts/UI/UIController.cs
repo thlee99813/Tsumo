@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using System;
+using UnityEngine.SceneManagement;
 
 
 public class UIController : MonoBehaviour
@@ -11,6 +12,7 @@ public class UIController : MonoBehaviour
 
     [Header("Panels")]
     [SerializeField] private GameObject _gameOverImage;
+    [SerializeField] private GameObject _gameClearPanel;
 
     public event Action OnRestartClicked;
 
@@ -55,11 +57,21 @@ public class UIController : MonoBehaviour
         }
     }
 
+    public void HideGameClear()
+    {
+        _gameClearPanel.SetActive(false);
+    }
+
 
 
     public void OnClickRestartButton()
     {
         OnRestartClicked?.Invoke();
+    }
+
+    public void OnClickMainmenuButton()
+    {
+        SceneManager.LoadScene("TitleScene");
     }
 
 
