@@ -65,6 +65,7 @@ public class Player : MonoBehaviour
     public event Action<int> OnHpChanged;
     public event Action<AttackType> OnAttackAdded;
     public event Action OnHitFrame;
+    public event Action OnEnemyAttack;
 
     private void Awake()
     {
@@ -258,7 +259,9 @@ public class Player : MonoBehaviour
             _synergyOverlayEffect.PlaySynergy(CardType.Sword);
 
         PlayAttackEffect(type, effectOverride);
+        _effectAnimator.PlayLeafParticle();
 
+        
         yield return new WaitUntil(() => _attackAnimDone);
     }
 
@@ -302,6 +305,7 @@ public class Player : MonoBehaviour
         }
 
         PlayAttackEffect(type, effectOverride);
+        _effectAnimator.PlayLeafParticle();
 
         yield return new WaitUntil(() => _attackAnimDone);
     }
@@ -352,6 +356,7 @@ public class Player : MonoBehaviour
 
     private void TeleportToStart()
     {
+        OnEnemyAttack?.Invoke();
         _isTeleporting = true;
 
         _playerAnimator.HideSprite();

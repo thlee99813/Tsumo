@@ -4475,7 +4475,7 @@ GameObject:
   m_Component:
   - component: {fileID: 289694385}
   m_Layer: 0
-  m_Name: Env (1)
+  m_Name: Env
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11555,7 +11555,7 @@ MonoBehaviour:
     - {fileID: 7456525958588599657, guid: 269e6b964a9f25e449d645b5244600d3, type: 3}
     - {fileID: 166560880612732042, guid: 269e6b964a9f25e449d645b5244600d3, type: 3}
   _attackFps: 12
-  _effectFps: 12
+  _effectFps: 16
 --- !u!1 &692190129
 GameObject:
   m_ObjectHideFlags: 0
@@ -11631,7 +11631,7 @@ GameObject:
   - component: {fileID: 693279451}
   - component: {fileID: 693279450}
   m_Layer: 5
-  m_Name: Canvas (1)
+  m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21255,7 +21255,7 @@ Transform:
   m_GameObject: {fileID: 1290726289}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -27875,7 +27875,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 66396984}
         m_TargetAssemblyTypeName: UIController, Assembly-CSharp
         m_MethodName: OnClickRestartButton
         m_Mode: 1
@@ -29657,7 +29657,7 @@ Transform:
   m_GameObject: {fileID: 1772224205}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.752, z: 0}
+  m_LocalPosition: {x: 1, y: 0.752, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -37152,10 +37152,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1409858247}
     m_Modifications:
-    - target: {fileID: 324108145492096438, guid: 9c84e5289a0797843b47e4dd5bbbbdee, type: 3}
-      propertyPath: _moveDistance
-      value: 4
-      objectReference: {fileID: 0}
     - target: {fileID: 1281840599412954376, guid: 9c84e5289a0797843b47e4dd5bbbbdee, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1
