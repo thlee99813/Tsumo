@@ -127,7 +127,10 @@ public class StageFlowController : MonoBehaviour
             FireExecutionData fireExecutionData = _deckController.BuildFireExecutionData(isFirePressed);
 
             if (isFirePressed && fireExecutionData.ScoreResult != null && _comboSynergyJudge != null)
-                _comboSynergyJudge.Evaluate(fireExecutionData.ScoreResult);
+            {
+                var judgements = _comboSynergyJudge.Evaluate(fireExecutionData.ScoreResult);
+                _player.PrepareComboOverrides(judgements);
+            }
 
             bool hasCardAttack = fireExecutionData.IsFirePressed
                 && fireExecutionData.ScoreResult != null

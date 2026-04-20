@@ -27,6 +27,8 @@ public class Player : MonoBehaviour
     [SerializeField] private float _attackMoveDuration = 0.2f;
 
     private PlayerAnimator _playerAnimator;
+    private ComboSynergyEffect _comboSynergyEffect;
+    private Dictionary<AttackType, Sprite[]> _attackOverrides = new();
 
     public int _currentHp;
     private Vector3 _startPosition;
@@ -61,12 +63,34 @@ public class Player : MonoBehaviour
         _startPosition = transform.position;
         _currentHp = _stats.MaxHp;
         _playerAnimator = GetComponent<PlayerAnimator>();
-        _effectAnimator = GetComponentInChildren<PlayerEffect>(); 
+        _effectAnimator = GetComponentInChildren<PlayerEffect>();
         _impulseEmitter = GetComponent<BattleImpulseEmitter>();
+        _comboSynergyEffect = GetComponent<ComboSynergyEffect>();
         
         //공격 완료 이벤트 구독
         _playerAnimator.OnAnimationComplete += () => _attackAnimDone = true;
     }
+
+    // StageFlowController에서 콤보 판정 후 호출 — 강화콤보/시너지 스프라이트 오버라이드 세팅
+    public void PrepareComboOverrides(List<ComboSynergyJudge.SquadJudgement> judgements)
+    {
+        _attackOverrides.Clear();
+        if (_comboSynergyEffect == null) return;
+        foreach (var j in judgements)
+        {
+            Sprite[] sprites = _comboSynergyEffect.GetSprites(j.ResultType, j.CardType, j.HasSynergy);
+            if (sprites != null && sprites.Length > 0)
+                _attackOverrides[CardTypeToAttackType(j.CardType)] = sprites;
+        }
+    }
+
+    private static AttackType CardTypeToAttackType(CardType cardType) => cardType switch
+    {
+        CardType.Sword     => AttackType.Sword,
+        CardType.Kunai     => AttackType.Shuriken,
+        CardType.FoxSpirit => AttackType.Spell,
+        _                  => AttackType.Sword
+    };
 
     //PlayerInputHandler에서 호출
     public void AddAttack(AttackType type)
@@ -114,6 +138,7 @@ public class Player : MonoBehaviour
         }
 
         _currentAttackX = float.MinValue;
+        _attackOverrides.Clear();
         ClearCombo();
         TeleportToStart();
         yield return new WaitUntil(() => !_isTeleporting);
@@ -156,7 +181,10 @@ public class Player : MonoBehaviour
         _attackAnimDone = false;
         if(type == AttackType.Sword)
         {
-            _playerAnimator.PlaySword();
+            if(_attackOverrides.TryGetValue(AttackType.Sword, out Sprite[] swordOverride))
+                _playerAnimator.PlayCustomAttack(swordOverride, _comboSynergyEffect.Fps);
+            else
+                _playerAnimator.PlaySword();
             if(_effectAnimator != null)
                 StartCoroutine(PlayEffectDelayed(_effectAnimator.PlaySwordEffect, _playerAnimator.HitFrameDelay));
         }
@@ -186,16 +214,22 @@ public class Player : MonoBehaviour
             _currentAttackX = rangedX;    
         }
         
-        _attackAnimDone = false;              
-        if(type == AttackType.Shuriken)             //타입에 따라 다른 애니메이션 재생
+        _attackAnimDone = false;
+        if(type == AttackType.Shuriken)
         {
-            _playerAnimator.PlayShuriken();
+            if(_attackOverrides.TryGetValue(AttackType.Shuriken, out Sprite[] shurikenOverride))
+                _playerAnimator.PlayCustomAttack(shurikenOverride, _comboSynergyEffect.Fps);
+            else
+                _playerAnimator.PlayShuriken();
             if(_effectAnimator != null)
                 StartCoroutine(PlayEffectDelayed(_effectAnimator.PlayShurikenEffect, _playerAnimator.HitFrameDelay));
         }
         else if(type == AttackType.Spell)
         {
-            _playerAnimator.PlaySpell();
+            if(_attackOverrides.TryGetValue(AttackType.Spell, out Sprite[] spellOverride))
+                _playerAnimator.PlayCustomAttack(spellOverride, _comboSynergyEffect.Fps);
+            else
+                _playerAnimator.PlaySpell();
             if(_effectAnimator != null)
                 StartCoroutine(PlayEffectDelayed(_effectAnimator.PlaySpellEffect, _playerAnimator.HitFrameDelay));
         }
