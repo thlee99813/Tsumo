@@ -168,7 +168,7 @@ public class StageFlowController : MonoBehaviour
             int playerRemainHp = _player.CurrentHp;
             int enemyDamageToPlayer = Mathf.Max(0, playerHpBeforeBattle - playerRemainHp);
 
-            //yield return _battleResultPresenter.PlayBattleResultPanel(fireExecutionData, enemyHpBeforeBattle, enemyRemainHp, playerHpBeforeBattle, enemyDamageToPlayer, playerRemainHp);
+            yield return _battleResultPresenter.PlayBattleResultPanel(fireExecutionData, enemyHpBeforeBattle, enemyRemainHp, playerHpBeforeBattle, enemyDamageToPlayer, playerRemainHp);
 
 
             if (!_isRunning || !_ingameController.IsRunning)
