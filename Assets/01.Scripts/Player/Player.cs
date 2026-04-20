@@ -198,7 +198,11 @@ public class Player : MonoBehaviour
         switch(type)
         {
             case AttackType.Sword:
-                yield return MeleeAttack(targetX, type, attackOverride, effectOverride);
+                // 강화 소드는 원거리 위치에서 공격
+                if (attackOverride != null)
+                    yield return RangedAttack(targetX, type, attackOverride, effectOverride);
+                else
+                    yield return MeleeAttack(targetX, type, attackOverride, effectOverride);
                 break;
             case AttackType.Shuriken:
             case AttackType.Spell:
@@ -265,7 +269,25 @@ public class Player : MonoBehaviour
         }
 
         _attackAnimDone = false;
-        if(type == AttackType.Shuriken)
+        if(type == AttackType.Sword)
+        {
+            if(attackOverride != null)
+                _playerAnimator.PlayCustomAttack(attackOverride, _comboSynergyEffect != null ? _comboSynergyEffect.Fps : 12f);
+            else
+                _playerAnimator.PlaySword();
+
+            if(_synergyCardTypes.Contains(CardType.Sword) && _synergyOverlayEffect != null)
+                _synergyOverlayEffect.PlaySynergy(CardType.Sword);
+
+            if(_effectAnimator != null)
+            {
+                if(effectOverride != null)
+                    StartCoroutine(PlayEffectDelayed(() => _effectAnimator.PlayCustomEffect(effectOverride, _comboSynergyEffect != null ? _comboSynergyEffect.EffectFps : 12f), _playerAnimator.HitFrameDelay));
+                else
+                    StartCoroutine(PlayEffectDelayed(_effectAnimator.PlaySwordEffect, _playerAnimator.HitFrameDelay));
+            }
+        }
+        else if(type == AttackType.Shuriken)
         {
             if(attackOverride != null)
                 _playerAnimator.PlayCustomAttack(attackOverride, _comboSynergyEffect != null ? _comboSynergyEffect.Fps : 12f);
