@@ -1,8 +1,14 @@
 using System;
 using UnityEngine;
 using System.Collections;
-using UnityEngine.LowLevel;
 
+[Serializable]
+public class AttackAnimationTiming
+{
+    public int HitFrameIndex = 2;
+    public float HitStopDuration = 0.3f;
+    public float EffectDelay = 0.3f;
+}
 
 public class PlayerAnimator : MonoBehaviour
 {
@@ -13,10 +19,12 @@ public class PlayerAnimator : MonoBehaviour
     [SerializeField] private Sprite[] _teleportSprites;
 
     [Header("Movement Sprites")]
+    [SerializeField] private Sprite[] _idleSprites;
     [SerializeField] private Sprite[] _runSpites;
     [SerializeField] private Sprite[] _runStopSprites;
 
     [Header("Frame Settings")]
+    [SerializeField] private float _idleFps = 8f;
     [SerializeField] private float _swordFps = 12f;
     [SerializeField] private float _shurikenFps = 12f;
     [SerializeField] private float _spellFps = 12f;
@@ -24,36 +32,40 @@ public class PlayerAnimator : MonoBehaviour
     [SerializeField] private float _runStopFps = 12f;
     [SerializeField] private float _teleportFps = 12f;
 
-    [Header("Hit Frame")]
-    [SerializeField] private int _hitFrameIndex = 2;
-    [SerializeField] private float _hitFrameDelay = 0.3f;
+    [Header("Attack Timing")]
+    [SerializeField] private AttackAnimationTiming _swordTiming = new AttackAnimationTiming();
+    [SerializeField] private AttackAnimationTiming _shurikenTiming = new AttackAnimationTiming();
+    [SerializeField] private AttackAnimationTiming _spellTiming = new AttackAnimationTiming();
 
     private SpriteRenderer _spriteRenderer;
     private Coroutine _currentAnim;
     private int _runFrameIndex = 0;
 
     [SerializeField] private BattleImpulseEmitter _impulseEmitter;
+    private int _loopFrameIndex = 0;
 
-    public float HitFrameDelay => _hitFrameDelay;
+    public event Action OnAnimationComplete;
+    public event Action OnHitFrame;
 
-    public event Action OnAnimationComplete;        // 공격 애니메이션 완료 시 발행
-    public event Action OnHitFrame;                 // 타격 프레임 도달 시 발행
-
-
-    //외부 호출용 - 공격
-    public void PlaySword() => PlayAttack(_swordSprites, _swordFps);
-    public void PlayShuriken() => PlayAttack(_shurikenSprites, _shurikenFps);
-    public void PlaySpell() => PlayAttack(_spellSprites, _spellFps);
-    public void PlayCustomAttack(Sprite[] sprites, float fps) => PlayAttack(sprites, fps);
+    public void PlaySword() => PlayAttack(_swordSprites, _swordFps, _swordTiming);
+    public void PlayShuriken() => PlayAttack(_shurikenSprites, _shurikenFps, _shurikenTiming);
+    public void PlaySpell() => PlayAttack(_spellSprites, _spellFps, _spellTiming);
+    public void PlayCustomAttack(AttackType attackType, Sprite[] sprites, float fps) => PlayAttack(sprites, fps, GetTiming(attackType));
     public void HideSprite() => _spriteRenderer.enabled = false;
     public void ShowSprite() => _spriteRenderer.enabled = true;
 
-    //외부 호출용 - 이동
+    public void PlayIdle(float fpsOverride = -1f)
+    {
+        float fps = fpsOverride > 0f ? fpsOverride : _idleFps;
+        PlayLoop(_idleSprites, fps);
+    }
+
     public void PlayRun(float fpsOverride = -1f)
     {
         float fps = fpsOverride > 0f ? fpsOverride : _runFps;
         PlayLoop(_runSpites, fps);
     }
+
     public void PlayRunStop(Action onComplete = null)
     {
         StopAnimation();
@@ -76,23 +88,38 @@ public class PlayerAnimator : MonoBehaviour
         PlayRun();
     }
 
-
     public void StopAnimation()
     {
-        if(_currentAnim != null)
+        if (_currentAnim != null)
         {
             StopCoroutine(_currentAnim);
             _currentAnim = null;
         }
     }
-    // 공격 1회 재생 후 OnAnimationComplete 발행
-    private void PlayAttack(Sprite[] sprites, float fps)
+
+    public float GetEffectDelay(AttackType attackType)
+    {
+        return GetTiming(attackType).EffectDelay;
+    }
+
+    private AttackAnimationTiming GetTiming(AttackType attackType)
+    {
+        return attackType switch
+        {
+            AttackType.Sword => _swordTiming,
+            AttackType.Shuriken => _shurikenTiming,
+            AttackType.Spell => _spellTiming,
+            _ => _swordTiming
+        };
+    }
+
+    private void PlayAttack(Sprite[] sprites, float fps, AttackAnimationTiming timing)
     {
         StopAnimation();
         _currentAnim = StartCoroutine(PlayOnceCoroutine(sprites, fps, () =>
         {
             OnAnimationComplete?.Invoke();
-        }, applyHitFrame: true));
+        }, timing));
     }
 
     private void PlayLoop(Sprite[] sprites, float fps)
@@ -101,52 +128,63 @@ public class PlayerAnimator : MonoBehaviour
         _currentAnim = StartCoroutine(PlayLoopCoroutine(sprites, fps));
     }
 
-    private IEnumerator PlayOnceCoroutine(Sprite[] sprites, float fps, Action onComplete, bool applyHitFrame = false)
+    private IEnumerator PlayOnceCoroutine(Sprite[] sprites, float fps, Action onComplete, AttackAnimationTiming timing = null)
     {
-        if(sprites == null || sprites.Length == 0)
+        if (sprites == null || sprites.Length == 0)
         {
             onComplete?.Invoke();
             yield break;
         }
 
         float interval = 1f / fps;
-        for(int i = 0; i < sprites.Length; i++)
+        int hitFrameIndex = -1;
+
+        if (timing != null)
+            hitFrameIndex = Mathf.Clamp(timing.HitFrameIndex, 0, sprites.Length - 1);
+
+        for (int i = 0; i < sprites.Length; i++)
         {
             _spriteRenderer.sprite = sprites[i];
-            if(i < sprites.Length - 1)
-            {
-                if(applyHitFrame && i == _hitFrameIndex)
-                {
-                    _impulseEmitter?.EmitHitImpulse();
-                    OnHitFrame?.Invoke();
-                    yield return new WaitForSeconds(_hitFrameDelay);
 
-                }
+            bool isHitFrame = timing != null && i == hitFrameIndex;
+            if (isHitFrame)
+            {
+                _impulseEmitter?.EmitHitImpulse();
+                OnHitFrame?.Invoke();
+            }
+
+            if (i < sprites.Length - 1)
+            {
+                if (isHitFrame)
+                    yield return new WaitForSeconds(timing.HitStopDuration);
                 else
-                {
                     yield return new WaitForSeconds(interval);
-                }
-                    
+            }
+            else if (isHitFrame)
+            {
+                yield return new WaitForSeconds(timing.HitStopDuration);
             }
         }
-        _currentAnim = null;   // onComplete가 PlayRun 등을 호출해 _currentAnim을 덮어쓰기 전에 먼저 null로 비워야 함
+
+        _currentAnim = null;
         onComplete?.Invoke();
     }
 
     private IEnumerator PlayLoopCoroutine(Sprite[] sprites, float fps)
     {
-        if(sprites == null || sprites.Length == 0) yield break;
+        if (sprites == null || sprites.Length == 0)
+            yield break;
 
         float interval = 1f / fps;
-        int i = _runFrameIndex % sprites.Length;
-        while(true)
+        int i = _loopFrameIndex % sprites.Length;
+
+        while (true)
         {
             _spriteRenderer.sprite = sprites[i];
             int next = (i + 1) % sprites.Length;
-            _runFrameIndex = next;
+            _loopFrameIndex = next;
             yield return new WaitForSeconds(interval);
             i = next;
         }
     }
-
 }
