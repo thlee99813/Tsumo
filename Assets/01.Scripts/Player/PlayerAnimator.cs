@@ -24,9 +24,15 @@ public class PlayerAnimator : MonoBehaviour
     [SerializeField] private float _runStopFps = 12f;
     [SerializeField] private float _teleportFps = 12f;
 
+    [Header("Hit Frame")]
+    [SerializeField] private int _hitFrameIndex = 2;
+    [SerializeField] private float _hitFrameDelay = 0.3f;
+
     private SpriteRenderer _spriteRenderer;
     private Coroutine _currentAnim;
     private int _runFrameIndex = 0;
+
+    public float HitFrameDelay => _hitFrameDelay;
 
     public event Action OnAnimationComplete;        // 공격 애니메이션 완료 시 발행
 
@@ -82,14 +88,7 @@ public class PlayerAnimator : MonoBehaviour
         _currentAnim = StartCoroutine(PlayOnceCoroutine(sprites, fps, () =>
         {
             OnAnimationComplete?.Invoke();
-        }));
-    }
-
-    // 1회 재생
-    private void PlayOnce(Sprite[] sprites, float fps)
-    {
-        StopAnimation();
-        _currentAnim = StartCoroutine(PlayOnceCoroutine(sprites, fps, null));
+        }, applyHitFrame: true));
     }
 
     private void PlayLoop(Sprite[] sprites, float fps)
@@ -98,7 +97,7 @@ public class PlayerAnimator : MonoBehaviour
         _currentAnim = StartCoroutine(PlayLoopCoroutine(sprites, fps));
     }
 
-    private IEnumerator PlayOnceCoroutine(Sprite[] sprites, float fps, Action onComplete)
+    private IEnumerator PlayOnceCoroutine(Sprite[] sprites, float fps, Action onComplete, bool applyHitFrame = false)
     {
         if(sprites == null || sprites.Length == 0)
         {
@@ -111,9 +110,13 @@ public class PlayerAnimator : MonoBehaviour
         {
             _spriteRenderer.sprite = sprites[i];
             if(i < sprites.Length - 1)
-                yield return new WaitForSeconds(interval);
+            {
+                if(applyHitFrame && i == _hitFrameIndex)
+                    yield return new WaitForSeconds(_hitFrameDelay);
+                else
+                    yield return new WaitForSeconds(interval);
+            }
         }
-        //yield return null;  // 마지막 프레임을 1 렌더 프레임만 유지 후 전환
         _currentAnim = null;   // onComplete가 PlayRun 등을 호출해 _currentAnim을 덮어쓰기 전에 먼저 null로 비워야 함
         onComplete?.Invoke();
     }
