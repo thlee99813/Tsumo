@@ -38,7 +38,7 @@ public class UIController : MonoBehaviour
     {
         if (_restartStageText != null)
         {
-            _restartStageText.text = $"Restart : {restartStageCode}";
+            _restartStageText.text = $"{restartStageCode}부터 다시 시작";
         }
 
         if (_gameOverImage != null)
@@ -55,7 +55,7 @@ public class UIController : MonoBehaviour
         }
     }
 
-    
+
 
     public void OnClickRestartButton()
     {

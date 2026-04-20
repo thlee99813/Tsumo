@@ -118,7 +118,7 @@ MonoBehaviour:
   _ingameController: {fileID: 0}
   _slider: {fileID: 1859980683561963468}
   _canvasGroup: {fileID: 2933263916948035934}
-  _worldOffset: {x: 0, y: -1.8, z: 0}
+  _worldOffset: {x: 0, y: -1.5, z: 0}
   _hideWhenOffScreen: 1
   _decreaseDuration: 0.2
   _increaseDuration: 0.12
@@ -381,7 +381,7 @@ MonoBehaviour:
   _playerState: {fileID: 0}
   _slider: {fileID: 1207762498573091003}
   _canvasGroup: {fileID: 5911989509816901824}
-  _worldOffset: {x: 0, y: -1.2, z: 0}
+  _worldOffset: {x: 0, y: 0.8, z: 0}
   _hideWhenOffScreen: 1
   _decreaseDuration: 0.2
   _increaseDuration: 0.12
@@ -645,7 +645,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
