@@ -10,12 +10,12 @@ public class Skill1ImpactSequence : MonoBehaviour
     [SerializeField] private RectTransform[] _textRects;
 
     [Header("Timing")]
-    [SerializeField] private float _bgFillTime = 0.18f;
-    [SerializeField] private float _textStartDelay = 0.04f;
-    [SerializeField] private float _textStagger = 0.05f;
-    [SerializeField] private float _textHitTime = 0.08f;
-    [SerializeField] private float _textSettleTime = 0.06f;
-    [SerializeField] private float _textFadeInTime = 0.05f;
+    [SerializeField] private float _bgFillTime = 0.36f;
+    [SerializeField] private float _textStartDelay = 0.64f;
+    [SerializeField] private float _textStagger = 0.3f;
+    [SerializeField] private float _textHitTime = 0.16f;
+    [SerializeField] private float _textSettleTime = 0.12f;
+    [SerializeField] private float _textFadeInTime = 0.1f;
 
     [Header("Motion")]
     [SerializeField] private float _textSpawnYOffset = 80f;
@@ -32,6 +32,7 @@ public class Skill1ImpactSequence : MonoBehaviour
     private Vector3[] _textBaseScales;
     private Graphic[] _textGraphics;
     private Sequence _playSequence;
+    public BattleImpulseEmitter ImpurseSource;
 
     private void Awake()
     {
@@ -92,6 +93,12 @@ public class Skill1ImpactSequence : MonoBehaviour
             {
                 hitSequence.Join(_textGraphics[i].DOFade(1f, _textFadeInTime));
             }
+
+            hitSequence.AppendCallback(() =>
+            {
+                ImpurseSource.EmitHitImpulse(true);
+            });
+
 
             hitSequence.Append(
                 textRect.DOAnchorPosY(targetY, _textSettleTime).SetEase(Ease.OutBack)
