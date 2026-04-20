@@ -8,36 +8,27 @@ public struct ComboEffectSet
     public Sprite[] FoxSpiritSprites;
 }
 
+// Player 오브젝트에 부착 — 강화 콤보일 때 공격 애니메이션을 교체할 스프라이트 제공
 public class ComboSynergyEffect : MonoBehaviour
 {
     [Header("Enhanced Combo Effect")]
     [SerializeField] private ComboEffectSet _enhancedComboEffect;
-
-    [Header("Synergy Effect")]
-    [SerializeField] private ComboEffectSet _synergyEffect;
 
     [Header("Frame Settings")]
     [SerializeField] private float _effectFps = 12f;
 
     public float Fps => _effectFps;
 
-    // 일반 콤보는 null 반환 → PlayerAnimator 기본 애니메이션 사용
-    public Sprite[] GetSprites(SquadResultType resultType, CardType cardType, bool hasSynergy)
+    // EnhancedCombo일 때만 스프라이트 반환, 그 외 null → PlayerAnimator 기본 애니 사용
+    public Sprite[] GetAttackSprites(SquadResultType resultType, CardType cardType)
     {
-        if (hasSynergy)
-            return GetFromSet(_synergyEffect, cardType);
-
-        if (resultType == SquadResultType.EnhancedCombo)
-            return GetFromSet(_enhancedComboEffect, cardType);
-
-        return null;
+        if (resultType != SquadResultType.EnhancedCombo) return null;
+        return cardType switch
+        {
+            CardType.Sword     => _enhancedComboEffect.SwordSprites,
+            CardType.Kunai     => _enhancedComboEffect.KunaiSprites,
+            CardType.FoxSpirit => _enhancedComboEffect.FoxSpiritSprites,
+            _                  => null
+        };
     }
-
-    private Sprite[] GetFromSet(ComboEffectSet effectSet, CardType cardType) => cardType switch
-    {
-        CardType.Sword     => effectSet.SwordSprites,
-        CardType.Kunai     => effectSet.KunaiSprites,
-        CardType.FoxSpirit => effectSet.FoxSpiritSprites,
-        _                  => null
-    };
 }

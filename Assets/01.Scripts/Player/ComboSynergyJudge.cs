@@ -80,22 +80,22 @@ public class ComboSynergyJudge : MonoBehaviour
                 _                             => "무효"
             };
             string synergyLabel = j.HasSynergy ? " + 시너지" : "";
-            Debug.Log($"[ComboSynergy] 스쿼드 {j.SquadIndex + 1} ({j.CardType}): {comboLabel}{synergyLabel}");
+            //Debug.Log($"[ComboSynergy] 스쿼드 {j.SquadIndex + 1} ({j.CardType}): {comboLabel}{synergyLabel}");
 
         }
 
         // 디버그 로그 - 시너지 발동 카드 종류
-        bool anySynergy = false;
+        //bool anySynergy = false;
         foreach (var pair in validCountByType)
         {
             if (pair.Value >= 2)
             {
-                Debug.Log($"[ComboSynergy] 시너지 발동: {pair.Key} ({pair.Value}스쿼드 동일 종류)");
-                anySynergy = true;
+                //Debug.Log($"[ComboSynergy] 시너지 발동: {pair.Key} ({pair.Value}스쿼드 동일 종류)");
+                //anySynergy = true;
             }
         }
-        if (!anySynergy)
-            Debug.Log("[ComboSynergy] 시너지: 없음");
+        // if (!anySynergy)
+        //     Debug.Log("[ComboSynergy] 시너지: 없음");
 
         return judgements;
     }
