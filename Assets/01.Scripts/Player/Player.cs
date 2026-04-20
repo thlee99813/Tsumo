@@ -209,6 +209,7 @@ public class Player : MonoBehaviour
             yield return new WaitUntil(() => popupDone);
         }
 
+        _playerAnimator.PlayRun(_runFps);
         _isAttacking = false;
     }
 
