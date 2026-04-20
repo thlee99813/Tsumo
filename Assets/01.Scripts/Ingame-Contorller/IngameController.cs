@@ -169,32 +169,38 @@ public class IngameController : MonoBehaviour
         return requested;
     }
 
-    public IEnumerator RunFireProcessPhase(int finalDamage, bool isFirePressed)
+    public IEnumerator RunFireProcessPhase(FireExecutionData fireData)
     {
         _currentPhase = TurnPhase.FireProcess;
         _player.StopMovement();
-        
-        if (isFirePressed)
+
+        if (fireData.IsFirePressed)
         {
             ExitSlowMotion();
-            // 공격 - 정지 애니메이션은 공격 위치에서 재생됨
 
-            _player.ExecuteCombo(_enemy.transform.position.x);
+            // 유효한 스쿼드의 기본 점수 리스트 (공격 순서와 동일)
+            var squadScores = new System.Collections.Generic.List<int>();
+            if (fireData.ScoreResult != null)
+            {
+                foreach (var squad in fireData.ScoreResult.SquadResults)
+                    if (squad.IsValid) squadScores.Add(squad.BaseScore);
+            }
+
+            _player.ExecuteCombo(_enemy.transform.position.x, squadScores, fireData.FinalDamage);
             yield return new WaitUntil(() => !_player.IsAttacking || !_isRunning);
             if (!_isRunning) yield break;
 
-            _battleController.ExecuteBattle(finalDamage);
+            _battleController.ExecuteBattle(fireData.FinalDamage);
         }
         else
         {
             ExitSlowMotion();
             _player.PlayStopThenBattle();
 
-            yield return new WaitUntil(() => 
+            yield return new WaitUntil(() =>
                 !_player.IsRunStopping && !_player.IsTeleporting || !_isRunning);
-            
-            
-            if(!_isRunning) yield break;
+
+            if (!_isRunning) yield break;
             _battleController.ExecuteBattle(0);
         }
 

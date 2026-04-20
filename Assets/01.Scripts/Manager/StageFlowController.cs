@@ -56,6 +56,7 @@ public class StageFlowController : MonoBehaviour
 
         _battleController.SetEnemy(_currentEnemy);
         _ingameController.SetEnemy(_currentEnemy);
+        _player.SetPopupTarget(_currentEnemy.transform);
         ApplyEnemyStatsForCurrentStage();
 
         _uiController.HideGameOver();
@@ -156,7 +157,7 @@ public class StageFlowController : MonoBehaviour
             int enemyHpBeforeBattle = _currentEnemy.CurrentHp;
             int playerHpBeforeBattle = _player.CurrentHp;
 
-            yield return _ingameController.RunFireProcessPhase(fireExecutionData.FinalDamage, fireExecutionData.IsFirePressed);
+            yield return _ingameController.RunFireProcessPhase(fireExecutionData);
 
             if (!_isRunning || !_ingameController.IsRunning)
             {
@@ -280,6 +281,7 @@ public class StageFlowController : MonoBehaviour
 
         _battleController.SetEnemy(_currentEnemy);
         _ingameController.SetEnemy(_currentEnemy);
+        _player.SetPopupTarget(_currentEnemy.transform);
         ApplyEnemyStatsForCurrentStage();
 
     }
