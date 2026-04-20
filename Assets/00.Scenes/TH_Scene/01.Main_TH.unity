@@ -5359,6 +5359,8 @@ MonoBehaviour:
   _runFps: 12
   _runStopFps: 12
   _teleportFps: 8
+  _hitFrameIndex: 2
+  _hitFrameDelay: 0.3
 --- !u!1 &681766940
 GameObject:
   m_ObjectHideFlags: 0
@@ -5805,6 +5807,7 @@ MonoBehaviour:
   _uiController: {fileID: 66396984}
   _battleResultPresenter: {fileID: 537314425}
   _player: {fileID: 670580915}
+  _comboSynergyJudge: {fileID: 0}
   _enemyPrefab: {fileID: 324108145492096438, guid: 9c84e5289a0797843b47e4dd5bbbbdee, type: 3}
   _enemySpawnPoint: {fileID: 1772224206}
   _enemyParent: {fileID: 1409858247}
@@ -6328,6 +6331,7 @@ GameObject:
   - component: {fileID: 835341995}
   - component: {fileID: 835341997}
   - component: {fileID: 835341996}
+  - component: {fileID: 835341998}
   m_Layer: 5
   m_Name: Skill1
   m_TagString: Untagged
@@ -6398,6 +6402,38 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 835341994}
   m_CullTransparentMesh: 1
+--- !u!114 &835341998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 835341994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79e74af2c63a6d2488bc01a09065a5e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Skill1ImpactSequence
+  _bgFillImage: {fileID: 1832709656}
+  _textRects:
+  - {fileID: 2135018090}
+  - {fileID: 36975026}
+  - {fileID: 1199177071}
+  - {fileID: 538131182}
+  _bgFillTime: 0.36
+  _textStartDelay: 0.64
+  _textStagger: 0.3
+  _textHitTime: 0.16
+  _textSettleTime: 0.12
+  _textFadeInTime: 0.1
+  _textSpawnYOffset: 80
+  _textHitOvershootY: 18
+  _textStartScale: 0.88
+  _textPunchAmount: 0.18
+  _textPunchTime: 0.12
+  _autoPlayOnEnable: 1
+  _useUnscaledTime: 1
+  ImpurseSource: {fileID: 1073895699}
 --- !u!1 &864070217
 GameObject:
   m_ObjectHideFlags: 0
@@ -6498,10 +6534,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 886561817}
-  - component: {fileID: 886561822}
-  - component: {fileID: 886561820}
-  - component: {fileID: 886561818}
   - component: {fileID: 886561823}
+  - component: {fileID: 886561820}
+  - component: {fileID: 886561822}
+  - component: {fileID: 886561818}
   m_Layer: 0
   m_Name: BottomStaticCamera
   m_TagString: Untagged
@@ -6642,11 +6678,16 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 886561816}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7b98835c3f960d4d9508c70ef4c3c62, type: 3}
+  m_Script: {fileID: 11500000, guid: 5944e7522eb6d4d468e5399178a50c53, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BottomBoardCameraFollow
+  m_EditorClassIdentifier: Assembly-CSharp::OverlayCameraShakeSync
+  _sourceCameraTransform: {fileID: 400348544}
+  _sourceCamera: {fileID: 400348539}
+  _syncRotation: 1
+  _syncOrthoSize: 1
+  _syncOnStart: 0
 --- !u!1 &911484307
 GameObject:
   m_ObjectHideFlags: 0
@@ -8149,7 +8190,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BattleImpulseEmitter
   _impulseSource: {fileID: 1073895697}
+  _overlayCameraShakeSync: {fileID: 886561823}
   _force: 1
+  _overlaySyncSeconds: 0.18
 --- !u!1 &1074024441
 GameObject:
   m_ObjectHideFlags: 0
@@ -10065,9 +10108,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1501979920}
   - {fileID: 2074400919}
   - {fileID: 1303382873}
+  - {fileID: 1501979920}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1242728703
@@ -10849,7 +10892,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.2356, y: -1.6424, z: 0}
-  m_LocalScale: {x: 19, y: 6.0748644, z: 1}
+  m_LocalScale: {x: 23.0299, y: 7.3633432, z: 1.2121}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1239557559}
@@ -13276,7 +13319,7 @@ Transform:
   m_GameObject: {fileID: 1501979917}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.2756006, y: 1.4280001, z: 0}
+  m_LocalPosition: {x: -0.27560043, y: 1.428, z: 0}
   m_LocalScale: {x: 20, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
