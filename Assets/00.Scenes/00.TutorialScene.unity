@@ -6928,7 +6928,7 @@ MonoBehaviour:
   - {fileID: 211652748}
   - {fileID: 2031412247}
   - {fileID: 1163186684}
-  _mainSceneName: 01.MainScene
+  _mainSceneName: TitleScene
   _moveMainDelay: 2
   _player: {fileID: 670580915}
   _playerAnimator: {fileID: 670580921}
@@ -13765,6 +13765,10 @@ MonoBehaviour:
   - {fileID: 1401383962}
   - {fileID: 126998715}
   - {fileID: 1152736191}
+  _repositionMargin: 0.2
+  _seamOverlap: 0.02
+  _bgParallax: 0.6
+  _groundParallax: 1
 --- !u!1 &928276160
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,6 +8,7 @@ using UnityEditor;
 public class TitleSceneController : MonoBehaviour
 {
     [SerializeField] private string gameSceneName;
+    [SerializeField] private string TutorialSceneName;
 
     public void OnClickGameStart()
     {
@@ -26,6 +27,11 @@ public class TitleSceneController : MonoBehaviour
         }
 
         Debug.LogWarning("시작할 게임 씬을 찾지 못함");
+    }
+
+    public void OnClickTutorialStart()
+    {
+        SceneManager.LoadScene(TutorialSceneName);
     }
 
     public void OnClickGameQuit()

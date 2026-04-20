@@ -59,7 +59,7 @@ public class TutorialFlowController : MonoBehaviour
     [SerializeField] private List<CardView> _yakuGuideCardViews = new List<CardView>();
 
     [Header("End")]
-    [SerializeField] private string _mainSceneName = "01.MainScene";
+    [SerializeField] private string _mainSceneName = "TitleScene";
     [SerializeField] private float _moveMainDelay = 2f;
 
 
