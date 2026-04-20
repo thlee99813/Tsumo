@@ -4,14 +4,18 @@ public class InfiniteBackGround : MonoBehaviour
 {
     [SerializeField] private float _scrollSpeed = 2f;
     [SerializeField] private Transform[] _backGround;   // 배경 연결
+    [SerializeField] private Transform[] _ground;   // 지면 연결
     private float _bgWidth;
+    private float _gWidth;
     private Camera _cam;
     private float _speedMultiplier = 1f;
+
 
     private void Awake()
     {
         //SpriteRenderer 기준으로 너비 계산
-        _bgWidth = _backGround[0].GetComponent<SpriteRenderer>().bounds.size.x;
+        _bgWidth = _backGround[0].GetComponent<SpriteRenderer>().bounds.size.x * 0.99f;
+        _gWidth = _ground[0].GetComponent<SpriteRenderer>().bounds.size.x * 0.99f;
         _cam = Camera.main;
     }
 
@@ -21,22 +25,33 @@ public class InfiniteBackGround : MonoBehaviour
         float camLeftEdge = _cam.transform.position.x - _cam.orthographicSize * _cam.aspect;
 
         //전체 배경 왼쪽으로 이동 (Time.timeScale 비의존 - 언스케일 타임 사용)
-        foreach(Transform bg in _backGround)
+        foreach (Transform bg in _backGround)
         {
             bg.Translate(_scrollSpeed * _speedMultiplier * Time.unscaledDeltaTime * Vector3.left);
 
             // 배경의 오른쪽 끝이 카메라 왼쪽 끝을 벗어나면 오른쪽으로 재배치
-            if(bg.position.x + _bgWidth * 0.5f < camLeftEdge)
+            if (bg.position.x + _bgWidth * 0.5f < camLeftEdge)
             {
-                Reposition(bg);
+                Reposition(bg, _bgWidth, _backGround.Length);
+            }
+        }
+
+        foreach (Transform g in _ground)
+        {
+            g.Translate(_scrollSpeed * _speedMultiplier * Time.unscaledDeltaTime * Vector3.left);
+
+            // 배경의 오른쪽 끝이 카메라 왼쪽 끝을 벗어나면 오른쪽으로 재배치
+            if (g.position.x + _gWidth * 0.5f < camLeftEdge)
+            {
+                Reposition(g, _gWidth, _ground.Length);
             }
         }
     }
 
-    private void Reposition(Transform bg)
+    private void Reposition(Transform bg, float width, int length)
     {
         bg.position = new Vector3(
-            bg.position.x + _bgWidth * _backGround.Length,
+            bg.position.x + width * length,
             bg.position.y,
             bg.position.z
         );
