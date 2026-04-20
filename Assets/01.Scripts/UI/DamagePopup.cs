@@ -22,6 +22,7 @@ public class DamagePopup : MonoBehaviour
 
     private void Show(string message, Vector3 worldPos, Color color, float scale)
     {
+        Debug.Log($"[DamagePopup] Show 호출 : {message} at {worldPos}");
         transform.position = worldPos;
         transform.localScale = Vector3.one * scale;
         _text.text = message;

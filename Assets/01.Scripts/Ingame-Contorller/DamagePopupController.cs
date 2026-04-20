@@ -14,6 +14,7 @@ public class DamagePopupController : MonoBehaviour
         _pool = new DamagePopup[_poolSize];
         for(int i = 0; i < _poolSize; i++)
         {
+            Debug.Log("팝업 프리팹 생성!");
             _pool[i] = Instantiate(_popupPrefab, transform);
             _pool[i].gameObject.SetActive(false);
         }
