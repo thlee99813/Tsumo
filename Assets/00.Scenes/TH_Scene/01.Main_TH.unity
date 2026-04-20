@@ -5359,6 +5359,8 @@ MonoBehaviour:
   _runFps: 12
   _runStopFps: 12
   _teleportFps: 8
+  _hitFrameIndex: 2
+  _hitFrameDelay: 0.3
 --- !u!1 &681766940
 GameObject:
   m_ObjectHideFlags: 0
@@ -5805,6 +5807,7 @@ MonoBehaviour:
   _uiController: {fileID: 66396984}
   _battleResultPresenter: {fileID: 537314425}
   _player: {fileID: 670580915}
+  _comboSynergyJudge: {fileID: 0}
   _enemyPrefab: {fileID: 324108145492096438, guid: 9c84e5289a0797843b47e4dd5bbbbdee, type: 3}
   _enemySpawnPoint: {fileID: 1772224206}
   _enemyParent: {fileID: 1409858247}
@@ -6328,6 +6331,7 @@ GameObject:
   - component: {fileID: 835341995}
   - component: {fileID: 835341997}
   - component: {fileID: 835341996}
+  - component: {fileID: 835341998}
   m_Layer: 5
   m_Name: Skill1
   m_TagString: Untagged
@@ -6398,6 +6402,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 835341994}
   m_CullTransparentMesh: 1
+--- !u!114 &835341998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 835341994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79e74af2c63a6d2488bc01a09065a5e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Skill1ImpactSequence
+  _bgFillImage: {fileID: 1832709656}
+  _textRects:
+  - {fileID: 2135018090}
+  - {fileID: 36975026}
+  - {fileID: 1199177071}
+  - {fileID: 538131182}
+  _bgFillTime: 0.36
+  _textStartDelay: 0.08
+  _textStagger: 0.3
+  _textHitTime: 0.16
+  _textSettleTime: 0.12
+  _textFadeInTime: 0.1
+  _textSpawnYOffset: 80
+  _textHitOvershootY: 18
+  _textStartScale: 0.88
+  _textPunchAmount: 0.18
+  _textPunchTime: 0.12
+  _autoPlayOnEnable: 1
+  _useUnscaledTime: 1
 --- !u!1 &864070217
 GameObject:
   m_ObjectHideFlags: 0
