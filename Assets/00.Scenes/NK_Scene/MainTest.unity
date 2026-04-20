@@ -507,7 +507,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BattleImpulseEmitter
   _impulseSource: {fileID: 28706871}
-  _force: 1
+  _force: 0.8
+  _impulseVelocity: {x: 0.5, y: 0, z: 0}
 --- !u!1 &53132382
 GameObject:
   m_ObjectHideFlags: 0
@@ -5854,6 +5855,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BattleImpulseEmitter
   _impulseSource: {fileID: 28706871}
   _force: 1
+  _impulseVelocity: {x: 1, y: 0, z: 0}
 --- !u!114 &670580924
 MonoBehaviour:
   m_ObjectHideFlags: 0

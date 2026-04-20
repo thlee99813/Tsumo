@@ -42,7 +42,6 @@ public class Player : MonoBehaviour
     private float _currentAttackX = float.MinValue;
     private bool _isTeleporting;
     private PlayerEffect _effectAnimator;
-    private BattleImpulseEmitter _impulseEmitter;
     
     private List<AttackType> _comboList = new List<AttackType>();
 
@@ -66,7 +65,6 @@ public class Player : MonoBehaviour
         _currentHp = _stats.MaxHp;
         _playerAnimator = GetComponent<PlayerAnimator>();
         _effectAnimator = GetComponentInChildren<PlayerEffect>();
-        _impulseEmitter = GetComponent<BattleImpulseEmitter>();
         _comboSynergyEffect = GetComponent<ComboSynergyEffect>();
         _synergyOverlayEffect = GetComponentInChildren<SynergyOverlayEffect>();
         
@@ -226,7 +224,6 @@ public class Player : MonoBehaviour
                 StartCoroutine(PlayEffectDelayed(_effectAnimator.PlaySwordEffect, _playerAnimator.HitFrameDelay));
         }
 
-        _impulseEmitter?.EmitHitImpulse();  //!애니메이션 완료 후 화면 흔들기
         yield return new WaitUntil(() => _attackAnimDone); 
         
     }
@@ -289,7 +286,7 @@ public class Player : MonoBehaviour
             
         
         yield return new WaitUntil(() => _attackAnimDone);
-        _impulseEmitter?.EmitHitImpulse();  //!애니메이션 완료 후 화면 흔들기
+        
     }
 
     public void OnAttackAniComplete()

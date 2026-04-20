@@ -32,6 +32,8 @@ public class PlayerAnimator : MonoBehaviour
     private Coroutine _currentAnim;
     private int _runFrameIndex = 0;
 
+    private BattleImpulseEmitter _impulseEmitter;
+
     public float HitFrameDelay => _hitFrameDelay;
 
     public event Action OnAnimationComplete;        // 공격 애니메이션 완료 시 발행
@@ -66,6 +68,7 @@ public class PlayerAnimator : MonoBehaviour
     private void Awake()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
+        _impulseEmitter = GetComponent<BattleImpulseEmitter>();
     }
 
     private void Start()
@@ -113,9 +116,16 @@ public class PlayerAnimator : MonoBehaviour
             if(i < sprites.Length - 1)
             {
                 if(applyHitFrame && i == _hitFrameIndex)
+                {
+                    _impulseEmitter?.EmitHitImpulse();
                     yield return new WaitForSeconds(_hitFrameDelay);
+                    
+                }
                 else
+                {
                     yield return new WaitForSeconds(interval);
+                }
+                    
             }
         }
         _currentAnim = null;   // onComplete가 PlayRun 등을 호출해 _currentAnim을 덮어쓰기 전에 먼저 null로 비워야 함
