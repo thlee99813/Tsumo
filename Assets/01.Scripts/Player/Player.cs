@@ -32,6 +32,7 @@ public class Player : MonoBehaviour
     private ComboSynergyEffect _comboSynergyEffect;
     private SynergyOverlayEffect _synergyOverlayEffect;
     private Dictionary<AttackType, Sprite[]> _attackOverrides = new();
+    private Dictionary<AttackType, Sprite[]> _effectOverrides = new();
     private HashSet<CardType> _synergyCardTypes = new();
 
     [Header("Test HP")]
@@ -70,7 +71,7 @@ public class Player : MonoBehaviour
         _currentHp = _stats.MaxHp;
         _playerAnimator = GetComponent<PlayerAnimator>();
         _effectAnimator = GetComponentInChildren<PlayerEffect>();
-        _comboSynergyEffect = GetComponent<ComboSynergyEffect>();
+        _comboSynergyEffect = GetComponentInChildren<ComboSynergyEffect>();
         _synergyOverlayEffect = GetComponentInChildren<SynergyOverlayEffect>();
         _playerAnimator.OnAnimationComplete += () => _attackAnimDone = true;
         _playerAnimator.OnHitFrame += () => OnHitFrame?.Invoke();
@@ -80,20 +81,28 @@ public class Player : MonoBehaviour
     public void PrepareComboOverrides(List<ComboSynergyJudge.SquadJudgement> judgements)
     {
         _attackOverrides.Clear();
+        _effectOverrides.Clear();
         _synergyCardTypes.Clear();
 
         foreach (var j in judgements)
         {
             if (j.ResultType == SquadResultType.None) continue;
 
-            // 강화 콤보 → 공격 애니메이션 스프라이트 교체
+            // 강화 콤보 → 공격 애니메이션 및 이펙트 스프라이트 교체
             if (_comboSynergyEffect != null)
             {
-                Sprite[] sprites = _comboSynergyEffect.GetAttackSprites(j.ResultType, j.CardType);
-                if (sprites != null && sprites.Length > 0)
+                Sprite[] attackSprites = _comboSynergyEffect.GetAttackSprites(j.ResultType, j.CardType);
+                if (attackSprites != null && attackSprites.Length > 0)
                 {
-                    _attackOverrides[CardTypeToAttackType(j.CardType)] = sprites;
-                    Debug.Log($"[Player] 강화 콤보 등록: {j.CardType} ({sprites.Length}프레임)");
+                    _attackOverrides[CardTypeToAttackType(j.CardType)] = attackSprites;
+                    Debug.Log($"[Player] 강화 콤보 애니메이션 등록: {j.CardType} ({attackSprites.Length}프레임)");
+                }
+
+                Sprite[] effectSprites = _comboSynergyEffect.GetEffectSprites(j.ResultType, j.CardType);
+                if (effectSprites != null && effectSprites.Length > 0)
+                {
+                    _effectOverrides[CardTypeToAttackType(j.CardType)] = effectSprites;
+                    Debug.Log($"[Player] 강화 콤보 이펙트 등록: {j.CardType} ({effectSprites.Length}프레임)");
                 }
             }
             else
@@ -181,6 +190,7 @@ public class Player : MonoBehaviour
 
         _currentAttackX = float.MinValue;
         _attackOverrides.Clear();
+        _effectOverrides.Clear();
         _synergyCardTypes.Clear();
         ClearCombo();
 
@@ -248,12 +258,14 @@ public class Player : MonoBehaviour
             else
                 _playerAnimator.PlaySword();
             if(_synergyCardTypes.Contains(CardType.Sword) && _synergyOverlayEffect != null)
-            {
-                //Debug.Log("[Player] Sword 시너지 오버레이 재생");
                 _synergyOverlayEffect.PlaySynergy(CardType.Sword);
-            }
             if(_effectAnimator != null)
-                StartCoroutine(PlayEffectDelayed(_effectAnimator.PlaySwordEffect, _playerAnimator.HitFrameDelay));
+            {
+                if(_effectOverrides.TryGetValue(AttackType.Sword, out Sprite[] swordEffect))
+                    StartCoroutine(PlayEffectDelayed(() => _effectAnimator.PlayCustomEffect(swordEffect, _comboSynergyEffect.EffectFps), _playerAnimator.HitFrameDelay));
+                else
+                    StartCoroutine(PlayEffectDelayed(_effectAnimator.PlaySwordEffect, _playerAnimator.HitFrameDelay));
+            }
         }
 
         yield return new WaitUntil(() => _attackAnimDone); 
@@ -291,12 +303,14 @@ public class Player : MonoBehaviour
             else
                 _playerAnimator.PlayShuriken();
             if(_synergyCardTypes.Contains(CardType.Kunai) && _synergyOverlayEffect != null)
-            {
-                Debug.Log("[Player] Kunai 시너지 오버레이 재생");
                 _synergyOverlayEffect.PlaySynergy(CardType.Kunai);
-            }
             if(_effectAnimator != null)
-                StartCoroutine(PlayEffectDelayed(_effectAnimator.PlayShurikenEffect, _playerAnimator.HitFrameDelay));
+            {
+                if(_effectOverrides.TryGetValue(AttackType.Shuriken, out Sprite[] shurikenEffect))
+                    StartCoroutine(PlayEffectDelayed(() => _effectAnimator.PlayCustomEffect(shurikenEffect, _comboSynergyEffect.EffectFps), _playerAnimator.HitFrameDelay));
+                else
+                    StartCoroutine(PlayEffectDelayed(_effectAnimator.PlayShurikenEffect, _playerAnimator.HitFrameDelay));
+            }
         }
         else if(type == AttackType.Spell)
         {
@@ -308,12 +322,14 @@ public class Player : MonoBehaviour
             else
                 _playerAnimator.PlaySpell();
             if(_synergyCardTypes.Contains(CardType.FoxSpirit) && _synergyOverlayEffect != null)
-            {
-                Debug.Log("[Player] FoxSpirit 시너지 오버레이 재생");
                 _synergyOverlayEffect.PlaySynergy(CardType.FoxSpirit);
-            }
             if(_effectAnimator != null)
-                StartCoroutine(PlayEffectDelayed(_effectAnimator.PlaySpellEffect, _playerAnimator.HitFrameDelay));
+            {
+                if(_effectOverrides.TryGetValue(AttackType.Spell, out Sprite[] spellEffect))
+                    StartCoroutine(PlayEffectDelayed(() => _effectAnimator.PlayCustomEffect(spellEffect, _comboSynergyEffect.EffectFps), _playerAnimator.HitFrameDelay));
+                else
+                    StartCoroutine(PlayEffectDelayed(_effectAnimator.PlaySpellEffect, _playerAnimator.HitFrameDelay));
+            }
         }
             
         

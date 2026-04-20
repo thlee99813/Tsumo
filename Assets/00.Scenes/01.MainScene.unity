@@ -7955,8 +7955,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 691247471}
-  - component: {fileID: 691247473}
   - component: {fileID: 691247472}
+  - component: {fileID: 691247473}
+  - component: {fileID: 691247474}
   m_Layer: 0
   m_Name: PlayerEffect
   m_TagString: Untagged
@@ -8067,6 +8068,68 @@ MonoBehaviour:
   - {fileID: -4316333571366744387, guid: b78ebd7021269cb458736bdc5e07375c, type: 3}
   - {fileID: 3612894662477389058, guid: b78ebd7021269cb458736bdc5e07375c, type: 3}
   - {fileID: -7867041350147193064, guid: b78ebd7021269cb458736bdc5e07375c, type: 3}
+  _effectFps: 15
+--- !u!114 &691247474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 691247470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b7f425ee71c9414eb42063a32aa700e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ComboSynergyEffect
+  _enhancedAttackSprites:
+    SwordSprites:
+    - {fileID: 1230166913686578746, guid: b640bbf478df99840a6069dce95408e5, type: 3}
+    - {fileID: -5966491636581444426, guid: b640bbf478df99840a6069dce95408e5, type: 3}
+    - {fileID: 1703136303593486908, guid: b640bbf478df99840a6069dce95408e5, type: 3}
+    - {fileID: 2615296643493435271, guid: b640bbf478df99840a6069dce95408e5, type: 3}
+    - {fileID: 6043886077954224575, guid: b640bbf478df99840a6069dce95408e5, type: 3}
+    - {fileID: -6929005287208452693, guid: b640bbf478df99840a6069dce95408e5, type: 3}
+    - {fileID: 7098072438207583200, guid: b640bbf478df99840a6069dce95408e5, type: 3}
+    KunaiSprites:
+    - {fileID: 2354714851243874103, guid: f2e815f26172cb243a02100f0835a8f1, type: 3}
+    - {fileID: 1954836488540547362, guid: f2e815f26172cb243a02100f0835a8f1, type: 3}
+    - {fileID: -3122169207676502225, guid: f2e815f26172cb243a02100f0835a8f1, type: 3}
+    - {fileID: 1409168028184054253, guid: f2e815f26172cb243a02100f0835a8f1, type: 3}
+    - {fileID: 4023191791120764938, guid: f2e815f26172cb243a02100f0835a8f1, type: 3}
+    - {fileID: -4947168744679843782, guid: f2e815f26172cb243a02100f0835a8f1, type: 3}
+    FoxSpiritSprites:
+    - {fileID: -959550999376563783, guid: 5eda10119b1a85846988baf4d8038679, type: 3}
+    - {fileID: 3679208254773645205, guid: 5eda10119b1a85846988baf4d8038679, type: 3}
+    - {fileID: -1417747137055688322, guid: 5eda10119b1a85846988baf4d8038679, type: 3}
+    - {fileID: 1420590910530553291, guid: 5eda10119b1a85846988baf4d8038679, type: 3}
+    - {fileID: 5788339298644231032, guid: 5eda10119b1a85846988baf4d8038679, type: 3}
+    - {fileID: -3535721852633975634, guid: 5eda10119b1a85846988baf4d8038679, type: 3}
+    - {fileID: 2371248482484547175, guid: 5eda10119b1a85846988baf4d8038679, type: 3}
+  _enhancedEffectSprites:
+    SwordSprites:
+    - {fileID: -7229928665976283714, guid: 33660e36b3440fe46b6363124fa99180, type: 3}
+    - {fileID: 2191300640638623486, guid: 33660e36b3440fe46b6363124fa99180, type: 3}
+    - {fileID: 8279047039829569711, guid: 33660e36b3440fe46b6363124fa99180, type: 3}
+    - {fileID: -7116245626013635851, guid: 33660e36b3440fe46b6363124fa99180, type: 3}
+    - {fileID: -4754475498794496798, guid: 33660e36b3440fe46b6363124fa99180, type: 3}
+    - {fileID: 7312315636368925230, guid: 33660e36b3440fe46b6363124fa99180, type: 3}
+    - {fileID: -7325995147308524313, guid: 33660e36b3440fe46b6363124fa99180, type: 3}
+    KunaiSprites:
+    - {fileID: -2178585893684083682, guid: 49c095a9089816749ac6532c8a1d80e5, type: 3}
+    - {fileID: 3494912846761952123, guid: 49c095a9089816749ac6532c8a1d80e5, type: 3}
+    - {fileID: 1133101973147161192, guid: 49c095a9089816749ac6532c8a1d80e5, type: 3}
+    - {fileID: -2763889812903652050, guid: 49c095a9089816749ac6532c8a1d80e5, type: 3}
+    - {fileID: -9156695965244448308, guid: 49c095a9089816749ac6532c8a1d80e5, type: 3}
+    - {fileID: -538613053083023411, guid: 49c095a9089816749ac6532c8a1d80e5, type: 3}
+    - {fileID: 6744199986765766413, guid: 49c095a9089816749ac6532c8a1d80e5, type: 3}
+    FoxSpiritSprites:
+    - {fileID: -2576458065839119443, guid: 269e6b964a9f25e449d645b5244600d3, type: 3}
+    - {fileID: -4378635091683153283, guid: 269e6b964a9f25e449d645b5244600d3, type: 3}
+    - {fileID: 2782405516878030760, guid: 269e6b964a9f25e449d645b5244600d3, type: 3}
+    - {fileID: 5061423048931032273, guid: 269e6b964a9f25e449d645b5244600d3, type: 3}
+    - {fileID: 7456525958588599657, guid: 269e6b964a9f25e449d645b5244600d3, type: 3}
+    - {fileID: 166560880612732042, guid: 269e6b964a9f25e449d645b5244600d3, type: 3}
+  _attackFps: 12
   _effectFps: 12
 --- !u!1 &692190129
 GameObject:

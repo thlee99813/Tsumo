@@ -24,6 +24,7 @@ public class PlayerEffect : MonoBehaviour
     public void PlaySwordEffect() => PlayEffect(_swordEffectSprites);
     public void PlayShurikenEffect() => PlayEffect(_shurikenEffectSprits);
     public void PlaySpellEffect() => PlayEffect(_spellEffectSprits);
+    public void PlayCustomEffect(Sprite[] sprites, float fps) => PlayEffect(sprites, fps);
 
     public void StopEffect()
     {
@@ -35,17 +36,18 @@ public class PlayerEffect : MonoBehaviour
         _spriteRenderer.enabled = false;
     }
 
-    private void PlayEffect(Sprite[] sprites)
+    private void PlayEffect(Sprite[] sprites, float fpsOverride = -1f)
     {
         StopEffect();
-        _currentEffect = StartCoroutine(PlayEffectCoroutine(sprites));
+        float fps = fpsOverride > 0f ? fpsOverride : _effectFps;
+        _currentEffect = StartCoroutine(PlayEffectCoroutine(sprites, fps));
     }
 
-    private IEnumerator PlayEffectCoroutine(Sprite[] sprites)
+    private IEnumerator PlayEffectCoroutine(Sprite[] sprites, float fps)
     {
         if(sprites == null || sprites.Length == 0) yield break;
         _spriteRenderer.enabled = true;
-        float interval = 1f / _effectFps;
+        float interval = 1f / fps;
 
         foreach(Sprite sprite in sprites)
         {
