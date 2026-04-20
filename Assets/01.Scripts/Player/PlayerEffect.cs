@@ -9,6 +9,9 @@ public class PlayerEffect : MonoBehaviour
     [SerializeField] private Sprite[] _shurikenEffectSprits;
     [SerializeField] private Sprite[] _spellEffectSprits;
 
+    [Header("Particle")]
+    [SerializeField] private ParticleSystem _ps;
+
     [Header("Frame Settings")]
     [SerializeField] private float _effectFps = 12f;
 
@@ -25,7 +28,7 @@ public class PlayerEffect : MonoBehaviour
     public void PlayShurikenEffect() => PlayEffect(_shurikenEffectSprits);
     public void PlaySpellEffect() => PlayEffect(_spellEffectSprits);
     public void PlayCustomEffect(Sprite[] sprites, float fps) => PlayEffect(sprites, fps);
-
+    public void PlayLeafParticle() => _ps.Play();
     public void StopEffect()
     {
         if(_currentEffect != null)

@@ -345,6 +345,7 @@ public class Player : MonoBehaviour
     private IEnumerator PlayEffectDelayed(Action effectAction, float delay)
     {
         yield return new WaitForSeconds(delay);
+        _effectAnimator.PlayLeafParticle();
         effectAction?.Invoke();
     }
 
