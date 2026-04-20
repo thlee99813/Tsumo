@@ -430,6 +430,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ImpurseSource1
       objectReference: {fileID: 0}
+    - target: {fileID: 4628511006177685868, guid: e8c34419951c8774f87128e435c17610, type: 3}
+      propertyPath: _overlayCameraShakeSync
+      value: 
+      objectReference: {fileID: 375867350}
     - target: {fileID: 5683287071162428586, guid: e8c34419951c8774f87128e435c17610, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3.91463
@@ -473,44 +477,19 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1776689051597736190, guid: e8c34419951c8774f87128e435c17610, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 28706873}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e8c34419951c8774f87128e435c17610, type: 3}
---- !u!1 &28706871 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1776689051597736190, guid: e8c34419951c8774f87128e435c17610, type: 3}
+--- !u!114 &28706871 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4628511006177685868, guid: e8c34419951c8774f87128e435c17610, type: 3}
   m_PrefabInstance: {fileID: 28706870}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &28706872 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 130319487056121053, guid: e8c34419951c8774f87128e435c17610, type: 3}
-  m_PrefabInstance: {fileID: 28706870}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 28706871}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 180ecf9b41d478f468eb3e9083753217, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineImpulseSource
---- !u!114 &28706873
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 28706871}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e5ff49333a2cae14283adedffcc9d21b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BattleImpulseEmitter
-  _impulseSource: {fileID: 28706872}
-  _overlayCameraShakeSync: {fileID: 0}
-  _force: 1
-  _impulseVelocity: {x: 1, y: 0, z: 0}
-  _overlaySyncSeconds: 0.18
 --- !u!1 &53132382
 GameObject:
   m_ObjectHideFlags: 0
@@ -1429,7 +1408,7 @@ MonoBehaviour:
   _textPunchTime: 0.12
   _autoPlayOnEnable: 1
   _useUnscaledTime: 1
-  ImpurseSource: {fileID: 0}
+  ImpurseSource: {fileID: 28706871}
 --- !u!114 &136859262
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1678,7 +1657,7 @@ MonoBehaviour:
   _textPunchTime: 0.12
   _autoPlayOnEnable: 1
   _useUnscaledTime: 1
-  ImpurseSource: {fileID: 0}
+  ImpurseSource: {fileID: 28706871}
 --- !u!114 &157489801
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5641,7 +5620,7 @@ MonoBehaviour:
   _textPunchTime: 0.12
   _autoPlayOnEnable: 1
   _useUnscaledTime: 1
-  ImpurseSource: {fileID: 0}
+  ImpurseSource: {fileID: 28706871}
 --- !u!114 &489729529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7659,6 +7638,7 @@ MonoBehaviour:
   _teleportFps: 8
   _hitFrameIndex: 2
   _hitFrameDelay: 0.3
+  _impulseEmitter: {fileID: 28706871}
 --- !u!1 &681766940
 GameObject:
   m_ObjectHideFlags: 0
@@ -8327,7 +8307,7 @@ MonoBehaviour:
   _textPunchTime: 0.12
   _autoPlayOnEnable: 1
   _useUnscaledTime: 1
-  ImpurseSource: {fileID: 0}
+  ImpurseSource: {fileID: 28706871}
 --- !u!114 &704944129
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9340,7 +9320,7 @@ MonoBehaviour:
   _textPunchTime: 0.12
   _autoPlayOnEnable: 1
   _useUnscaledTime: 1
-  ImpurseSource: {fileID: 0}
+  ImpurseSource: {fileID: 28706871}
 --- !u!114 &886488918
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13308,7 +13288,7 @@ MonoBehaviour:
   _textPunchTime: 0.12
   _autoPlayOnEnable: 1
   _useUnscaledTime: 1
-  ImpurseSource: {fileID: 0}
+  ImpurseSource: {fileID: 28706871}
 --- !u!114 &1241879955
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16641,7 +16621,7 @@ MonoBehaviour:
   _textPunchTime: 0.12
   _autoPlayOnEnable: 1
   _useUnscaledTime: 1
-  ImpurseSource: {fileID: 0}
+  ImpurseSource: {fileID: 28706871}
 --- !u!114 &1475248062
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17606,7 +17586,7 @@ MonoBehaviour:
   _textPunchTime: 0.12
   _autoPlayOnEnable: 1
   _useUnscaledTime: 1
-  ImpurseSource: {fileID: 0}
+  ImpurseSource: {fileID: 28706871}
 --- !u!114 &1520112410
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19828,7 +19808,7 @@ MonoBehaviour:
   _textPunchTime: 0.12
   _autoPlayOnEnable: 1
   _useUnscaledTime: 1
-  ImpurseSource: {fileID: 0}
+  ImpurseSource: {fileID: 28706871}
 --- !u!114 &1808206647
 MonoBehaviour:
   m_ObjectHideFlags: 0

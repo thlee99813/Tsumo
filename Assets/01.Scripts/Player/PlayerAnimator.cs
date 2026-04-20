@@ -32,7 +32,7 @@ public class PlayerAnimator : MonoBehaviour
     private Coroutine _currentAnim;
     private int _runFrameIndex = 0;
 
-    private BattleImpulseEmitter _impulseEmitter;
+    [SerializeField] private BattleImpulseEmitter _impulseEmitter;
 
     public float HitFrameDelay => _hitFrameDelay;
 
@@ -69,7 +69,6 @@ public class PlayerAnimator : MonoBehaviour
     private void Awake()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        _impulseEmitter = GetComponent<BattleImpulseEmitter>();
     }
 
     private void Start()
