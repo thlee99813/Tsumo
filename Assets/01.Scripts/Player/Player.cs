@@ -42,6 +42,7 @@ public class Player : MonoBehaviour
     private float _currentAttackX = float.MinValue;
     private bool _isTeleporting;
     private PlayerEffect _effectAnimator;
+    [SerializeField] private DamagePopupController _popupController;
     
     private List<AttackType> _comboList = new List<AttackType>();
 
@@ -67,7 +68,6 @@ public class Player : MonoBehaviour
         _effectAnimator = GetComponentInChildren<PlayerEffect>();
         _comboSynergyEffect = GetComponent<ComboSynergyEffect>();
         _synergyOverlayEffect = GetComponentInChildren<SynergyOverlayEffect>();
-        
         //공격 완료 이벤트 구독
         _playerAnimator.OnAnimationComplete += () => _attackAnimDone = true;
     }
@@ -130,8 +130,13 @@ public class Player : MonoBehaviour
         _comboList.Clear();
     }
 #region 공격 콤보 처리, 애니메이션 
+    public void SetPopupTarget(Transform enemyTransform)
+    {
+        _popupController?.SetEnemyHeadPoint(enemyTransform);
+    }
+
     //IngameController에서 호출 내부 콤보 리스트 사용
-    public void ExecuteCombo(float targetX)
+    public void ExecuteCombo(float targetX, List<int> squadScores, int finalScore, Action onTeleport = null)
     {
         if(_comboList.Count == 0)
         {
@@ -140,7 +145,7 @@ public class Player : MonoBehaviour
             return;
         }
         _isAttacking = true;
-        StartCoroutine(ComboCoroutine(targetX));
+        StartCoroutine(ComboCoroutine(targetX, squadScores, finalScore, onTeleport));
     }
 
     private IEnumerator EmptyComboCoroutine()
@@ -150,7 +155,7 @@ public class Player : MonoBehaviour
         _isAttacking = false;
     }
 
-    private IEnumerator ComboCoroutine(float targetX)
+    private IEnumerator ComboCoroutine(float targetX, List<int> squadScores, int finalScore, Action onTeleport = null)
     {
         for(int i = 0; i < _comboList.Count; i++)
         {
@@ -158,6 +163,9 @@ public class Player : MonoBehaviour
             bool isLast = (i == _comboList.Count - 1);
 
             yield return ExecuteSingleAttack(targetX, type);
+
+            if(squadScores != null && i < squadScores.Count)
+                _popupController?.ShowBaseScore(squadScores[i]);
 
             if(!isLast)
                 yield return new WaitForSecondsRealtime(0.1f);
@@ -167,6 +175,9 @@ public class Player : MonoBehaviour
         _attackOverrides.Clear();
         _synergyCardTypes.Clear();
         ClearCombo();
+        if (finalScore > 0)
+            _popupController?.ShowFinalScore(finalScore);
+        onTeleport?.Invoke();
         TeleportToStart();
         yield return new WaitUntil(() => !_isTeleporting);
         _isAttacking = false;

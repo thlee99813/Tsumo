@@ -5576,6 +5576,7 @@ GameObject:
   - component: {fileID: 670580922}
   - component: {fileID: 670580923}
   - component: {fileID: 670580924}
+  - component: {fileID: 670580925}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -5603,6 +5604,7 @@ MonoBehaviour:
   _attackDamage: 10
   _attackMoveDuration: 0.1
   _currentHp: 0
+  _popupController: {fileID: 0}
 --- !u!61 &670580916
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5878,6 +5880,21 @@ MonoBehaviour:
     - {fileID: 1719999966800325864, guid: 2a3450c6124401b4aa31dfb67fc959b6, type: 3}
     - {fileID: 5906420996603304629, guid: 2a3450c6124401b4aa31dfb67fc959b6, type: 3}
   _effectFps: 12
+--- !u!114 &670580925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 670580914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42ab21842a683554793013131abfada3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamagePopupController
+  _popupPrefab: {fileID: 0}
+  _enemyHeadPoint: {fileID: 0}
+  _poolSize: 5
 --- !u!1 &681766940
 GameObject:
   m_ObjectHideFlags: 0
