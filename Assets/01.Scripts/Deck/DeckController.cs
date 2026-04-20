@@ -8,8 +8,8 @@ public class DeckController : MonoBehaviour
 
     [Header("Deck Settings")]
     [SerializeField] private int _copiesPerCard = 4;
-    [SerializeField] private int _drawCount = 6;
-    [SerializeField] private int _maxRerollPerTurn = 2;
+    [SerializeField] private int _drawCount = 9;
+    [SerializeField] private int _maxRerollPerTurn = 3;
     [SerializeField] private int _rerollUsedThisTurn = 0;
 
     [Header("UI")]
@@ -26,6 +26,8 @@ public class DeckController : MonoBehaviour
     [SerializeField] private TempStorageController _tempStorageController;
     [Header("Score")]
     [SerializeField] private FireScoreCalculator _fireScoreCalculator;
+    [SerializeField] private DoraController _doraController;
+
 
 
     [Header("Debug")]
@@ -228,7 +230,7 @@ public class DeckController : MonoBehaviour
             return new FireScoreResult();
         }
 
-        return _fireScoreCalculator.Calculate(_squadZones);
+        return _fireScoreCalculator.Calculate(_squadZones, _doraController.CurrentDoraCard, _doraController.IsUnlocked);
     }
 
     public void CompleteTurnAfterFire()
@@ -273,7 +275,7 @@ public class DeckController : MonoBehaviour
             return data;
         }
 
-        FireScoreResult result = _fireScoreCalculator.Calculate(_squadZones);
+        FireScoreResult result = _fireScoreCalculator.Calculate(_squadZones, _doraController.CurrentDoraCard, _doraController.IsUnlocked);
         data.ScoreResult = result;
         data.FinalDamage = Mathf.Max(0, result.FinalScore);
 
@@ -359,7 +361,38 @@ public class DeckController : MonoBehaviour
         int remainingCount = _maxRerollPerTurn - _rerollUsedThisTurn;
         _uiController.SetRerollCount(remainingCount, _maxRerollPerTurn);
     }
+    public CardData GetRandomCardDefinition()
+    {
+        if (_cardDefinitions.Count == 0) return null;
 
+        int startIndex = Random.Range(0, _cardDefinitions.Count);
 
+        for (int i = 0; i < _cardDefinitions.Count; i++)
+        {
+            CardData cardData = _cardDefinitions[(startIndex + i) % _cardDefinitions.Count];
+            if (cardData != null) return cardData;
+        }
+
+        return null;
+    }
+
+    public void RefreshAllCardViews()
+    {
+        for (int i = 0; i < _handSlots.Count; i++)
+        {
+            CardView slotView = _handSlots[i];
+            if (slotView.gameObject.activeSelf)
+            {
+                slotView.RefreshView();
+            }
+        }
+
+        for (int i = 0; i < _squadZones.Count; i++)
+        {
+            _squadZones[i].RefreshAllSlotViews();
+        }
+
+        _tempStorageController.RefreshAllSlotViews();
+    }
 
 }

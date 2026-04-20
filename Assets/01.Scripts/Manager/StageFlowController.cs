@@ -10,6 +10,8 @@ public class StageFlowController : MonoBehaviour
     [SerializeField] private DeckController _deckController;
     [SerializeField] private BattleController _battleController;
     [SerializeField] private UIController _uiController;
+    [SerializeField] private DoraController _doraController;
+
     [SerializeField] private BattleResultPresenter _battleResultPresenter;
     [SerializeField] private Player _player;
     [SerializeField] private ComboSynergyJudge _comboSynergyJudge;
@@ -67,6 +69,7 @@ public class StageFlowController : MonoBehaviour
         _uiController.HideBattleResultPanelImmediate();
         _uiController.SetStageText(_stageCodes[_currentStageIndex]);
 
+        _doraController.ApplyStage(_currentStageIndex);
 
         _isRunning = true;
         StartCoroutine(StageTurnLoop());
@@ -92,13 +95,20 @@ public class StageFlowController : MonoBehaviour
 
     private bool ValidateReferences()
     {
-        if (_ingameController == null || _deckController == null || _battleController == null || _uiController == null || _battleResultPresenter == null || _player == null)
+        if (_ingameController == null
+            || _deckController == null
+            || _battleController == null
+            || _uiController == null
+            || _battleResultPresenter == null
+            || _player == null
+            || _doraController == null
+            || _yakuEpicMomentController == null)
         {
             Debug.LogError("필수참조해제");
             return false;
         }
-
         return true;
+
     }
 
     public void StopFlow()
@@ -193,6 +203,12 @@ public class StageFlowController : MonoBehaviour
 
             _deckController.CompleteTurnAfterFire();
 
+            if (fireExecutionData.IsFirePressed)
+            {
+                _doraController.RollAfterFire();
+            }
+
+
                 yield return _ingameController.RunTurnResultPhase();
                 if (!_isRunning || !_ingameController.IsRunning)
                 {
@@ -235,6 +251,8 @@ public class StageFlowController : MonoBehaviour
         _ingameController.ResetForRespawn();
         _uiController.SetStageText(_stageCodes[_currentStageIndex]);
 
+        _doraController.ApplyStage(_currentStageIndex);
+
         return true;
     }
 
@@ -276,6 +294,7 @@ public class StageFlowController : MonoBehaviour
         _uiController.HideBattleResultPanelImmediate();
         _uiController.SetStageText(_stageCodes[_currentStageIndex]);
 
+        _doraController.ApplyStage(_currentStageIndex);
 
         _isRunning = true;
         StartCoroutine(StageTurnLoop());

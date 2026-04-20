@@ -6,6 +6,10 @@ public class SquadScoreResult
     public CardType CardType;
     public int[] SortedNumbers = new int[0];
     public int BaseScore;
+    public int ComboScore;
+    public int DoraMatchCount;
+    public int DoraBonusScore;
+
 
     public string ComboDisplayName => ComboType switch
     {

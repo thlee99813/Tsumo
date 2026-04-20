@@ -85,7 +85,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &836802824651272140
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -118,8 +118,11 @@ MonoBehaviour:
   _text: {fileID: 9171192069774008239}
   _riseDuration: 0.8
   _riseHeight: 1.5
+  _tallyStepDuration: 0.35
+  _tallyFadeDuration: 0.4
   _baseScroeColor: {r: 1, g: 1, b: 1, a: 1}
   _finalScoreColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  _bonusColor: {r: 0, g: 1, b: 1, a: 1}
 --- !u!1 &8298766320555255734
 GameObject:
   m_ObjectHideFlags: 0

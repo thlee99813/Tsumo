@@ -20,6 +20,12 @@ public class FireScoreConfigSO : ScriptableObject
     [SerializeField, Min(0)] private int _sequenceScore = 1000;
     [SerializeField, Min(0)] private int _tripleScore = 1500;
 
+    [Header("Dora")]
+    [SerializeField] private int _doraBonusScorePerMatchedCard = 1000;
+
+    public int DoraBonusScorePerMatchedCard => _doraBonusScorePerMatchedCard;
+
+
     [Header("편일문")]
     [SerializeField, Min(0f)] private float _partialFlushTwoSetsBonus = 0.5f;
 

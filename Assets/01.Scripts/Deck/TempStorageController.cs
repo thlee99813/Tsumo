@@ -101,4 +101,16 @@ public class TempStorageController : MonoBehaviour
             }
         }
     }
+    public void RefreshAllSlotViews()
+    {
+        for (int i = 0; i < _slotViews.Count; i++)
+        {
+            CardView slotView = _slotViews[i];
+            if (slotView.gameObject.activeSelf)
+            {
+                slotView.RefreshView();
+            }
+        }
+    }
+
 }
