@@ -1,5 +1,7 @@
-using System.Collections;
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+
 
 public class StageFlowController : MonoBehaviour
 {
@@ -11,6 +13,8 @@ public class StageFlowController : MonoBehaviour
     [SerializeField] private BattleResultPresenter _battleResultPresenter;
     [SerializeField] private Player _player;
     [SerializeField] private ComboSynergyJudge _comboSynergyJudge;
+    [SerializeField] private YakuEpicMomentController _yakuEpicMomentController;
+
 
     [Header("Enemy Spawn")]
     [SerializeField] private Enemy _enemyPrefab;
@@ -135,7 +139,7 @@ public class StageFlowController : MonoBehaviour
                 }
                 else
                 {
-                    var judgements = _comboSynergyJudge.Evaluate(fireExecutionData.ScoreResult);
+                    List<ComboSynergyJudge.SquadJudgement> judgements = _comboSynergyJudge.Evaluate(fireExecutionData.ScoreResult);
                     _player.PrepareComboOverrides(judgements);
                 }
             }
@@ -147,7 +151,7 @@ public class StageFlowController : MonoBehaviour
             if (hasCardAttack)
             {
                 _player.ClearCombo();
-                foreach (var squad in fireExecutionData.ScoreResult.SquadResults)
+                foreach (SquadScoreResult squad in fireExecutionData.ScoreResult.SquadResults)
                 {
                     if (squad.IsValid)
                         _player.AddAttack(CardTypeToAttackType(squad.CardType));
@@ -156,6 +160,17 @@ public class StageFlowController : MonoBehaviour
 
             int enemyHpBeforeBattle = _currentEnemy.CurrentHp;
             int playerHpBeforeBattle = _player.CurrentHp;
+
+            if (fireExecutionData.IsFirePressed)
+            {
+                yield return _yakuEpicMomentController.PlayMatched(fireExecutionData.ScoreResult);
+
+                if (!_isRunning || !_ingameController.IsRunning)
+                {
+                    yield break;
+                }
+            }
+
 
             yield return _ingameController.RunFireProcessPhase(fireExecutionData);
 
