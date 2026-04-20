@@ -25,30 +25,31 @@ public class Player : MonoBehaviour
     [Header("Combat")]
     [SerializeField] private int _attackDamage = 10;
     [SerializeField] private float _attackMoveDuration = 0.2f;
+
     [Header("DamagePopup")]
     [SerializeField] private DamagePopupController _popupController;
 
     private PlayerAnimator _playerAnimator;
     private ComboSynergyEffect _comboSynergyEffect;
     private SynergyOverlayEffect _synergyOverlayEffect;
-    private List<Sprite[]> _attackOverridesList = new();
-    private List<Sprite[]> _effectOverridesList = new();
-    private HashSet<CardType> _synergyCardTypes = new();
+    private PlayerEffect _effectAnimator;
+
+    private readonly List<Sprite[]> _attackOverridesList = new();
+    private readonly List<Sprite[]> _effectOverridesList = new();
+    private readonly HashSet<CardType> _synergyCardTypes = new();
+    private readonly List<AttackType> _comboList = new();
 
     [Header("Test HP")]
     public int _currentHp;
+
     private Vector3 _startPosition;
     private bool _isKnockBack;
-    private bool _isReached;        //접근 중인가
+    private bool _isReached;
     private bool _isAttacking;
     private bool _attackAnimDone;
     private bool _isRunStopping;
     private float _currentAttackX = float.MinValue;
     private bool _isTeleporting;
-    private PlayerEffect _effectAnimator;
-    
-    
-    private List<AttackType> _comboList = new List<AttackType>();
 
     public int CurrentHp => _currentHp;
     public bool IsDead => _currentHp <= 0;
@@ -73,70 +74,90 @@ public class Player : MonoBehaviour
         _effectAnimator = GetComponentInChildren<PlayerEffect>();
         _comboSynergyEffect = GetComponentInChildren<ComboSynergyEffect>();
         _synergyOverlayEffect = GetComponentInChildren<SynergyOverlayEffect>();
-        _playerAnimator.OnAnimationComplete += () => _attackAnimDone = true;
-        _playerAnimator.OnHitFrame += () => OnHitFrame?.Invoke();
+
+        _playerAnimator.OnAnimationComplete += HandleAnimationComplete;
+        _playerAnimator.OnHitFrame += HandleHitFrame;
     }
 
-    // StageFlowController에서 콤보 판정 후 호출
-    // judgements의 ResultType != None 항목이 _comboList와 1:1 대응
+    private void OnDestroy()
+    {
+        if (_playerAnimator == null)
+            return;
+
+        _playerAnimator.OnAnimationComplete -= HandleAnimationComplete;
+        _playerAnimator.OnHitFrame -= HandleHitFrame;
+    }
+
+    private void HandleAnimationComplete()
+    {
+        _attackAnimDone = true;
+    }
+
+    private void HandleHitFrame()
+    {
+        OnHitFrame?.Invoke();
+    }
+
     public void PrepareComboOverrides(List<ComboSynergyJudge.SquadJudgement> judgements)
     {
         _attackOverridesList.Clear();
         _effectOverridesList.Clear();
         _synergyCardTypes.Clear();
 
-        if (judgements == null) return;
+        if (judgements == null)
+            return;
 
-        foreach (var j in judgements)
+        foreach (var judgement in judgements)
         {
-            if (j.ResultType == SquadResultType.None) continue;
+            if (judgement.ResultType == SquadResultType.None)
+                continue;
 
-            Sprite[] attack = null;
-            Sprite[] effect = null;
+            Sprite[] attackOverride = null;
+            Sprite[] effectOverride = null;
+
             if (_comboSynergyEffect != null)
             {
-                Sprite[] a = _comboSynergyEffect.GetAttackSprites(j.ResultType, j.CardType);
-                attack = (a != null && a.Length > 0) ? a : null;
+                Sprite[] attackSprites = _comboSynergyEffect.GetAttackSprites(judgement.ResultType, judgement.CardType);
+                attackOverride = attackSprites != null && attackSprites.Length > 0 ? attackSprites : null;
 
-                Sprite[] e = _comboSynergyEffect.GetEffectSprites(j.ResultType, j.CardType);
-                effect = (e != null && e.Length > 0) ? e : null;
+                Sprite[] effectSprites = _comboSynergyEffect.GetEffectSprites(judgement.ResultType, judgement.CardType);
+                effectOverride = effectSprites != null && effectSprites.Length > 0 ? effectSprites : null;
             }
 
-            _attackOverridesList.Add(attack);
-            _effectOverridesList.Add(effect);
+            _attackOverridesList.Add(attackOverride);
+            _effectOverridesList.Add(effectOverride);
 
-            if (j.HasSynergy)
-                _synergyCardTypes.Add(j.CardType);
+            if (judgement.HasSynergy)
+                _synergyCardTypes.Add(judgement.CardType);
         }
     }
 
-//PlayerInputHandler에서 호출
     public void AddAttack(AttackType type)
     {
         _comboList.Add(type);
-        //Debug.Log($"[Player] 공격 추가 : {type} (현재콤보 : {_comboList.Count})");
         OnAttackAdded?.Invoke(type);
     }
+
     public void ClearCombo()
     {
         _comboList.Clear();
     }
-#region 공격 콤보 처리, 애니메이션 
+
+    #region 공격 콤보 처리, 애니메이션
     public void SetPopupTarget(Transform enemyTransform)
     {
         _popupController?.SetEnemyHeadPoint(enemyTransform);
     }
 
-    //IngameController에서 호출 내부 콤보 리스트 사용
     public void ExecuteCombo(float targetX, List<int> squadScores, int finalScore, FireScoreResult scoreResult = null, Action onTeleport = null)
     {
-
-        if(_comboList.Count == 0)
+        if (_comboList.Count == 0)
         {
             _isAttacking = true;
             StartCoroutine(EmptyComboCoroutine());
             return;
         }
+
         _isAttacking = true;
         StartCoroutine(ComboCoroutine(targetX, squadScores, finalScore, scoreResult, onTeleport));
     }
@@ -150,20 +171,23 @@ public class Player : MonoBehaviour
 
     private IEnumerator ComboCoroutine(float targetX, List<int> squadScores, int finalScore, FireScoreResult scoreResult = null, Action onTeleport = null)
     {
-        for(int i = 0; i < _comboList.Count; i++)
+        for (int i = 0; i < _comboList.Count; i++)
         {
             AttackType type = _comboList[i];
-            bool isLast = (i == _comboList.Count - 1);
+            bool isLast = i == _comboList.Count - 1;
 
-            Sprite[] attackOverride = (i < _attackOverridesList.Count) ? _attackOverridesList[i] : null;
-            Sprite[] effectOverride = (i < _effectOverridesList.Count) ? _effectOverridesList[i] : null;
+            Sprite[] attackOverride = i < _attackOverridesList.Count ? _attackOverridesList[i] : null;
+            Sprite[] effectOverride = i < _effectOverridesList.Count ? _effectOverridesList[i] : null;
 
             yield return ExecuteSingleAttack(targetX, type, attackOverride, effectOverride);
 
-            if(squadScores != null && i < squadScores.Count)
+            if (squadScores != null && i < squadScores.Count)
+            {
+                Debug.Log($"[Player] ShowBaseScore 호출 : {squadScores[i]}");
                 _popupController?.ShowBaseScore(squadScores[i]);
+            }
 
-            if(!isLast)
+            if (!isLast)
                 yield return new WaitForSecondsRealtime(0.1f);
         }
 
@@ -176,34 +200,26 @@ public class Player : MonoBehaviour
         onTeleport?.Invoke();
         TeleportToStart();
 
-        // if (_popupController != null && scoreResult?.YakuResults != null)
-        // {
-        //     foreach (var yaku in scoreResult.YakuResults)
-        //     {
-        //         bool done = false;
-        //         _popupController.ShowYakuBonus(yaku.Name, yaku.BonusMultiplier, () => done = true);
-        //         yield return new WaitUntil(() => done);
-        //     }
-        // }
-
-        if (finalScore > 0)
-            _popupController?.ShowFinalScore(finalScore);
-
         yield return new WaitUntil(() => !_isTeleporting);
+
+        if (finalScore > 0 && _popupController != null)
+        {
+            bool popupDone = false;
+            _popupController.ShowFinalScore(finalScore, () => popupDone = true);
+            yield return new WaitUntil(() => popupDone);
+        }
+
         _isAttacking = false;
     }
-    
+
     private IEnumerator ExecuteSingleAttack(float targetX, AttackType type, Sprite[] attackOverride, Sprite[] effectOverride)
     {
-        switch(type)
+        switch (type)
         {
             case AttackType.Sword:
-                // 강화 소드는 원거리 위치에서 공격
-                if (attackOverride != null)
-                    yield return RangedAttack(targetX, type, attackOverride, effectOverride);
-                else
-                    yield return MeleeAttack(targetX, type, attackOverride, effectOverride);
+                yield return MeleeAttack(targetX, type, attackOverride, effectOverride);
                 break;
+
             case AttackType.Shuriken:
             case AttackType.Spell:
                 yield return RangedAttack(targetX, type, attackOverride, effectOverride);
@@ -215,10 +231,12 @@ public class Player : MonoBehaviour
     {
         float stoppedX = targetX - _stopOffset;
 
-        if(!Mathf.Approximately(_currentAttackX, stoppedX))
+        if (!Mathf.Approximately(_currentAttackX, stoppedX))
         {
             transform.DOMoveX(stoppedX, _attackMoveDuration)
-            .SetEase(Ease.OutCubic).SetUpdate(true);
+                .SetEase(Ease.OutCubic)
+                .SetUpdate(true);
+
             yield return new WaitForSecondsRealtime(_attackMoveDuration);
 
             _isRunStopping = true;
@@ -229,24 +247,16 @@ public class Player : MonoBehaviour
         }
 
         _attackAnimDone = false;
-        if(type == AttackType.Sword)
-        {
-            if(attackOverride != null)
-                _playerAnimator.PlayCustomAttack(attackOverride, _comboSynergyEffect != null ? _comboSynergyEffect.Fps : 12f);
-            else
-                _playerAnimator.PlaySword();
 
-            if(_synergyCardTypes.Contains(CardType.Sword) && _synergyOverlayEffect != null)
-                _synergyOverlayEffect.PlaySynergy(CardType.Sword);
+        if (attackOverride != null)
+            _playerAnimator.PlayCustomAttack(type, attackOverride, _comboSynergyEffect != null ? _comboSynergyEffect.Fps : 12f);
+        else
+            _playerAnimator.PlaySword();
 
-            if(_effectAnimator != null)
-            {
-                if(effectOverride != null)
-                    StartCoroutine(PlayEffectDelayed(() => _effectAnimator.PlayCustomEffect(effectOverride, _comboSynergyEffect != null ? _comboSynergyEffect.EffectFps : 12f), _playerAnimator.HitFrameDelay));
-                else
-                    StartCoroutine(PlayEffectDelayed(_effectAnimator.PlaySwordEffect, _playerAnimator.HitFrameDelay));
-            }
-        }
+        if (_synergyCardTypes.Contains(CardType.Sword) && _synergyOverlayEffect != null)
+            _synergyOverlayEffect.PlaySynergy(CardType.Sword);
+
+        PlayAttackEffect(type, effectOverride);
 
         yield return new WaitUntil(() => _attackAnimDone);
     }
@@ -255,10 +265,12 @@ public class Player : MonoBehaviour
     {
         float rangedX = targetX - _stopOffset - _shurikenOffset;
 
-        if(!Mathf.Approximately(_currentAttackX, rangedX))
+        if (!Mathf.Approximately(_currentAttackX, rangedX))
         {
             transform.DOMoveX(rangedX, _attackMoveDuration)
-            .SetEase(Ease.OutCubic).SetUpdate(true);
+                .SetEase(Ease.OutCubic)
+                .SetUpdate(true);
+
             yield return new WaitForSecondsRealtime(_attackMoveDuration);
 
             _isRunStopping = true;
@@ -269,62 +281,61 @@ public class Player : MonoBehaviour
         }
 
         _attackAnimDone = false;
-        if(type == AttackType.Sword)
+
+        if (attackOverride != null)
+            _playerAnimator.PlayCustomAttack(type, attackOverride, _comboSynergyEffect != null ? _comboSynergyEffect.Fps : 12f);
+        else if (type == AttackType.Shuriken)
+            _playerAnimator.PlayShuriken();
+        else
+            _playerAnimator.PlaySpell();
+
+        if (type == AttackType.Shuriken)
         {
-            if(attackOverride != null)
-                _playerAnimator.PlayCustomAttack(attackOverride, _comboSynergyEffect != null ? _comboSynergyEffect.Fps : 12f);
-            else
-                _playerAnimator.PlaySword();
-
-            if(_synergyCardTypes.Contains(CardType.Sword) && _synergyOverlayEffect != null)
-                _synergyOverlayEffect.PlaySynergy(CardType.Sword);
-
-            if(_effectAnimator != null)
-            {
-                if(effectOverride != null)
-                    StartCoroutine(PlayEffectDelayed(() => _effectAnimator.PlayCustomEffect(effectOverride, _comboSynergyEffect != null ? _comboSynergyEffect.EffectFps : 12f), _playerAnimator.HitFrameDelay));
-                else
-                    StartCoroutine(PlayEffectDelayed(_effectAnimator.PlaySwordEffect, _playerAnimator.HitFrameDelay));
-            }
-        }
-        else if(type == AttackType.Shuriken)
-        {
-            if(attackOverride != null)
-                _playerAnimator.PlayCustomAttack(attackOverride, _comboSynergyEffect != null ? _comboSynergyEffect.Fps : 12f);
-            else
-                _playerAnimator.PlayShuriken();
-
-            if(_synergyCardTypes.Contains(CardType.Kunai) && _synergyOverlayEffect != null)
+            if (_synergyCardTypes.Contains(CardType.Kunai) && _synergyOverlayEffect != null)
                 _synergyOverlayEffect.PlaySynergy(CardType.Kunai);
-
-            if(_effectAnimator != null)
-            {
-                if(effectOverride != null)
-                    StartCoroutine(PlayEffectDelayed(() => _effectAnimator.PlayCustomEffect(effectOverride, _comboSynergyEffect != null ? _comboSynergyEffect.EffectFps : 12f), _playerAnimator.HitFrameDelay));
-                else
-                    StartCoroutine(PlayEffectDelayed(_effectAnimator.PlayShurikenEffect, _playerAnimator.HitFrameDelay));
-            }
         }
-        else if(type == AttackType.Spell)
+        else if (type == AttackType.Spell)
         {
-            if(attackOverride != null)
-                _playerAnimator.PlayCustomAttack(attackOverride, _comboSynergyEffect != null ? _comboSynergyEffect.Fps : 12f);
-            else
-                _playerAnimator.PlaySpell();
-
-            if(_synergyCardTypes.Contains(CardType.FoxSpirit) && _synergyOverlayEffect != null)
+            if (_synergyCardTypes.Contains(CardType.FoxSpirit) && _synergyOverlayEffect != null)
                 _synergyOverlayEffect.PlaySynergy(CardType.FoxSpirit);
-
-            if(_effectAnimator != null)
-            {
-                if(effectOverride != null)
-                    StartCoroutine(PlayEffectDelayed(() => _effectAnimator.PlayCustomEffect(effectOverride, _comboSynergyEffect != null ? _comboSynergyEffect.EffectFps : 12f), _playerAnimator.HitFrameDelay));
-                else
-                    StartCoroutine(PlayEffectDelayed(_effectAnimator.PlaySpellEffect, _playerAnimator.HitFrameDelay));
-            }
         }
+
+        PlayAttackEffect(type, effectOverride);
 
         yield return new WaitUntil(() => _attackAnimDone);
+    }
+
+    private void PlayAttackEffect(AttackType type, Sprite[] effectOverride)
+    {
+        if (_effectAnimator == null)
+            return;
+
+        float delay = _playerAnimator.GetEffectDelay(type);
+
+        if (effectOverride != null)
+        {
+            StartCoroutine(PlayEffectDelayed(
+                () => _effectAnimator.PlayCustomEffect(
+                    effectOverride,
+                    _comboSynergyEffect != null ? _comboSynergyEffect.EffectFps : 12f),
+                delay));
+            return;
+        }
+
+        switch (type)
+        {
+            case AttackType.Sword:
+                StartCoroutine(PlayEffectDelayed(_effectAnimator.PlaySwordEffect, delay));
+                break;
+
+            case AttackType.Shuriken:
+                StartCoroutine(PlayEffectDelayed(_effectAnimator.PlayShurikenEffect, delay));
+                break;
+
+            case AttackType.Spell:
+                StartCoroutine(PlayEffectDelayed(_effectAnimator.PlaySpellEffect, delay));
+                break;
+        }
     }
 
     public void OnAttackAniComplete()
@@ -335,14 +346,13 @@ public class Player : MonoBehaviour
     private IEnumerator PlayEffectDelayed(Action effectAction, float delay)
     {
         yield return new WaitForSeconds(delay);
-        _effectAnimator.PlayLeafParticle();
         effectAction?.Invoke();
     }
 
     private void TeleportToStart()
     {
         _isTeleporting = true;
-        
+
         _playerAnimator.HideSprite();
         transform.position = _startPosition;
         _playerAnimator.ShowSprite();
@@ -350,15 +360,14 @@ public class Player : MonoBehaviour
         _playerAnimator.PlayTeleport(() =>
         {
             _isTeleporting = false;
-            _playerAnimator.PlayRun();
+            _playerAnimator.PlayIdle();
         });
-
-
     }
 
     public void PlayStopThenBattle()
     {
-        if(_isRunStopping || _isTeleporting) return;
+        if (_isRunStopping || _isTeleporting)
+            return;
 
         _isRunStopping = true;
         _playerAnimator.PlayRunStop(() =>
@@ -367,29 +376,26 @@ public class Player : MonoBehaviour
             TeleportToStart();
         });
     }
+    #endregion
 
-#endregion 
-
-
-#region 이동 관련
-    // slowFactor 배율로 느리게 이동, unscaledTimeBudget 이내에 도착 (Time.timeScale 비의존)
+    #region 이동 관련
     public void MoveToEnemy(float targetX, float unscaledTimeBudget, float slowFactor)
     {
         _isReached = false;
-        transform.DOKill();     // 복귀 트윈 등 기존 트윈 제거
+        transform.DOKill();
         _playerAnimator.PlayRun(_runFps * slowFactor);
 
-        float stoppedX = targetX - _stopOffset;     //적 앞 일정 거리에서 정지
+        float stoppedX = targetX - _stopOffset;
         float distance = Mathf.Abs(transform.position.x - stoppedX);
         float slowSpeed = _moveSpeed * slowFactor;
         float duration = Mathf.Min(distance / slowSpeed, unscaledTimeBudget);
 
         transform.DOMoveX(stoppedX, duration)
             .SetEase(Ease.OutQuad)
-            .SetUpdate(true)    // 언스케일 타임 기준으로 이동
+            .SetUpdate(true)
             .OnComplete(() =>
             {
-                _isReached = true;   
+                _isReached = true;
             });
     }
 
@@ -414,24 +420,22 @@ public class Player : MonoBehaviour
         float stoppedX = targetX - _stopOffset;
 
         Sequence seq = DOTween.Sequence().SetUpdate(true);
-        //앞으로 돌진
-        seq.Append(transform.DOMoveX(stoppedX, 0.2f)
-        .SetEase(Ease.OutCubic));
-        // 뒤로 복귀
-        seq.Append(transform.DOMoveX(_startPosition.x, 0.4f)
-            .SetEase(Ease.OutCubic));
+        seq.Append(transform.DOMoveX(stoppedX, 0.2f).SetEase(Ease.OutCubic));
+        seq.Append(transform.DOMoveX(_startPosition.x, 0.4f).SetEase(Ease.OutCubic));
         seq.OnComplete(() =>
         {
             transform.position = new Vector3(_startPosition.x, transform.position.y, transform.position.z);
             _isAttacking = false;
         });
     }
-#endregion
-   
-#region 전투 처리
+    #endregion
+
+    #region 전투 처리
     public void TakeDamage(int damage)
     {
-        if(_isKnockBack) return;
+        if (_isKnockBack)
+            return;
+
         ApplyDamage(damage);
     }
 
@@ -440,14 +444,15 @@ public class Player : MonoBehaviour
         _currentHp = Mathf.Max(0, _currentHp - damage);
         OnHpChanged?.Invoke(_currentHp);
 
-        PlayerKnockBack();      //때린뒤, 혹은 맞은 뒤에 원래 자리로 돌아가기
+        PlayerKnockBack();
     }
 
     private void PlayerKnockBack()
     {
-        if(_isKnockBack) return;
-        _isKnockBack = true;
+        if (_isKnockBack)
+            return;
 
+        _isKnockBack = true;
         transform.DOKill();
         StartCoroutine(KnockBackCoroutine());
     }
@@ -456,14 +461,13 @@ public class Player : MonoBehaviour
     {
         float returnDuration = 0.6f;
         float halfReturn = returnDuration * 0.5f;
-
-        // 텔레포트 직후처럼 이미 시작 위치에 있으면 애니메이션 중단 없이 유지
         bool alreadyAtStart = (transform.position - _startPosition).sqrMagnitude < 0.001f;
 
-        if(!alreadyAtStart)
+        if (!alreadyAtStart)
         {
             transform.DOMoveX(_startPosition.x, returnDuration)
-                .SetEase(Ease.OutCubic).SetUpdate(true);
+                .SetEase(Ease.OutCubic)
+                .SetUpdate(true);
         }
 
         yield return new WaitForSecondsRealtime(halfReturn);
@@ -471,10 +475,10 @@ public class Player : MonoBehaviour
         transform.DOKill();
         _isKnockBack = false;
 
-        if(!alreadyAtStart)
+        if (!alreadyAtStart)
             _playerAnimator.PlayRun();
 
-        if(IsDead)
+        if (IsDead)
         {
             yield return null;
             OnPlayerDead?.Invoke();
@@ -486,6 +490,5 @@ public class Player : MonoBehaviour
         _currentHp = _stats.MaxHp;
         OnHpChanged?.Invoke(_currentHp);
     }
-
+    #endregion
 }
-#endregion

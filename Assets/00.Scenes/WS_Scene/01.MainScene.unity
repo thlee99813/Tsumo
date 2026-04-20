@@ -7574,6 +7574,14 @@ MonoBehaviour:
   - {fileID: 5697982188757238426, guid: 8d15c40de5840e84f8f4329ec65c9289, type: 3}
   - {fileID: 3320728301058369393, guid: 8d15c40de5840e84f8f4329ec65c9289, type: 3}
   - {fileID: 306708660192380987, guid: 8d15c40de5840e84f8f4329ec65c9289, type: 3}
+  _idleSprites:
+  - {fileID: 8793639957104055765, guid: 5652c2825b3624547a87f8d409c945bc, type: 3}
+  - {fileID: 6084859605308855041, guid: 5652c2825b3624547a87f8d409c945bc, type: 3}
+  - {fileID: 8603369663158992956, guid: 5652c2825b3624547a87f8d409c945bc, type: 3}
+  - {fileID: -5906421172241655209, guid: 5652c2825b3624547a87f8d409c945bc, type: 3}
+  - {fileID: 5704420531145803721, guid: 5652c2825b3624547a87f8d409c945bc, type: 3}
+  - {fileID: -148617073940163930, guid: 5652c2825b3624547a87f8d409c945bc, type: 3}
+  - {fileID: 4729606205655721961, guid: 5652c2825b3624547a87f8d409c945bc, type: 3}
   _runSpites:
   - {fileID: 1537518874226183753, guid: 5b4eeb8f1d2554a4e800de94c91c5aba, type: 3}
   - {fileID: -5142665512902488189, guid: 5b4eeb8f1d2554a4e800de94c91c5aba, type: 3}
@@ -7589,14 +7597,25 @@ MonoBehaviour:
   - {fileID: 4916679093801441168, guid: 75043d1a043ea814a8cf4fc63cc7127c, type: 3}
   - {fileID: -9118673003516286683, guid: 75043d1a043ea814a8cf4fc63cc7127c, type: 3}
   - {fileID: 926421715999633154, guid: 75043d1a043ea814a8cf4fc63cc7127c, type: 3}
+  _idleFps: 8
   _swordFps: 12
   _shurikenFps: 12
   _spellFps: 12
   _runFps: 12
   _runStopFps: 12
   _teleportFps: 8
-  _hitFrameIndex: 2
-  _hitFrameDelay: 0.3
+  _swordTiming:
+    HitFrameIndex: 2
+    HitStopDuration: 0.3
+    EffectDelay: 0.3
+  _shurikenTiming:
+    HitFrameIndex: 2
+    HitStopDuration: 0.3
+    EffectDelay: 0.3
+  _spellTiming:
+    HitFrameIndex: 2
+    HitStopDuration: 0.3
+    EffectDelay: 0.3
 --- !u!1 &681766940
 GameObject:
   m_ObjectHideFlags: 0
