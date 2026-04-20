@@ -8,6 +8,7 @@ public class Enemy : MonoBehaviour
         private EnemyStats _stats;
 
     [SerializeField] private SpriteRenderer _enemySpriteRenderer;
+    [SerializeField] private Transform _headPoint;
     [SerializeField] private float _moveDistance = 2f;
 
     [SerializeField] private float _moveDelay = 3f;
@@ -21,6 +22,7 @@ public class Enemy : MonoBehaviour
     public bool IsDead => _currentHp <= 0;
     public int CurrentHp => _currentHp;
     public int CounterDamage => _runtimeCounterDamage;
+    public Transform HeadPoint => _headPoint != null ? _headPoint : transform;
 
 
 

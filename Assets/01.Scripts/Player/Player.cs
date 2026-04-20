@@ -25,6 +25,8 @@ public class Player : MonoBehaviour
     [Header("Combat")]
     [SerializeField] private int _attackDamage = 10;
     [SerializeField] private float _attackMoveDuration = 0.2f;
+    [Header("DamagePopup")]
+    [SerializeField] private DamagePopupController _popupController;
 
     private PlayerAnimator _playerAnimator;
     private ComboSynergyEffect _comboSynergyEffect;
@@ -32,6 +34,7 @@ public class Player : MonoBehaviour
     private Dictionary<AttackType, Sprite[]> _attackOverrides = new();
     private HashSet<CardType> _synergyCardTypes = new();
 
+    [Header("Test HP")]
     public int _currentHp;
     private Vector3 _startPosition;
     private bool _isKnockBack;
@@ -42,7 +45,7 @@ public class Player : MonoBehaviour
     private float _currentAttackX = float.MinValue;
     private bool _isTeleporting;
     private PlayerEffect _effectAnimator;
-    [SerializeField] private DamagePopupController _popupController;
+    
     
     private List<AttackType> _comboList = new List<AttackType>();
 
@@ -165,7 +168,11 @@ public class Player : MonoBehaviour
             yield return ExecuteSingleAttack(targetX, type);
 
             if(squadScores != null && i < squadScores.Count)
+            {
+                Debug.Log($"[Player] ShowBaseScore 호출 : {squadScores[i]}");
                 _popupController?.ShowBaseScore(squadScores[i]);
+            }
+                
 
             if(!isLast)
                 yield return new WaitForSecondsRealtime(0.1f);
@@ -221,14 +228,14 @@ public class Player : MonoBehaviour
         {
             if(_attackOverrides.TryGetValue(AttackType.Sword, out Sprite[] swordOverride))
             {
-                Debug.Log($"[Player] Sword 강화 콤보 애니메이션 재생 ({swordOverride.Length}프레임)");
+                //Debug.Log($"[Player] Sword 강화 콤보 애니메이션 재생 ({swordOverride.Length}프레임)");
                 _playerAnimator.PlayCustomAttack(swordOverride, _comboSynergyEffect.Fps);
             }
             else
                 _playerAnimator.PlaySword();
             if(_synergyCardTypes.Contains(CardType.Sword) && _synergyOverlayEffect != null)
             {
-                Debug.Log("[Player] Sword 시너지 오버레이 재생");
+                //Debug.Log("[Player] Sword 시너지 오버레이 재생");
                 _synergyOverlayEffect.PlaySynergy(CardType.Sword);
             }
             if(_effectAnimator != null)

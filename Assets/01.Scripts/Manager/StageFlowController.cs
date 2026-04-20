@@ -56,7 +56,7 @@ public class StageFlowController : MonoBehaviour
 
         _battleController.SetEnemy(_currentEnemy);
         _ingameController.SetEnemy(_currentEnemy);
-        _player.SetPopupTarget(_currentEnemy.transform);
+        _player.SetPopupTarget(_currentEnemy.HeadPoint);
         ApplyEnemyStatsForCurrentStage();
 
         _uiController.HideGameOver();
@@ -281,7 +281,7 @@ public class StageFlowController : MonoBehaviour
 
         _battleController.SetEnemy(_currentEnemy);
         _ingameController.SetEnemy(_currentEnemy);
-        _player.SetPopupTarget(_currentEnemy.transform);
+        _player.SetPopupTarget(_currentEnemy.HeadPoint);
         ApplyEnemyStatsForCurrentStage();
 
     }
