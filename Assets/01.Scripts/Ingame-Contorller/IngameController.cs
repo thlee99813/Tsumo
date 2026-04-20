@@ -12,9 +12,8 @@ public enum TurnPhase
     TurnResult
 }
 
-
 public class IngameController : MonoBehaviour
-{    
+{
     [Header("Settings")]
     [SerializeField] private float _deckBuildTimeLimit = 30f;
     [SerializeField] private float _slowMotionScale = 0.1f;
@@ -22,7 +21,7 @@ public class IngameController : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private Slider _timerGauge;
-    [SerializeField] private BattleController _battleController;  
+    [SerializeField] private BattleController _battleController;
     [SerializeField] private Player _player;
     [SerializeField] private Enemy _enemy;
 
@@ -32,7 +31,9 @@ public class IngameController : MonoBehaviour
     private bool _isRunning;
     private bool _isSlowMotion;
     private bool _isEnemyReady;
+
     public event Action OnEnemyAppear;
+    public event Action<Enemy> OnEnemyChanged;
     public event Action OnFireExecuted;
     public event Action OnTurnEnd;
     public event Action OnPlayerDead;
@@ -41,7 +42,6 @@ public class IngameController : MonoBehaviour
     public TurnPhase CurrentPhase => _currentPhase;
     public bool IsDeckBuildPhase => _currentPhase == TurnPhase.DeckBuild;
     public Enemy CurrentEnemy => _enemy;
-
 
     private void Awake()
     {
@@ -58,7 +58,6 @@ public class IngameController : MonoBehaviour
         UpdateTimerUI(0f);
     }
 
-
     private void OnDestroy()
     {
         if (_player != null)
@@ -72,7 +71,6 @@ public class IngameController : MonoBehaviour
         }
     }
 
-
     private void HandleEnemyReady()
     {
         _isEnemyReady = true;
@@ -84,9 +82,7 @@ public class IngameController : MonoBehaviour
 
         _isFirePressed = true;
         ExitSlowMotion();
-        // Debug.Log("[IngameController] Fire requested.");
     }
-
 
     private void HandlePlayerDead()
     {
@@ -101,7 +97,6 @@ public class IngameController : MonoBehaviour
         OnPlayerDead?.Invoke();
     }
 
-
     private void EnterSlowMotion()
     {
         if (_isSlowMotion) return;
@@ -109,14 +104,12 @@ public class IngameController : MonoBehaviour
         _backGround.SetSpeedMultiplier(0f);
         _enemy.PauseMovement();
         _enemy.SetIdleFps(_slowMotionScale);
-        
     }
 
     private void ExitSlowMotion()
     {
         if (!_isSlowMotion) return;
         _isSlowMotion = false;
-        //_backGround.SetSpeedMultiplier(1f);
         _enemy?.SetIdleFps(1f);
     }
 
@@ -141,8 +134,6 @@ public class IngameController : MonoBehaviour
         _isFirePressed = false;
         _timer = _deckBuildTimeLimit;
         UpdateTimerUI(1f);
-
-        //Debug.Log("[IngameController] DeckBuild started.");
     }
 
     public bool TickDeckBuildPhase()
@@ -181,7 +172,6 @@ public class IngameController : MonoBehaviour
         {
             ExitSlowMotion();
 
-            // 유효한 스쿼드의 기본 점수 리스트 (공격 순서와 동일)
             var squadScores = new System.Collections.Generic.List<int>();
             if (fireData.ScoreResult != null)
             {
@@ -217,10 +207,8 @@ public class IngameController : MonoBehaviour
         yield return new WaitUntil(() => !_player.IsKnockBack || !_isRunning);
 
         if (!_isRunning) yield break;
-        
 
         OnTurnEnd?.Invoke();
-        
     }
 
     public void SetEnemy(Enemy enemy)
@@ -237,6 +225,8 @@ public class IngameController : MonoBehaviour
         {
             _enemy.OnEnemyReady += HandleEnemyReady;
         }
+
+        OnEnemyChanged?.Invoke(_enemy);
     }
 
     public void ResetForRespawn()
@@ -250,12 +240,9 @@ public class IngameController : MonoBehaviour
         _backGround.SetSpeedMultiplier(1f);
     }
 
-
     private void UpdateTimerUI(float normalizedValue)
     {
         if (_timerGauge != null)
             _timerGauge.value = normalizedValue;
     }
 }
-
-

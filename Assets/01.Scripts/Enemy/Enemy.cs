@@ -2,10 +2,11 @@ using System;
 using DG.Tweening;
 using UnityEngine;
 using System.Collections;
+
 [RequireComponent(typeof(EnemyStats))]
 public class Enemy : MonoBehaviour
 {
-        private EnemyStats _stats;
+    private EnemyStats _stats;
 
     [SerializeField] private SpriteRenderer _enemySpriteRenderer;
     [SerializeField] private Transform _headPoint;
@@ -22,13 +23,13 @@ public class Enemy : MonoBehaviour
 
     public bool IsDead => _currentHp <= 0;
     public int CurrentHp => _currentHp;
+    public int MaxHp => _runtimeMaxHp;
     public int CounterDamage => _runtimeCounterDamage;
     public Transform HeadPoint => _headPoint != null ? _headPoint : transform;
 
-
-
     public event Action OnEnemyDead;
-    public event Action OnEnemyReady;   //왼쪽 이동 완료 시 발행
+    public event Action OnEnemyReady;
+    public event Action<int> OnHpChanged;
 
     private void Awake()
     {
@@ -40,8 +41,6 @@ public class Enemy : MonoBehaviour
         _enemyAnimator = GetComponent<EnemyAnimator>();
     }
 
-
-
     private void Start()
     {
         StartCoroutine(MoveLoop());
@@ -49,11 +48,10 @@ public class Enemy : MonoBehaviour
 
     private IEnumerator MoveLoop()
     {
-        while(!IsDead)
+        while (!IsDead)
         {
-            //3초 대기 후 왼쪽으로 이동
             yield return new WaitForSeconds(_moveDelay);
-            if(IsDead) yield break;
+            if (IsDead) yield break;
 
             yield return MoveToOffset(-_moveDistance);
 
@@ -68,7 +66,7 @@ public class Enemy : MonoBehaviour
 
     public void OnDamageProcessed()
     {
-        if(IsDead) return;
+        if (IsDead) return;
         StopAllCoroutines();
         StartCoroutine(ReturnAndLoop());
     }
@@ -76,16 +74,15 @@ public class Enemy : MonoBehaviour
     private IEnumerator ReturnAndLoop()
     {
         yield return MoveToOffset(0f);
-
         StartCoroutine(MoveLoop());
     }
+
     private IEnumerator MoveToOffset(float offsetX)
     {
         float targetX = _startPosition.x + offsetX;
         transform.DOMoveX(targetX, _moveDuration).SetEase(Ease.InOutQuad);
         yield return new WaitForSeconds(_moveDuration);
     }
-
 
     public void PlayHitEffect()
     {
@@ -94,8 +91,10 @@ public class Enemy : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        if(IsDead) return;
+        if (IsDead) return;
+
         _currentHp = Mathf.Max(0, _currentHp - damage);
+        OnHpChanged?.Invoke(_currentHp);
 
         if (IsDead)
         {
@@ -108,12 +107,13 @@ public class Enemy : MonoBehaviour
         _enemyAnimator?.PlayAttack();
     }
 
-    // 슬로우모션 진입 시 적 이동 중단 (Time.timeScale 비의존)
+    // 슬로우모션 진입 시 적 이동 중단
     public void PauseMovement()
     {
         StopAllCoroutines();
         transform.DOKill();
     }
+
     public void ApplyBattleStats(int maxHp, int counterDamage, bool resetHp)
     {
         _runtimeMaxHp = Mathf.Max(1, maxHp);
@@ -122,23 +122,24 @@ public class Enemy : MonoBehaviour
         if (resetHp)
         {
             _currentHp = _runtimeMaxHp;
+            OnHpChanged?.Invoke(_currentHp);
         }
     }
 
     // 스테이지 변경 시 호출
     public void ApplyStageStats(int stageIndex, bool resetHp)
     {
-        _stats.GetStatsByStage(stageIndex,
-        out int maxHp,
-        out int counterDamage,
-        out Sprite[] idleSprites,
-        out Sprite hitSprite,
-        out Sprite attackSprite);
+        _stats.GetStatsByStage(
+            stageIndex,
+            out int maxHp,
+            out int counterDamage,
+            out Sprite[] idleSprites,
+            out Sprite hitSprite,
+            out Sprite attackSprite);
 
         ApplyBattleStats(maxHp, counterDamage, resetHp);
         _enemyAnimator?.SetSprites(idleSprites, hitSprite, attackSprite);
     }
-
 
     public void ResetEnemy()
     {
@@ -147,8 +148,8 @@ public class Enemy : MonoBehaviour
         StopAllCoroutines();
         transform.position = _startPosition;
         _currentHp = _runtimeMaxHp;
+        OnHpChanged?.Invoke(_currentHp);
         _enemyAnimator?.PlayIdle();
         StartCoroutine(MoveLoop());
     }
-
 }
