@@ -41,6 +41,7 @@ public class PlayerAnimator : MonoBehaviour
     public void PlaySword() => PlayAttack(_swordSprites, _swordFps);
     public void PlayShuriken() => PlayAttack(_shurikenSprites, _shurikenFps);
     public void PlaySpell() => PlayAttack(_spellSprites, _spellFps);
+    public void PlayCustomAttack(Sprite[] sprites, float fps) => PlayAttack(sprites, fps);
     public void HideSprite() => _spriteRenderer.enabled = false;
     public void ShowSprite() => _spriteRenderer.enabled = true;
 

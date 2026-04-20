@@ -5082,6 +5082,7 @@ GameObject:
   - component: {fileID: 670580920}
   - component: {fileID: 670580921}
   - component: {fileID: 670580922}
+  - component: {fileID: 670580923}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -5346,6 +5347,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerComboTestInput
   _player: {fileID: 670580915}
   _ingameController: {fileID: 974452970}
+--- !u!114 &670580923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 670580914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b7f425ee71c9414eb42063a32aa700e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ComboSynergyEffect
+  _enhancedComboEffect:
+    SwordSprites: []
+    KunaiSprites: []
+    FoxSpiritSprites: []
+  _synergyEffect:
+    SwordSprites: []
+    KunaiSprites: []
+    FoxSpiritSprites:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+  _effectFps: 12
 --- !u!1 &681766940
 GameObject:
   m_ObjectHideFlags: 0
@@ -5688,7 +5716,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d891884cfd1c21845890384b2cfbe7c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ComboSynergyJudge
-  _effectPlayer: {fileID: 0}
 --- !u!1 &750640621
 GameObject:
   m_ObjectHideFlags: 0
@@ -14393,10 +14420,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b7f425ee71c9414eb42063a32aa700e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ComboSynergyEffect
-  _normalComboEffect:
-    SwordSprites: []
-    KunaiSprites: []
-    FoxSpiritSprites: []
   _enhancedComboEffect:
     SwordSprites: []
     KunaiSprites: []

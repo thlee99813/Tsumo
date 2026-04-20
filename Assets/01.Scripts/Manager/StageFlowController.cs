@@ -126,8 +126,18 @@ public class StageFlowController : MonoBehaviour
             bool isFirePressed = _ingameController.ConsumeFireRequest();
             FireExecutionData fireExecutionData = _deckController.BuildFireExecutionData(isFirePressed);
 
-            if (isFirePressed && fireExecutionData.ScoreResult != null && _comboSynergyJudge != null)
-                _comboSynergyJudge.Evaluate(fireExecutionData.ScoreResult);
+            if (isFirePressed && fireExecutionData.ScoreResult != null)
+            {
+                if (_comboSynergyJudge == null)
+                {
+                    Debug.LogWarning("[StageFlowController] ComboSynergyJudge 참조 없음 — Inspector 확인 필요");
+                }
+                else
+                {
+                    var judgements = _comboSynergyJudge.Evaluate(fireExecutionData.ScoreResult);
+                    _player.PrepareComboOverrides(judgements);
+                }
+            }
 
             bool hasCardAttack = fireExecutionData.IsFirePressed
                 && fireExecutionData.ScoreResult != null
